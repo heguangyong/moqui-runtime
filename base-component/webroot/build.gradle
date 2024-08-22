@@ -102,6 +102,9 @@ String getTargetPath(String sourcePath, String targetPath) {
     }
     return targetPath
 }
+
+//直接运行./gradlew load 通常会出现卡死下载的情况；为了绕过这个问题可设定全局VPN或需要做两步：
+// 1、copy已经手动下载好的lib包，放置在指定位置； 2、直接运行任务downloadFiles，提示成功后，再运行load任务即可；
 task downloadFiles { doLast {
     for (Map.Entry fileEntry in fileMap.entrySet()) {
         String sourcePath = fileEntry.key
