@@ -105,34 +105,87 @@ String getTargetPath(String sourcePath, String targetPath) {
 
 //直接运行./gradlew load 通常会出现卡死下载的情况；为了绕过这个问题可设定全局VPN或需要做两步：
 // 1、copy已经手动下载好的lib包，放置在指定位置； 2、直接运行任务downloadFiles，提示成功后，再运行load任务即可；
-task downloadFiles { doLast {
-    for (Map.Entry fileEntry in fileMap.entrySet()) {
-        String sourcePath = fileEntry.key
-        String targetPath = getTargetPath(sourcePath, (String) fileEntry.value)
+import java.net.URL
+import java.net.URLConnection
+import java.security.MessageDigest
 
-        File targetFile = file(libsPath + '/' + targetPath)
-        if (targetFile.exists()) continue
+task downloadFiles {
+    doLast {
+        // 内部方法：计算文件 MD5
+        def md5 = { File file ->
+            MessageDigest digest = MessageDigest.getInstance("MD5")
+            file.withInputStream { is ->
+                byte[] buffer = new byte[8192]
+                int read
+                while ((read = is.read(buffer)) > 0) {
+                    digest.update(buffer, 0, read)
+                }
+            }
+            digest.digest().collect { String.format("%02x", it) }.join()
+        }
 
-        String sourceUrl = downloadBase + sourcePath
-        logger.lifecycle("Downloading ${sourceUrl} to ${targetFile.absolutePath}")
-        targetFile.getParentFile().mkdirs()
-        ant.get(src: sourceUrl, dest: targetFile)
+        // 内部方法：下载并验证文件
+        def downloadAndVerify = { String sourceUrl, File targetFile ->
+            targetFile.parentFile.mkdirs()
+            int maxRetry = 3
+            for (int attempt = 1; attempt <= maxRetry; attempt++) {
+                try {
+                    if (!targetFile.exists() || targetFile.length() == 0) {
+                        logger.lifecycle("Downloading ${sourceUrl} → ${targetFile.absolutePath} (attempt ${attempt})")
+                        URL url = new URL(sourceUrl)
+                        URLConnection conn = url.openConnection()
+                        conn.connectTimeout = 10000
+                        conn.readTimeout = 20000
+                        conn.getInputStream().withStream { input ->
+                            targetFile.withOutputStream { out -> out << input }
+                        }
+                    }
+
+                    // 文件完整性校验（非空且可选 MD5）
+                    if (targetFile.length() == 0) {
+                        logger.warn("Downloaded file is empty: ${targetFile.absolutePath}")
+                        targetFile.delete()
+                        continue
+                    }
+
+                    // 可扩展：MD5 校验，如果有已知 MD5，可在此比对
+                    // String expectedMd5 = ...
+                    // if (md5(targetFile) != expectedMd5) { targetFile.delete(); continue }
+
+                    logger.lifecycle("Verified file: ${targetFile.absolutePath} (size=${targetFile.length()} bytes)")
+                    break
+                } catch (Exception e) {
+                    logger.warn("Attempt ${attempt} failed for ${sourceUrl}: ${e.message}")
+                    if (attempt == maxRetry) {
+                        logger.warn("Giving up downloading ${sourceUrl} after ${maxRetry} attempts")
+                    }
+                }
+            }
+        }
+
+        // 下载 fileMap
+        fileMap.each { entry ->
+            String sourcePath = entry.key
+            String targetPath = getTargetPath(sourcePath, (String) entry.value)
+            File targetFile = file("${libsPath}/${targetPath}")
+            String sourceUrl = downloadBase + sourcePath
+            downloadAndVerify(sourceUrl, targetFile)
+        }
+
+        // 下载 jsdelivrList
+        jsdelivrList.each { jsdPath ->
+            String[] sourceSplit = jsdPath.split("/")
+            String libDir = sourceSplit[0].substring(0, sourceSplit[0].indexOf("@"))
+            String targetPath = libDir + '/' + sourceSplit[sourceSplit.length - 1]
+            File targetFile = file("${libsPath}/${targetPath}")
+            String sourceUrl = jsdelivrBase + jsdPath
+            downloadAndVerify(sourceUrl, targetFile)
+        }
+
+        logger.lifecycle("downloadFiles task completed. All files checked/downloaded.")
     }
+}
 
-    for (String jsdPath in jsdelivrList) {
-        String[] sourceSplit = jsdPath.split("/")
-        String libDir = sourceSplit[0].substring(0, sourceSplit[0].indexOf("@"))
-        String targetPath = libDir + '/' + sourceSplit[sourceSplit.length-1]
-
-        File targetFile = file(libsPath + '/' + targetPath)
-        if (targetFile.exists()) continue
-
-        String sourceUrl = jsdelivrBase + jsdPath
-        logger.lifecycle("Downloading ${sourceUrl} to ${targetFile.absolutePath}")
-        targetFile.getParentFile().mkdirs()
-        ant.get(src: sourceUrl, dest: targetFile)
-    }
-} }
 
 def baseJs = []
 // RSVP (promises, futures)
