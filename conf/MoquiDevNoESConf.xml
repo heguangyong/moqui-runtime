@@ -65,6 +65,22 @@
 
     <webapp-list>
         <webapp name="webroot">
+            <!-- Remove ElasticSearchProxy servlet to disable Elasticsearch integration -->
+            <!--
+            <servlet name="ElasticSearchProxy" class="org.eclipse.jetty.proxy.ProxyServlet$Transparent" load-on-startup="1" async-supported="true">
+                <init-param name="proxyTo" value="${elasticsearch_url ?: 'http://127.0.0.1:9200'}"/>
+                <init-param name="prefix" value="/elastic"/>
+                <url-pattern>/elastic/*</url-pattern>
+            </servlet>
+            -->
+            <!-- Remove KibanaProxy servlet -->
+            <!--
+            <servlet name="KibanaProxy" class="org.eclipse.jetty.proxy.ProxyServlet$Transparent" load-on-startup="1" async-supported="true">
+                <init-param name="proxyTo" value="http://${kibana_host}:${kibana_port}"/>
+                <init-param name="prefix" value="/kibana"/>
+                <url-pattern>/kibana/*</url-pattern>
+            </servlet>
+            -->
             <servlet name="H2Console" class="org.h2.server.web.WebServlet" load-on-startup="1">
                 <!-- <init-param name="webAllowOthers" value=""/><init-param name="trace" value=""/> -->
                 <url-pattern>/h2/*</url-pattern>
