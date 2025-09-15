@@ -74,7 +74,6 @@ along with this software (see the LICENSE.md file). If not, see
 
     <subscreens default-item="qapps">
         <subscreens-item name="toolstatic" location="component://tools/screen/toolstatic.xml" menu-include="false"/>
-        <subscreens-item name="jwt-test" location="component://webroot/screen/jwt-test.xml"/>
         <!-- add UNDECORATED (or self-decorating) app roots here -->
     </subscreens>
     <widgets>
