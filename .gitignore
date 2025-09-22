@@ -71,3 +71,5 @@ Desktop.ini
 
 # Linux auto files
 *~
+/base-component/webroot/screen/webroot/js/select2/select2.min.js
+/base-component/webroot/screen/webroot/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js
