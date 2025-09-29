@@ -41,9 +41,9 @@
     <default-property name="moqui.jwt.rate.limit.enabled" value="false"/>
     <default-property name="moqui.jwt.rate.limit.requests.per.minute" value="0"/>
 
-    <!-- JWT Logging (Development - Full logging) -->
+    <!-- JWT Logging (Development - Minimal logging) -->
     <default-property name="moqui.jwt.audit.enabled" value="true"/>
-    <default-property name="moqui.jwt.debug.logging" value="true"/>
+    <default-property name="moqui.jwt.debug.logging" value="false"/>
 
     <!-- JWT Algorithm Settings -->
     <default-property name="moqui.jwt.algorithm" value="HS256"/>
