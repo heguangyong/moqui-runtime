@@ -5,6 +5,32 @@
     https://github.com/moqui/moqui-framework/blob/master/framework/src/main/resources/MoquiDefaultConf.xml -->
 <moqui-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-3.xsd">
 
+    <!-- JWT Configuration for Development Environment -->
+    <default-property name="moqui.jwt.secret" value="dev_jwt_secret_key_for_development_only_change_in_production_12345"/>
+    <default-property name="moqui.jwt.issuer" value="moqui-dev"/>
+    <default-property name="moqui.jwt.audience" value="moqui-app"/>
+
+    <!-- JWT Token Expiration Settings (Development - Longer for easier testing) -->
+    <default-property name="moqui.jwt.access.expire.minutes" value="120"/>  <!-- 2 hours -->
+    <default-property name="moqui.jwt.refresh.expire.days" value="7"/>      <!-- 7 days -->
+
+    <!-- JWT Security Settings (Development - More permissive for testing) -->
+    <default-property name="moqui.jwt.ip.validation.enabled" value="false"/>
+    <default-property name="moqui.jwt.single.session.enabled" value="false"/>
+    <default-property name="moqui.jwt.refresh.rotation.enabled" value="false"/>
+
+    <!-- JWT Rate Limiting (Development - No limits) -->
+    <default-property name="moqui.jwt.rate.limit.enabled" value="false"/>
+    <default-property name="moqui.jwt.rate.limit.requests.per.minute" value="0"/>
+
+    <!-- JWT Logging (Development - Full logging) -->
+    <default-property name="moqui.jwt.audit.enabled" value="true"/>
+    <default-property name="moqui.jwt.debug.logging" value="true"/>
+
+    <!-- JWT Algorithm Settings -->
+    <default-property name="moqui.jwt.algorithm" value="HS256"/>
+    <default-property name="moqui.jwt.key.rotation.enabled" value="false"/>
+
     <server-stats stats-skip-condition="pathInfo?.startsWith('/rpc') || pathInfo?.startsWith('/rest') || pathInfo?.startsWith('/status')"/>
 
     <!-- for load test turn off tarpit -->

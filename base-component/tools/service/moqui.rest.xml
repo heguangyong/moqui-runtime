@@ -16,7 +16,7 @@ along with this software (see the LICENSE.md file). If not, see
 <!-- General Guideline Verbs: GET=find, POST=create/do, PUT=store (create or update), PATCH=update, DELETE=delete  -->
 
 <resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
-        name="moqui" displayName="Moqui Tools REST API" version="${moqui_version}"
+        name="moqui" displayName="Moqui Tools REST API" version="${moqui_version}" require-authentication="false"
         description="Services for various system administration and other tools in Moqui Framework. See more information
             about Moqui Framework at [http://www.moqui.org/framework](http://www.moqui.org/framework/index.html)">
 
@@ -265,16 +265,16 @@ along with this software (see the LICENSE.md file). If not, see
 
     <resource name="auth" description="JWT Authentication API" require-authentication="false">
         <resource name="login">
-            <method type="post"><service name="JwtAuthServices.login#UnifiedAuth"/></method>
+            <method type="post" require-authentication="false"><service name="org.moqui.jwt.JwtAuthServices.login#UnifiedAuth"/></method>
         </resource>
         <resource name="refresh">
-            <method type="post"><service name="JwtAuthServices.refresh#AuthToken"/></method>
+            <method type="post"><service name="org.moqui.jwt.JwtAuthServices.refresh#AuthToken"/></method>
         </resource>
         <resource name="verify">
-            <method type="get"><service name="JwtAuthServices.verify#UnifiedAuth"/></method>
+            <method type="get"><service name="org.moqui.jwt.JwtAuthServices.verify#UnifiedAuth"/></method>
         </resource>
         <resource name="logout">
-            <method type="post"><service name="JwtAuthServices.logout#UnifiedAuth"/></method>
+            <method type="post"><service name="org.moqui.jwt.JwtAuthServices.logout#UnifiedAuth"/></method>
         </resource>
     </resource>
 

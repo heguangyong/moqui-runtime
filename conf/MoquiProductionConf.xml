@@ -5,6 +5,43 @@
     https://github.com/moqui/moqui-framework/blob/master/framework/src/main/resources/MoquiDefaultConf.xml -->
 <moqui-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-3.xsd">
 
+    <!-- JWT Configuration for Production Environment -->
+    <!-- SECURITY: JWT Secret MUST be set via environment variable in production -->
+    <default-property name="moqui.jwt.secret" value="${MOQUI_JWT_SECRET}"/>
+    <default-property name="moqui.jwt.issuer" value="${MOQUI_JWT_ISSUER:moqui-prod}"/>
+    <default-property name="moqui.jwt.audience" value="${MOQUI_JWT_AUDIENCE:moqui-app}"/>
+
+    <!-- JWT Token Expiration Settings (Production - Shorter for security) -->
+    <default-property name="moqui.jwt.access.expire.minutes" value="${MOQUI_JWT_ACCESS_EXPIRE:15}"/>    <!-- 15 minutes -->
+    <default-property name="moqui.jwt.refresh.expire.days" value="${MOQUI_JWT_REFRESH_EXPIRE:30}"/>      <!-- 30 days -->
+
+    <!-- JWT Security Settings (Production - Strict security) -->
+    <default-property name="moqui.jwt.ip.validation.enabled" value="${MOQUI_JWT_IP_VALIDATION:true}"/>
+    <default-property name="moqui.jwt.single.session.enabled" value="${MOQUI_JWT_SINGLE_SESSION:true}"/>
+    <default-property name="moqui.jwt.refresh.rotation.enabled" value="${MOQUI_JWT_REFRESH_ROTATION:true}"/>
+
+    <!-- JWT Rate Limiting (Production - Strict limits) -->
+    <default-property name="moqui.jwt.rate.limit.enabled" value="${MOQUI_JWT_RATE_LIMIT:true}"/>
+    <default-property name="moqui.jwt.rate.limit.requests.per.minute" value="${MOQUI_JWT_RATE_LIMIT_RPM:60}"/>
+    <default-property name="moqui.jwt.rate.limit.burst.size" value="${MOQUI_JWT_RATE_LIMIT_BURST:10}"/>
+
+    <!-- JWT Logging (Production - Security audit only) -->
+    <default-property name="moqui.jwt.audit.enabled" value="${MOQUI_JWT_AUDIT:true}"/>
+    <default-property name="moqui.jwt.debug.logging" value="${MOQUI_JWT_DEBUG:false}"/>
+
+    <!-- JWT Algorithm Settings (Production) -->
+    <default-property name="moqui.jwt.algorithm" value="${MOQUI_JWT_ALGORITHM:RS256}"/>
+    <default-property name="moqui.jwt.key.rotation.enabled" value="${MOQUI_JWT_KEY_ROTATION:true}"/>
+    <default-property name="moqui.jwt.key.rotation.interval.hours" value="${MOQUI_JWT_KEY_ROTATION_HOURS:24}"/>
+
+    <!-- JWT Public Key Settings (for RS256 algorithm) -->
+    <default-property name="moqui.jwt.private.key.path" value="${MOQUI_JWT_PRIVATE_KEY_PATH}"/>
+    <default-property name="moqui.jwt.public.key.path" value="${MOQUI_JWT_PUBLIC_KEY_PATH}"/>
+
+    <!-- JWT Security Headers -->
+    <default-property name="moqui.jwt.secure.headers.enabled" value="${MOQUI_JWT_SECURE_HEADERS:true}"/>
+    <default-property name="moqui.jwt.cors.enabled" value="${MOQUI_JWT_CORS:false}"/>
+
     <server-stats stats-skip-condition="pathInfo?.startsWith('/rpc') || pathInfo?.startsWith('/rest') || pathInfo?.startsWith('/status')"/>
 
     <!-- NOTE: using the environment variable is relatively secure in a container environment, but for more security set it here instead -->
