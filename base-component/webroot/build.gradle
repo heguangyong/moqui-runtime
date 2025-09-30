@@ -152,7 +152,7 @@ task downloadFiles {
                     // String expectedMd5 = ...
                     // if (md5(targetFile) != expectedMd5) { targetFile.delete(); continue }
 
-                    logger.lifecycle("Verified file: ${targetFile.absolutePath} (size=${targetFile.length()} bytes)")
+                    logger.info("Verified file: ${targetFile.absolutePath} (size=${targetFile.length()} bytes)")
                     break
                 } catch (Exception e) {
                     logger.warn("Attempt ${attempt} failed for ${sourceUrl}: ${e.message}")
