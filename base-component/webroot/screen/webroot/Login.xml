@@ -40,35 +40,85 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="login" require-session-token="false">
         <actions>
-            <if condition="ec.web?.sessionAttributes?.moquiPreAuthcUsername"><then>
-                <!-- already pre-auth'ed, verify code below -->
-                <set field="username" from="ec.web?.sessionAttributes?.moquiPreAuthcUsername"/>
-            </then><else>
-                <!-- no pre-auth, try logging in (pre-auth if 2nd factor required) -->
-                <set field="loggedIn" from="ec.user.loginUser(username, password)"/>
-            </else></if>
+            <if condition="!username"><return error="true" message="用户名是必需的"/></if>
+            <if condition="!password"><return error="true" message="密码是必需的"/></if>
 
-            <if condition="ec.web.sessionAttributes.moquiAuthcFactorRequired">
-                <if condition="code"><then>
-                    <service-call name="org.moqui.impl.UserServices.validate#ExternalUserAuthcCode"
-                            in-map="[code:code]" out-map="validateOut"/>
-                    <if condition="validateOut.verified"><then>
-                        <script>ec.user.internalLoginUser(validateOut.username)</script>
-                        <return/>
-                    </then><else>
-                        <message error="true" public="true">Authentication code is not valid</message>
-                    </else></if>
-                </then><else>
-                    <message error="true" public="true">Authentication code required for user ${username}</message>
-                </else></if>
-            </if>
+            <!-- 使用REST API JWT认证 -->
+<script><![CDATA[
+                // 调用JWT REST API进行认证
+                try {
+                    def url = "http://localhost:8080/rest/s1/moqui/auth/login"
+                    def data = [username: username, password: password, merchantId: 'DEMO_MERCHANT']
+                    def jsonData = new groovy.json.JsonBuilder(data).toString()
+
+                    def connection = new URL(url).openConnection()
+                    connection.setRequestMethod("POST")
+                    connection.setRequestProperty("Content-Type", "application/json")
+                    connection.setDoOutput(true)
+
+                    // 写入请求数据
+                    connection.outputStream.withWriter('UTF-8') { writer ->
+                        writer.write(jsonData)
+                    }
+
+                    def responseCode = connection.responseCode
+                    if (responseCode == 200) {
+                        def response = connection.inputStream.text
+                        def jsonSlurper = new groovy.json.JsonSlurper()
+                        def jwtResult = jsonSlurper.parseText(response)
+
+                        if (jwtResult.success) {
+                            accessToken = jwtResult.accessToken
+                            refreshToken = jwtResult.refreshToken
+                            loginSuccess = true
+                            message = "JWT认证成功"
+
+                            // 在响应头中设置JWT token
+                            ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
+                            ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
+                            ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
+
+                            // 同时设置cookie便于在浏览器中查看
+                            def accessCookie = new javax.servlet.http.Cookie('jwt_access_token', jwtResult.accessToken)
+                            accessCookie.setPath('/')
+                            accessCookie.setHttpOnly(false) // 设为false便于在开发者工具中查看
+                            accessCookie.setMaxAge(7200) // 2小时
+                            ec.web.response.addCookie(accessCookie)
+
+                            // 调用内部登录以兼容现有系统
+                            ec.user.internalLoginUser(username)
+                        } else {
+                            loginSuccess = false
+                            message = "登录失败: " + (jwtResult.message ?: "认证失败")
+                        }
+                    } else {
+                        loginSuccess = false
+                        // 读取错误响应
+                        def errorResponse = ""
+                        try {
+                            errorResponse = connection.errorStream?.text ?: ""
+                        } catch (Exception ex) {
+                            // ignore
+                        }
+                        message = "JWT API调用失败，状态码: " + responseCode + (errorResponse ? ", 错误: " + errorResponse : "")
+                    }
+                } catch (Exception e) {
+                    loginSuccess = false
+                    ec.logger.error("JWT认证异常", e)
+                    message = "认证异常: " + e.message
+                }
+            ]]></script>
+
+            <if condition="!loginSuccess">
+                <message error="true" message="${message}"/>
+            <else>
+                <message message="${message}"/>
+            </else></if>
         </actions>
-        <!-- no longer using SecondFactor screen, now built into Login screen to better support more scenarios:
-        <conditional-response url="../SecondFactor"><condition>
-            <expression>ec.web.sessionAttributes.moquiAuthcFactorRequired</expression></condition></conditional-response>
-        -->
-        <default-response type="screen-last"/>
-        <error-response url="."/>
+        <conditional-response type="screen-last">
+            <condition><expression>loginSuccess</expression></condition>
+        </conditional-response>
+        <default-response url="."/>
     </transition>
     <transition name="logout">
         <actions><script>ec.user.logoutUser()</script></actions>
@@ -118,6 +168,8 @@ along with this software (see the LICENSE.md file). If not, see
         html_scripts.add('/libs/jquery/jquery.min.js')
         // Bootstrap
         html_scripts.add('/libs/twitter-bootstrap/js/bootstrap.min.js')
+        // JWT Authentication Manager (framework level)
+        html_scripts.add('/includes/JwtAuth.js')
         // Moqui webroot layout
         html_stylesheets.add('/css/webroot-layout.css')
     </script></pre-actions>

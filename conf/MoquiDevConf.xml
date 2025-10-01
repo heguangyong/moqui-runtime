@@ -91,6 +91,10 @@
 
     <webapp-list>
         <webapp name="webroot">
+            <!-- Marketplace Root Screen Integration -->
+            <root-screen location="component://moqui-marketplace/screen/marketplace.xml"
+                         path="/marketplace"/>
+
             <servlet name="H2Console" class="org.h2.server.web.WebServlet" load-on-startup="1">
                 <!-- <init-param name="webAllowOthers" value=""/><init-param name="trace" value=""/> -->
                 <url-pattern>/h2/*</url-pattern>

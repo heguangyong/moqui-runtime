@@ -38,7 +38,10 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
 
-    <subscreens default-item="AppList"/>
+    <subscreens default-item="AppList">
+        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml" menu-title="AI智能商业撮合平台" menu-image="fa fa-handshake-o"/>
+        <subscreens-item name="mcp" location="component://moqui-mcp/screen/mcp.xml" menu-title="MCP AI 助手" menu-image="fa fa-robot"/>
+    </subscreens>
 
     <pre-actions><script><![CDATA[
         // jQuery, Bootstrap, Twitter TypeAhead, Form Validation (jquery-validate), Date/Time (Moment, bootstrap-datetimepicker),
