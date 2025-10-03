@@ -73,8 +73,12 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
 
     <subscreens default-item="qapps">
+        <subscreens-item name="apps" location="component://webroot/screen/webroot/apps.xml"/>
+        <subscreens-item name="qapps" location="component://webroot/screen/webroot/qapps.xml"/>
+        <subscreens-item name="vapps" location="component://webroot/screen/webroot/vapps.xml"/>
         <subscreens-item name="toolstatic" location="component://tools/screen/toolstatic.xml" menu-include="false"/>
         <subscreens-item name="includes" location="component://webroot/screen/includes.xml" menu-include="false"/>
+        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml" menu-include="false"/>
         <!-- add UNDECORATED (or self-decorating) app roots here -->
     </subscreens>
     <widgets>

@@ -17,11 +17,30 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- NOTE: require-authentication=false so no permission required but in pre-actions if no user logged in goes to login screen -->
 
     <pre-actions><script><![CDATA[
+        // Check if accessing marketplace Chat
+        def currentPath = sri.getScreenUrlInfo().getFullPathNameList().join("/")
+        def isMarketplaceChat = currentPath?.contains("marketplace/Chat")
+
         // if user not logged in save current path and params then redirect to Login
-        if (!ec.user.userId) { ec.web.saveScreenLastInfo(null, null); sri.sendRedirectAndStopRender('/Login') }
+        // Exception: allow unauthenticated access to marketplace Chat screen
+        if (!ec.user.userId && !isMarketplaceChat) { ec.web.saveScreenLastInfo(null, null); sri.sendRedirectAndStopRender('/Login') }
 
         html_scripts.add('/libs/moment.js/moment-with-locales.min.js')
         html_scripts.add('/libs/jquery/jquery.min.js')
+
+        // For marketplace Chat, pre-load the styles and LiveChat script
+        if (isMarketplaceChat) {
+            // Add the Chat.xml styles directly (using correct paths from apps)
+            html_stylesheets.add('/libs/twitter-bootstrap/css/bootstrap.min.css')
+            html_stylesheets.add('/css/webroot-layout.css')
+            html_stylesheets.add('/css/webroot-theme.css')
+            // Add marketplace chat specific styles
+            html_stylesheets.add('/css/marketplace-chat.css')
+
+            // Add LiveChat and marketplace chat scripts to footer
+            footer_scripts.add('http://localhost:4000/livechat/rocketchat-livechat.min.js')
+            footer_scripts.add('/js/marketplace-chat-livechat.js')
+        }
 
         String instancePurpose = System.getProperty("instance_purpose")
         if (!instancePurpose || instancePurpose == 'production') {
@@ -57,11 +76,14 @@ along with this software (see the LICENSE.md file). If not, see
         }
     ]]></script></pre-actions>
 
+    <subscreens default-item="">
+        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml" menu-include="false"/>
+    </subscreens>
+
     <widgets>
         <render-mode>
-            <!-- for html just render the navbar (Vue page wrapper and nav component) -->
+            <!-- Always use Vue template since Chat redirects to apps -->
             <text type="html" location="component://webroot/screen/includes/WebrootVue.qvt.ftl"/>
-            <!-- not meant to be used for anything else, for all other render modes go directly through /apps -->
         </render-mode>
     </widgets>
 </screen>

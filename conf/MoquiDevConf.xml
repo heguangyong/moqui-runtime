@@ -114,6 +114,13 @@
         <screen-text-output type="html" mime-type="text/html" macro-template-location="template/screen-macro/ScreenHtmlMacros.ftl"/>
     </screen-facade>
 
+    <rest-api-list>
+        <rest-api name="s1" display-name="System Services API v1" version="1.0.0" require-authentication="anonymous-view">
+            <resource name="moqui" location="classpath://rest-api/moqui.rest.xml"/>
+            <resource name="mcp" location="component://moqui-mcp/service/mcp.rest.xml"/>
+        </rest-api>
+    </rest-api-list>
+
     <entity-facade query-stats="true">
         <!-- add datasource elements here to configure databases -->
     </entity-facade>
