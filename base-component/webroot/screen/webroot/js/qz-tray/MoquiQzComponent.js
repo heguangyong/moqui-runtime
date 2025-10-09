@@ -110,12 +110,12 @@ if (window.qz && window.moqui && moqui.webrootVue) {
             },
             setPrinter: function(printerName) {
                 this.currentPrinter = printerName;
-                $.ajax({ type:'POST', url:(this.$root.appRootPath + '/apps/setPreference'), error:moqui.handleAjaxError,
+                $.ajax({ type:'POST', url:(this.$root.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
                     data:{ moquiSessionToken:this.$root.moquiSessionToken, preferenceKey:'qz.printer.main.active', preferenceValue:printerName } });
             },
             setLabelPrinter: function(printerName) {
                 this.currentLabelPrinter = printerName;
-                $.ajax({ type:'POST', url:(this.$root.appRootPath + '/apps/setPreference'), error:moqui.handleAjaxError,
+                $.ajax({ type:'POST', url:(this.$root.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
                     data:{ moquiSessionToken:this.$root.moquiSessionToken, preferenceKey:'qz.printer.label.active', preferenceValue:printerName } });
             },
             handleConnectionError: function(err) {
@@ -181,12 +181,12 @@ if (window.qz && window.moqui && moqui.webrootVue) {
             });
             qz.security.setSignaturePromise(function(toSign) { return function(resolve, reject) {
                 // NOTE: using inline function that calls resolve() instead of using reject method, otherwise won't even show user warning and allow print/etc
-                $.ajax(vm.$root.appRootPath + '/apps/qzSign?message=' + toSign).then(resolve, function() { resolve(); });
+                $.ajax(vm.$root.appRootPath + '/qapps/qzSign?message=' + toSign).then(resolve, function() { resolve(); });
                 // Alternate method - unsigned: resolve();
             }; });
 
             // AJAX call get preferences: qz.printer.main.active, qz.printer.label.active
-            $.ajax({ type:'GET', url:(this.$root.appRootPath + '/apps/getPreferences'), error:moqui.handleAjaxError,
+            $.ajax({ type:'GET', url:(this.$root.appRootPath + '/qapps/getPreferences'), error:moqui.handleAjaxError,
                 data:{ keyRegexp:'qz\\.print.*' }, dataType:"json", success: function(prefMap) {
                     var mainPrinter = prefMap["qz.printer.main.active"];
                     if (mainPrinter && mainPrinter.length) vm.currentPrinter = mainPrinter;

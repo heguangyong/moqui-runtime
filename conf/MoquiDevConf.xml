@@ -95,6 +95,10 @@
             <root-screen location="component://moqui-marketplace/screen/marketplace.xml"
                          path="/marketplace"/>
 
+            <!-- Development Mode: More permissive CSP to allow JavaScript execution and font loading -->
+            <response-header type="screen-render" name="Content-Security-Policy"
+                           value="frame-ancestors 'none'; form-action 'self'; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:;"/>
+
             <servlet name="H2Console" class="org.h2.server.web.WebServlet" load-on-startup="1">
                 <!-- <init-param name="webAllowOthers" value=""/><init-param name="trace" value=""/> -->
                 <url-pattern>/h2/*</url-pattern>

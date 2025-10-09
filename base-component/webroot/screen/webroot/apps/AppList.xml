@@ -85,9 +85,6 @@ along with this software (see the LICENSE.md file). If not, see
                     </section>
                 </widgets>
             </section-iterate>
-            <render-mode>
-                <text type="qvt"><![CDATA[<p>&nbsp;</p><div>您正在使用 <strong>Moqui Framework</strong> 现代化Material Design界面</div><div>基于Vue.js + Quasar框架构建的企业级应用平台</div>]]></text>
-            </render-mode>
         </container>
     </widgets>
 </screen>

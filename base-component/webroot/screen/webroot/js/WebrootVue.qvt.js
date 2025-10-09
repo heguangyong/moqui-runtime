@@ -1,10 +1,19 @@
 /* This software is in the public domain under CC0 1.0 Universal plus a Grant of Patent License. */
 
-// some globals for all Vue components to directly use the moqui object (for methods, constants, etc) and the window object
-Vue.prototype.moqui = moqui;
-Vue.prototype.moment = moment;
-Vue.prototype.window = window;
+console.error("=== WebrootVue.qvt.js loading START ===");
 
+// Check if dependencies are available
+if (typeof Vue !== 'undefined' && typeof moqui !== 'undefined') {
+    console.error("=== Dependencies available ===");
+    // some globals for all Vue components to directly use the moqui object (for methods, constants, etc) and the window object
+    Vue.prototype.moqui = moqui;
+    Vue.prototype.moment = moment;
+    Vue.prototype.window = window;
+} else {
+    console.error("=== Dependencies missing - Vue:", typeof Vue, "moqui:", typeof moqui, "===");
+}
+
+moqui = moqui || {};
 moqui.urlExtensions = { js:'qjs', vue:'qvue', vuet:'qvt' }
 
 // simple stub for define if it doesn't exist (ie no require.js, etc); mimic pattern of require.js define()
@@ -1998,6 +2007,19 @@ Vue.component('m-simple-mde', {
 
 
 /* ========== webrootVue - root Vue component with router ========== */
+
+// Initialize Quasar with Vue 2
+if (typeof Quasar !== 'undefined') {
+    Vue.use(Quasar, {
+        config: window.quasarConfig || {}
+    });
+    console.error("=== Quasar successfully initialized ===");
+} else {
+    console.error("=== ERROR: Quasar library not found! ===");
+    console.error("This will cause icons to display as text instead of proper icons.");
+    console.error("Check that quasar.min.js is properly loaded in the HTML head section.");
+}
+
 Vue.component('m-subscreens-tabs', {
     name: "mSubscreensTabs",
     data: function() { return { pathIndex:-1 }},
@@ -2136,7 +2158,17 @@ Vue.component('m-menu-item-content', {
 });
 
 
-moqui.webrootVue = new Vue({
+console.error("=== WebrootVue.qvt.js loading ===");
+
+console.error("=== Pre-Vue creation checks ===");
+console.error("window.Vue exists:", typeof window.Vue);
+console.error("window.moqui exists:", typeof window.moqui);
+console.error("window.Quasar exists:", typeof window.Quasar);
+console.error("document.getElementById('#apps-root'):", document.getElementById('apps-root'));
+
+try {
+    console.error("=== Attempting to create Vue instance ===");
+    moqui.webrootVue = new Vue({
     el: '#apps-root',
     data: { basePath:"", linkBasePath:"", currentPathList:[], extraPathList:[], currentParameters:{}, bodyParameters:null,
         activeSubscreens:[], navMenuList:[], navHistoryList:[], navPlugins:[], accountPlugins:[], notifyHistoryList:[],
@@ -2181,11 +2213,17 @@ moqui.webrootVue = new Vue({
                 var vm = this;
                 var menuDataUrl = this.appRootPath && this.appRootPath.length && screenUrl.indexOf(this.appRootPath) === 0 ?
                     this.appRootPath + "/menuData" + screenUrl.slice(this.appRootPath.length) : "/menuData" + screenUrl;
+                console.error("=== MenuData AJAX DEBUG ===");
+                console.error("screenUrl:", screenUrl);
+                console.error("menuDataUrl:", menuDataUrl);
                 $.ajax({ type:"GET", url:menuDataUrl, dataType:"text", error:moqui.handleAjaxError, success: function(outerListText) {
+                    console.error("=== MenuData Success ===");
+                    console.error("outerListText length:", outerListText.length);
                     var outerList = null;
                     // console.log("menu response " + outerListText);
                     try { outerList = JSON.parse(outerListText); } catch (e) { console.info("Error parson menu list JSON: " + e); }
                     if (outerList && moqui.isArray(outerList)) {
+                        console.error("Setting navMenuList with", outerList.length, "items");
                         vm.navMenuList = outerList;
                         if (onComplete) vm.callOnComplete(onComplete, redirectedFrom);
                         /* console.info('navMenuList ' + JSON.stringify(outerList)); */
@@ -2295,12 +2333,12 @@ moqui.webrootVue = new Vue({
         },
         switchDarkLight: function() {
             this.$q.dark.toggle();
-            $.ajax({ type:'POST', url:(this.appRootPath + '/apps/setPreference'), error:moqui.handleAjaxError,
+            $.ajax({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
                 data:{ moquiSessionToken:this.moquiSessionToken, preferenceKey:'QUASAR_DARK', preferenceValue:(this.$q.dark.isActive ? 'true' : 'false') } });
         },
         toggleLeftOpen: function() {
             this.leftOpen = !this.leftOpen;
-            $.ajax({ type:'POST', url:(this.appRootPath + '/apps/setPreference'), error:moqui.handleAjaxError,
+            $.ajax({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
                 data:{ moquiSessionToken:this.moquiSessionToken, preferenceKey:'QUASAR_LEFT_OPEN', preferenceValue:(this.leftOpen ? 'true' : 'false') } });
         },
         stopProp: function (e) { e.stopPropagation(); },
@@ -2567,7 +2605,12 @@ moqui.webrootVue = new Vue({
     },
     mounted: function() {
         var jqEl = $(this.$el);
-        jqEl.css("display", "initial");
+        console.error("=== Vue App Mounted DEBUG ===");
+        console.error("window.location.pathname:", window.location.pathname);
+        console.error("window.location.search:", window.location.search);
+        console.error("appRootPath:", this.appRootPath);
+        console.error("basePath:", this.basePath);
+        console.error("linkBasePath:", this.linkBasePath);
         // load the current screen
         this.setUrl(window.location.pathname + window.location.search);
         // init the NotificationClient and register 'displayNotify' as the default listener
@@ -2589,6 +2632,10 @@ moqui.webrootVue = new Vue({
     }
 
 });
+console.error("=== Vue instance created successfully ===");
+} catch (e) {
+    console.error("=== ERROR creating Vue instance ===", e);
+}
 window.addEventListener('popstate', function() { moqui.webrootVue.setUrl(window.location.pathname + window.location.search); });
 
 // NOTE: simulate vue-router so this.$router.resolve() works in a basic form; required for use of q-btn 'to' attribute along with router-link component defined above

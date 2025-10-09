@@ -81,7 +81,7 @@
         $("body").toggleClass("bg-dark");
         $("body").toggleClass("bg-light");
         var currentStyle = $("body").hasClass("bg-dark") ? "bg-dark" : "bg-light";
-        $.ajax({ type:'POST', url:'${sri.buildUrl("/apps/setPreference").url}', data:{ 'moquiSessionToken': '${ec.web.sessionToken}','preferenceKey': 'OUTER_STYLE', 'preferenceValue': currentStyle }, dataType:'json' });
+        $.ajax({ type:'POST', url:'${sri.buildUrl("/qapps/setPreference").url}', data:{ 'moquiSessionToken': '${ec.web.sessionToken}','preferenceKey': 'OUTER_STYLE', 'preferenceValue': currentStyle }, dataType:'json' });
     }
 </script>
 

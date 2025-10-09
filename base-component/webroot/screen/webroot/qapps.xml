@@ -76,14 +76,107 @@ along with this software (see the LICENSE.md file). If not, see
         }
     ]]></script></pre-actions>
 
-    <subscreens default-item="">
-        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml" menu-include="false"/>
+    <transition name="setPreference">
+        <actions><script>
+            // 检查用户是否已登录
+            if (!ec.user.userId) {
+                ec.web.response.sendError(401, "User not logged in")
+                return
+            }
+
+            // 检查参数
+            if (!preferenceKey) {
+                ec.web.response.sendError(400, "preferenceKey is required")
+                return
+            }
+
+            try {
+                ec.user.setPreference(preferenceKey, preferenceValue)
+            } catch (Exception e) {
+                logger.error("setPreference failed for key ${preferenceKey}", e)
+                ec.web.response.sendError(500, "Failed to set preference: " + e.message)
+            }
+        </script></actions>
+        <default-response type="none"/>
+    </transition>
+
+    <transition name="qzSign">
+        <parameter name="message"/>
+        <actions><script>
+            import org.moqui.context.ExecutionContext
+            ExecutionContext ec = context.ec
+            ec.web.response.setContentType("text/plain")
+            ec.web.response.writer.write("---...---")
+        </script></actions>
+        <default-response type="none"/>
+    </transition>
+
+    <transition name="getPreferences">
+        <actions><script>
+            import groovy.json.JsonBuilder
+            def preferences = [:]
+            preferences["qz.printer.main.active"] = ec.user.getPreference("qz.printer.main.active") ?: ""
+            preferences["qz.printer.label.active"] = ec.user.getPreference("qz.printer.label.active") ?: ""
+            ec.web.response.setContentType("application/json")
+            ec.web.response.writer.write(new JsonBuilder(preferences).toString())
+        </script></actions>
+        <default-response type="none"/>
+    </transition>
+
+    <subscreens>
+        <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
+        <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
+        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="minio" location="component://moqui-minio/screen/MinioApp.xml"/>
     </subscreens>
 
     <widgets>
         <render-mode>
-            <!-- Always use Vue template since Chat redirects to apps -->
+            <!-- for html just render the navbar (Vue page wrapper and nav component) -->
             <text type="html" location="component://webroot/screen/includes/WebrootVue.qvt.ftl"/>
+            <!-- not meant to be used for anything else, for all other render modes go directly through /apps -->
         </render-mode>
+
+        <!-- Show app list when no specific subscreen is selected -->
+        <section name="AppListSection" condition="!sri.screenUrlInfo.extraPathNameList">
+            <widgets>
+                <render-mode>
+                    <text type="html"><![CDATA[
+<div style="display: none;" id="apps-vue-app">
+    <div class="q-pa-lg text-center">
+        <h4 class="q-mb-lg">选择应用</h4>
+        <div class="row q-gutter-md justify-center">
+            <div class="col-12 col-md-4 col-lg-3">
+                <q-btn outline no-caps to="/qapps/tools" style="min-width:250px">
+                    <i class="material-icons" style="padding-right: 8px;">build</i>
+                    系统工具
+                </q-btn>
+            </div>
+            <div class="col-12 col-md-4 col-lg-3">
+                <q-btn outline no-caps to="/qapps/simple" style="min-width:250px">
+                    <i class="material-icons" style="padding-right: 8px;">desktop_mac</i>
+                    简单应用
+                </q-btn>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+// Show the app list when Vue is ready
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('apps-vue-app').style.display = 'block';
+});
+</script>
+                    ]]></text>
+                </render-mode>
+            </widgets>
+        </section>
+
+        <!-- Render subscreens when a path is selected -->
+        <section name="SubscreenSection" condition="sri.screenUrlInfo.extraPathNameList">
+            <widgets>
+                <render-mode><text template="true">${sri.renderSubscreen()}</text></render-mode>
+            </widgets>
+        </section>
     </widgets>
 </screen>
