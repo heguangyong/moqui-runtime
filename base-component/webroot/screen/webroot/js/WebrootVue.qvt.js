@@ -2876,6 +2876,34 @@ moqui.debugLog.log('vue', 'Vue instance created successfully', {
     hasJwtToken: !!moqui.webrootVue.jwtToken,
     jwtTokenValue: moqui.webrootVue.jwtToken ? moqui.webrootVue.jwtToken.substring(0, 20) + '...' : null
 });
+
+// Global jQuery AJAX setup to include session token in all requests
+// This must be set AFTER Vue is initialized to ensure the DOM elements exist
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        // Add session token to all AJAX requests
+        var sessionToken = $("#confMoquiSessionToken").val();
+        if (sessionToken && settings.type !== 'GET') {
+            // For POST requests, add to data
+            if (settings.data) {
+                if (typeof settings.data === 'string') {
+                    settings.data += '&moquiSessionToken=' + encodeURIComponent(sessionToken);
+                } else if (settings.data instanceof FormData) {
+                    settings.data.append('moquiSessionToken', sessionToken);
+                } else {
+                    settings.data.moquiSessionToken = sessionToken;
+                }
+            } else {
+                settings.data = { moquiSessionToken: sessionToken };
+            }
+        } else if (sessionToken && settings.type === 'GET') {
+            // For GET requests, add to URL
+            var separator = settings.url.indexOf('?') !== -1 ? '&' : '?';
+            settings.url += separator + 'moquiSessionToken=' + encodeURIComponent(sessionToken);
+        }
+    }
+});
+
 } catch (e) {
     console.error("=== ERROR creating Vue instance ===", e);
 }

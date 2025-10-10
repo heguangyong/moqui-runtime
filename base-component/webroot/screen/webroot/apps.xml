@@ -29,7 +29,7 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none" save-parameters="true"/>
     </transition>
 
-    <subscreens default-item="AppList">
+    <subscreens default-item="marketplace">
         <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
         <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
         <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
