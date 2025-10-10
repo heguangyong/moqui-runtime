@@ -2818,7 +2818,7 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
         }
     },
     created: function() {
-        // JWT token will be retrieved from localStorage/cookies when needed
+        // JWT token will be retrieved from localStorage when needed
         this.appHost = $("#confAppHost").val(); this.appRootPath = $("#confAppRootPath").val();
         this.basePath = $("#confBasePath").val(); this.linkBasePath = $("#confLinkBasePath").val();
         this.userId = $("#confUserId").val();

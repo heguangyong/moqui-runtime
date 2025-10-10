@@ -78,8 +78,6 @@ along with this software (see the LICENSE.md file). If not, see
                             ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
                             ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
 
-                            // 标准JWT模式：不设置cookies，纯粹依赖localStorage存储
-
                             // 调用内部登录以兼容现有系统
                             ec.user.internalLoginUser(username)
                         } else {
