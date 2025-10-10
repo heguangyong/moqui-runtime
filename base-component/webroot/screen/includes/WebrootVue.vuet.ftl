@@ -33,7 +33,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <span class="icon-bar"></span>
             </button>
         <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
-        <#if headerLogoList?has_content><m-link href="/apps" class="navbar-brand"><img src="${sri.buildUrl(headerLogoList?first).getUrl()}" alt="Home"></m-link></#if>
+        <#if headerLogoList?has_content><m-link href="/qapps" class="navbar-brand"><img src="${sri.buildUrl(headerLogoList?first).getUrl()}" alt="Home"></m-link></#if>
         <#assign headerTitleList = sri.getThemeValues("STRT_HEADER_TITLE")>
         <#if headerTitleList?has_content><div class="navbar-brand">${ec.resource.expand(headerTitleList?first, "")}</div></#if>
         </header>

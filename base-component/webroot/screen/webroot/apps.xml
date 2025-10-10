@@ -17,8 +17,8 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- NOTE: require-authentication=false so no permission required but in pre-actions if no user logged in goes to login screen -->
 
     <pre-actions><script><![CDATA[
-        // if user not logged in save current path and params then redirect to Login
-        if (!ec.user.userId) { ec.web.saveScreenLastInfo(null, null); sri.sendRedirectAndStopRender('/Login') }
+        // Legacy apps.xml - redirect to modern qapps.xml for consistent user experience
+        sri.sendRedirectAndStopRender('/qapps')
     ]]></script></pre-actions>
 
     <transition name="getAppNavMenu" read-only="true" begin-transaction="false">

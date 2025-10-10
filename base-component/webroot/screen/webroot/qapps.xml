@@ -123,7 +123,8 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
 
-    <subscreens>
+    <subscreens default-item="AppList">
+        <subscreens-item name="AppList" location="component://webroot/screen/webroot/apps/AppList.xml"/>
         <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
         <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
         <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
@@ -137,8 +138,8 @@ along with this software (see the LICENSE.md file). If not, see
             <!-- not meant to be used for anything else, for all other render modes go directly through /apps -->
         </render-mode>
 
-        <!-- Render subscreens when a path is selected -->
-        <section name="SubscreenSection" condition="sri.screenUrlInfo.extraPathNameList">
+        <!-- Always render subscreens - either the selected path or the default AppList -->
+        <section name="SubscreenSection">
             <widgets>
                 <render-mode><text template="true">${sri.renderSubscreen()}</text></render-mode>
             </widgets>
