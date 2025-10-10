@@ -16,10 +16,101 @@ if (typeof Vue !== 'undefined' && typeof moqui !== 'undefined') {
 moqui = moqui || {};
 moqui.urlExtensions = { js:'qjs', vue:'qvue', vuet:'qvt' }
 
+/* ========== Frontend Debug Logging System ========== */
+moqui.debugLog = {
+    enabled: localStorage.getItem('moqui_debug_enabled') === 'true' || false,
+    categories: {
+        jwt: localStorage.getItem('moqui_debug_jwt') === 'true' || false,
+        vue: localStorage.getItem('moqui_debug_vue') === 'true' || false,
+        ajax: localStorage.getItem('moqui_debug_ajax') === 'true' || false,
+        auth: localStorage.getItem('moqui_debug_auth') === 'true' || false
+    },
+
+    log: function(category, message, data) {
+        if (!this.enabled || !this.categories[category]) return;
+
+        var timestamp = new Date().toISOString();
+        var logEntry = {
+            timestamp: timestamp,
+            category: category,
+            message: message,
+            data: data
+        };
+
+        // Save to localStorage for persistence
+        var logs = JSON.parse(localStorage.getItem('moqui_debug_logs') || '[]');
+        logs.push(logEntry);
+
+        // Keep only last 1000 entries
+        if (logs.length > 1000) {
+            logs = logs.slice(-1000);
+        }
+        localStorage.setItem('moqui_debug_logs', JSON.stringify(logs));
+
+        // Console output with styling
+        console.log(`%c[${category.toUpperCase()}] ${timestamp}%c ${message}`,
+                   'color: #2196F3; font-weight: bold', 'color: inherit', data || '');
+    },
+
+    enable: function(category) {
+        if (category === 'all') {
+            this.enabled = true;
+            Object.keys(this.categories).forEach(cat => {
+                this.categories[cat] = true;
+                localStorage.setItem(`moqui_debug_${cat}`, 'true');
+            });
+        } else if (this.categories.hasOwnProperty(category)) {
+            this.categories[category] = true;
+            localStorage.setItem(`moqui_debug_${category}`, 'true');
+        }
+        this.enabled = true;
+        localStorage.setItem('moqui_debug_enabled', 'true');
+    },
+
+    disable: function(category) {
+        if (category === 'all') {
+            this.enabled = false;
+            Object.keys(this.categories).forEach(cat => {
+                this.categories[cat] = false;
+                localStorage.setItem(`moqui_debug_${cat}`, 'false');
+            });
+            localStorage.setItem('moqui_debug_enabled', 'false');
+        } else if (this.categories.hasOwnProperty(category)) {
+            this.categories[category] = false;
+            localStorage.setItem(`moqui_debug_${category}`, 'false');
+        }
+    },
+
+    getLogs: function(category, limit) {
+        var logs = JSON.parse(localStorage.getItem('moqui_debug_logs') || '[]');
+        if (category) {
+            logs = logs.filter(log => log.category === category);
+        }
+        if (limit) {
+            logs = logs.slice(-limit);
+        }
+        return logs;
+    },
+
+    clearLogs: function() {
+        localStorage.removeItem('moqui_debug_logs');
+    }
+};
+
+// Global debug helper functions
+window.moquiDebug = {
+    enable: moqui.debugLog.enable.bind(moqui.debugLog),
+    disable: moqui.debugLog.disable.bind(moqui.debugLog),
+    logs: moqui.debugLog.getLogs.bind(moqui.debugLog),
+    clear: moqui.debugLog.clearLogs.bind(moqui.debugLog)
+};
+
 /* ========== JWT Authentication Helpers ========== */
 moqui.getJwtToken = function() {
     // 标准JWT存储：优先localStorage，fallback到sessionStorage
-    return localStorage.getItem('jwt_access_token') || sessionStorage.getItem('jwt_access_token');
+    var token = localStorage.getItem('jwt_access_token') || sessionStorage.getItem('jwt_access_token');
+    moqui.debugLog.log('jwt', 'getJwtToken', { token: token ? token.substring(0, 20) + '...' : null });
+    return token;
 };
 
 moqui.setJwtToken = function(accessToken, refreshToken, rememberMe) {
@@ -28,15 +119,22 @@ moqui.setJwtToken = function(accessToken, refreshToken, rememberMe) {
 
     if (accessToken) {
         storage.setItem('jwt_access_token', accessToken);
+        moqui.debugLog.log('jwt', 'setJwtToken - access token saved', {
+            storage: rememberMe !== false ? 'localStorage' : 'sessionStorage',
+            tokenStart: accessToken.substring(0, 20) + '...'
+        });
+
         // 跨标签页同步
         if (typeof BroadcastChannel !== 'undefined') {
             var channel = new BroadcastChannel('jwt_channel');
             channel.postMessage({ type: 'token_updated', accessToken: accessToken });
+            moqui.debugLog.log('jwt', 'setJwtToken - broadcasted to other tabs', {});
         }
     }
 
     if (refreshToken) {
         storage.setItem('jwt_refresh_token', refreshToken);
+        moqui.debugLog.log('jwt', 'setJwtToken - refresh token saved', {});
     }
 };
 
@@ -47,10 +145,13 @@ moqui.removeJwtToken = function() {
     sessionStorage.removeItem('jwt_access_token');
     sessionStorage.removeItem('jwt_refresh_token');
 
+    moqui.debugLog.log('jwt', 'removeJwtToken - all tokens cleared', {});
+
     // 通知其他标签页
     if (typeof BroadcastChannel !== 'undefined') {
         var channel = new BroadcastChannel('jwt_channel');
         channel.postMessage({ type: 'token_removed' });
+        moqui.debugLog.log('jwt', 'removeJwtToken - broadcasted removal to other tabs', {});
     }
 };
 
@@ -2286,13 +2387,19 @@ console.error("window.Quasar exists:", typeof window.Quasar);
 console.error("document.getElementById('#apps-root'):", document.getElementById('apps-root'));
 
 try {
-    console.error("=== Attempting to create Vue instance ===");
+console.error("=== Attempting to create Vue instance ===");
+console.error("JWT Token available:", moqui.getJwtToken() ? 'YES' : 'NO');
+moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
+    hasToken: !!moqui.getJwtToken(),
+    tokenStart: moqui.getJwtToken() ? moqui.getJwtToken().substring(0, 20) + '...' : null
+});
+
     moqui.webrootVue = new Vue({
     el: '#apps-root',
     data: { basePath:"", linkBasePath:"", currentPathList:[], extraPathList:[], currentParameters:{}, bodyParameters:null,
         activeSubscreens:[], navMenuList:[], navHistoryList:[], navPlugins:[], accountPlugins:[], notifyHistoryList:[],
         lastNavTime:Date.now(), loading:0, currentLoadRequest:null, activeContainers:{}, urlListeners:[],
-        jwtToken:"", appHost:"", appRootPath:"", userId:"", username:"", locale:"en",
+        jwtToken: moqui.getJwtToken() || "", appHost:"", appRootPath:"", userId:"", username:"", locale:"en",
         reLoginShow:false, reLoginPassword:null, reLoginMfaData:null, reLoginOtp:null,
         notificationClient:null, sessionTokenBc:null, qzVue:null, leftOpen:false, moqui:moqui },
     methods: {
@@ -2766,6 +2873,10 @@ try {
 
 });
 console.error("=== Vue instance created successfully ===");
+moqui.debugLog.log('vue', 'Vue instance created successfully', {
+    hasJwtToken: !!moqui.webrootVue.jwtToken,
+    jwtTokenValue: moqui.webrootVue.jwtToken ? moqui.webrootVue.jwtToken.substring(0, 20) + '...' : null
+});
 } catch (e) {
     console.error("=== ERROR creating Vue instance ===", e);
 }
