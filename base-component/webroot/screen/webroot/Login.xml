@@ -73,17 +73,12 @@ along with this software (see the LICENSE.md file). If not, see
                             loginSuccess = true
                             message = "JWT认证成功"
 
-                            // 在响应头中设置JWT token
+                            // 仅在响应头中设置JWT token - 前端将从header获取并存储到localStorage
                             ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
                             ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
                             ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
 
-                            // 同时设置cookie便于在浏览器中查看
-                            def accessCookie = new javax.servlet.http.Cookie('jwt_access_token', jwtResult.accessToken)
-                            accessCookie.setPath('/')
-                            accessCookie.setHttpOnly(false) // 设为false便于在开发者工具中查看
-                            accessCookie.setMaxAge(7200) // 2小时
-                            ec.web.response.addCookie(accessCookie)
+                            // 标准JWT模式：不设置cookies，纯粹依赖localStorage存储
 
                             // 调用内部登录以兼容现有系统
                             ec.user.internalLoginUser(username)

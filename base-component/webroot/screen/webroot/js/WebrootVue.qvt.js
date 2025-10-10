@@ -18,9 +18,40 @@ moqui.urlExtensions = { js:'qjs', vue:'qvue', vuet:'qvt' }
 
 /* ========== JWT Authentication Helpers ========== */
 moqui.getJwtToken = function() {
-    // Get JWT token from localStorage or cookie
-    return localStorage.getItem('jwt_access_token') ||
-           document.cookie.replace(/(?:(?:^|.*;\s*)jwt_access_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    // 标准JWT存储：优先localStorage，fallback到sessionStorage
+    return localStorage.getItem('jwt_access_token') || sessionStorage.getItem('jwt_access_token');
+};
+
+moqui.setJwtToken = function(accessToken, refreshToken, rememberMe) {
+    // 根据rememberMe选择存储位置
+    var storage = rememberMe !== false ? localStorage : sessionStorage;
+
+    if (accessToken) {
+        storage.setItem('jwt_access_token', accessToken);
+        // 跨标签页同步
+        if (typeof BroadcastChannel !== 'undefined') {
+            var channel = new BroadcastChannel('jwt_channel');
+            channel.postMessage({ type: 'token_updated', accessToken: accessToken });
+        }
+    }
+
+    if (refreshToken) {
+        storage.setItem('jwt_refresh_token', refreshToken);
+    }
+};
+
+moqui.removeJwtToken = function() {
+    // 清除所有存储位置的JWT token
+    localStorage.removeItem('jwt_access_token');
+    localStorage.removeItem('jwt_refresh_token');
+    sessionStorage.removeItem('jwt_access_token');
+    sessionStorage.removeItem('jwt_refresh_token');
+
+    // 通知其他标签页
+    if (typeof BroadcastChannel !== 'undefined') {
+        var channel = new BroadcastChannel('jwt_channel');
+        channel.postMessage({ type: 'token_removed' });
+    }
 };
 
 moqui.getAuthHeaders = function() {
@@ -35,8 +66,53 @@ moqui.makeAuthenticatedRequest = function(options) {
     // Add JWT Authorization header to existing options
     if (!options.headers) options.headers = {};
     $.extend(options.headers, moqui.getAuthHeaders());
+
+    // 保存原始成功回调
+    var originalSuccess = options.success;
+
+    // 包装成功回调以检查响应头中的新token
+    options.success = function(data, textStatus, jqXHR) {
+        // 检查响应头中的JWT tokens并自动保存
+        moqui.extractAndSaveTokensFromResponse(jqXHR);
+
+        // 调用原始成功回调
+        if (originalSuccess) {
+            originalSuccess.call(this, data, textStatus, jqXHR);
+        }
+    };
+
     return options;
 };
+
+moqui.extractAndSaveTokensFromResponse = function(jqXHR) {
+    // 从响应头中提取JWT tokens
+    var accessToken = jqXHR.getResponseHeader('X-Access-Token');
+    var refreshToken = jqXHR.getResponseHeader('X-Refresh-Token');
+
+    if (accessToken) {
+        // 保存到localStorage，默认rememberMe=true
+        moqui.setJwtToken(accessToken, refreshToken, true);
+    }
+};
+
+/* ========== Cross-tab JWT Synchronization ========== */
+if (typeof BroadcastChannel !== 'undefined') {
+    var jwtChannel = new BroadcastChannel('jwt_channel');
+    jwtChannel.onmessage = function(event) {
+        if (event.data.type === 'token_updated') {
+            // 其他标签页更新了token，本页面也需要更新
+            // 注意：这里不触发BroadcastChannel以避免循环
+            if (event.data.accessToken) {
+                localStorage.setItem('jwt_access_token', event.data.accessToken);
+            }
+        } else if (event.data.type === 'token_removed') {
+            // 其他标签页移除了token，本页面也需要清除
+            moqui.removeJwtToken();
+            // 可以选择重定向到登录页
+            // window.location.href = '/Login';
+        }
+    };
+}
 
 // simple stub for define if it doesn't exist (ie no require.js, etc); mimic pattern of require.js define()
 if (!window.define) window.define = function(name, deps, callback) {
@@ -831,6 +907,13 @@ Vue.component('m-form', {
             }
             xhr.onload = function () {
                 if (this.status === 200) {
+                    // Extract JWT tokens from response headers if present
+                    var accessToken = xhr.getResponseHeader('X-Access-Token');
+                    var refreshToken = xhr.getResponseHeader('X-Refresh-Token');
+                    if (accessToken) {
+                        moqui.setJwtToken(accessToken, refreshToken, true);
+                    }
+
                     // decrement loading counter
                     vm.$root.loading--;
 
