@@ -22,7 +22,9 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="verifyUserAuthcFactor">
         <actions>
-            <set field="username" from="ec.web.sessionAttributes.moquiPreAuthcUsername"/>
+            <!-- JWT authentication - no session-based pre-auth needed -->
+            <!-- Get username from JWT token context instead of session -->
+            <set field="username" from="ec.user.username ?: ''"/>
             <service-call name="org.moqui.impl.UserServices.validate#ExternalUserAuthcCode"
                     in-map="[code:code]" out-map="validateOut"/>
             <if condition="validateOut.verified"><then>
@@ -37,7 +39,9 @@ along with this software (see the LICENSE.md file). If not, see
 
 
     <pre-actions><script>
-        if (ec.user.userId || !ec.web.sessionAttributes.moquiAuthcFactorRequired) { sri.sendRedirectAndStopRender('/') }
+        // JWT authentication - redirect if already logged in or if no second factor required
+        if (ec.user.userId) { sri.sendRedirectAndStopRender('/') }
+        // In JWT mode, second factor should be handled directly in login flow
     </script></pre-actions>
 
     <actions>

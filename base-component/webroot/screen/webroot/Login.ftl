@@ -39,7 +39,7 @@
         <form method="post" action="${sri.buildUrl("login").url}" class="form-signin" id="login_form">
             <input type="hidden" name="initialTab" value="login">
             <#-- people know what to do <p class="text-muted text-center">${ec.l10n.localize("Enter your username and password to sign in")}</p> -->
-            <#-- not needed for this request: <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}"> -->
+            <#-- JWT authentication - no session token needed -->
             <input id="login_form_username" name="username" type="text" value="${(username!"")?html}"
                     <#if username?has_content && secondFactorRequired>disabled="disabled"</#if>
                     required="required" class="form-control top"
@@ -71,7 +71,7 @@
     <div id="reset" class="tab-pane">
         <form method="post" action="${sri.buildUrl("resetPassword").url}" class="form-signin" id="reset_form">
             <p class="text-muted text-center">${ec.l10n.localize("Enter your username to email a reset password")}</p>
-            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
+            <#-- JWT authentication - no session token needed -->
             <input type="hidden" name="initialTab" value="reset">
             <input id="reset_form_username" name="username" type="text" value="${(username!"")?html}"
                     <#if username?has_content && secondFactorRequired>disabled="disabled"</#if>
@@ -83,7 +83,7 @@
     <div id="change" class="tab-pane">
         <form method="post" action="${sri.buildUrl("changePassword").url}" class="form-signin" id="change_form">
             <p class="text-muted text-center">${ec.l10n.localize("Enter details to change your password")}</p>
-            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
+            <#-- JWT authentication - no session token needed -->
             <input type="hidden" name="initialTab" value="change">
             <input id="change_form_username" name="username" type="text" value="${(username!"")?html}"
                     <#if username?has_content && secondFactorRequired>disabled="disabled"</#if>
@@ -124,7 +124,7 @@
         <div class="text-center">
             <form method="post" action="${sri.buildUrl("sendOtp").url}" class="form-signin">
                 <input type="hidden" name="factorId" value="${userAuthcFactor.factorId}">
-                <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
+                <#-- JWT authentication - no session token needed -->
                 <input type="hidden" name="initialTab" class="initial-tab">
                 <button class="btn btn-lg btn-primary" type="submit">${ec.l10n.localize("Send code to")} ${userAuthcFactor.factorOption!}</button>
             </form>
@@ -132,12 +132,7 @@
     </#list>
 </#if>
 
-<#if (ec.web.sessionAttributes.get("moquiPreAuthcUsername"))?has_content>
-    <form method="post" action="${sri.buildUrl("removePreAuth").url}" class="form-signin" id="remove_preauth_form">
-        <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
-        <button class="btn btn-lg btn-block" type="submit">${ec.l10n.localize("Change User")}</button>
-    </form>
-</#if>
+<#-- JWT-based authentication - pre-auth session not used -->
 
 <script>
 $(function () {

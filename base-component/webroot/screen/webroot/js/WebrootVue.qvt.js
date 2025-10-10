@@ -16,6 +16,28 @@ if (typeof Vue !== 'undefined' && typeof moqui !== 'undefined') {
 moqui = moqui || {};
 moqui.urlExtensions = { js:'qjs', vue:'qvue', vuet:'qvt' }
 
+/* ========== JWT Authentication Helpers ========== */
+moqui.getJwtToken = function() {
+    // Get JWT token from localStorage or cookie
+    return localStorage.getItem('jwt_access_token') ||
+           document.cookie.replace(/(?:(?:^|.*;\s*)jwt_access_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+};
+
+moqui.getAuthHeaders = function() {
+    var token = moqui.getJwtToken();
+    if (token && token.length > 0) {
+        return { 'Authorization': 'Bearer ' + token };
+    }
+    return {};
+};
+
+moqui.makeAuthenticatedRequest = function(options) {
+    // Add JWT Authorization header to existing options
+    if (!options.headers) options.headers = {};
+    $.extend(options.headers, moqui.getAuthHeaders());
+    return options;
+};
+
 // simple stub for define if it doesn't exist (ie no require.js, etc); mimic pattern of require.js define()
 if (!window.define) window.define = function(name, deps, callback) {
     if (!moqui.isString(name)) { callback = deps; deps = name; name = null; }
@@ -533,9 +555,10 @@ Vue.component('m-tree-top', {
     methods: { },
     mounted: function() { if (moqui.isString(this.items)) {
         this.currentPath = this.openPath;
-        var allParms = $.extend({ moquiSessionToken:this.$root.moquiSessionToken, treeNodeId:'#', treeOpenPath:this.openPath }, this.parameters);
-        var vm = this; $.ajax({ type:'POST', dataType:'json', url:this.items, headers:{Accept:'application/json'}, data:allParms,
+        var allParms = $.extend({ treeNodeId:'#', treeOpenPath:this.openPath }, this.parameters);
+        var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', dataType:'json', url:this.items, headers:{Accept:'application/json'}, data:allParms,
             error:moqui.handleAjaxError, success:function(resp) { vm.urlItems = resp; /*console.info('m-tree-top response ' + JSON.stringify(resp));*/ } });
+        var vm = this; $.ajax(ajaxOptions);
     }}
 });
 Vue.component('m-tree-item', {
@@ -562,10 +585,11 @@ Vue.component('m-tree-item', {
         var url = this.top.items;
         if (this.open && children && moqui.isBoolean(children) && moqui.isString(url)) {
             var li_attr = this.model.li_attr;
-            var allParms = $.extend({ moquiSessionToken:this.$root.moquiSessionToken, treeNodeId:this.model.id,
+            var allParms = $.extend({ treeNodeId:this.model.id,
                 treeNodeName:(li_attr && li_attr.treeNodeName ? li_attr.treeNodeName : ''), treeOpenPath:this.top.currentPath }, this.top.parameters);
-            var vm = this; $.ajax({ type:'POST', dataType:'json', url:url, headers:{Accept:'application/json'}, data:allParms,
+            var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', dataType:'json', url:url, headers:{Accept:'application/json'}, data:allParms,
                 error:moqui.handleAjaxError, success:function(resp) { vm.model.children = resp; } });
+            var vm = this; $.ajax(ajaxOptions);
         }
     }}},
     methods: {
@@ -583,12 +607,17 @@ Vue.component('m-editable', {
         loadUrl:String, loadParameters:Object, indicator:{type:String,'default':'Saving'}, tooltip:{type:String,'default':'Click to edit'},
         cancel:{type:String,'default':'Cancel'}, submit:{type:String,'default':'Save'} },
     mounted: function() {
-        var reqData = $.extend({ moquiSessionToken:this.$root.moquiSessionToken, parameterName:this.parameterName }, this.urlParameters);
+        var reqData = $.extend({ parameterName:this.parameterName }, this.urlParameters);
+        var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', dataType:'json', url:this.url, data:reqData,
         var edConfig = { indicator:this.indicator, tooltip:this.tooltip, cancel:this.cancel, submit:this.submit,
                 name:this.parameterName, type:this.widgetType, cssclass:'editable-form', submitdata:reqData };
         if (this.loadUrl && this.loadUrl.length > 0) {
             var vm = this; edConfig.loadurl = this.loadUrl; edConfig.loadtype = "POST";
-            edConfig.loaddata = function(value) { return $.extend({ currentValue:value, moquiSessionToken:vm.$root.moquiSessionToken }, vm.loadParameters); };
+            edConfig.loaddata = function(value) {
+                var loadData = $.extend({ currentValue:value }, vm.loadParameters);
+                // Note: loaddata for editable should use JWT headers through the ajax setup
+                return loadData;
+            };
         }
         // TODO, replace with something in quasar: $(this.$el).editable(this.url, edConfig);
     },
@@ -771,7 +800,7 @@ Vue.component('m-form', {
             }
             for (var ftrIdx = 0; ftrIdx < fieldsToRemove.length; ftrIdx++) formData['delete'](fieldsToRemove[ftrIdx]);
 
-            formData.set('moquiSessionToken', this.$root.moquiSessionToken);
+            // JWT authentication will be handled by headers, no need for session token in form data
             if (btnName) { formData.set(btnName, btnValue); }
 
             // add ID parameters for selected rows, add _isMulti=true
@@ -794,6 +823,12 @@ Vue.component('m-form', {
             xhr.open(this.method, (this.$root.appRootPath + this.action), true);
             xhr.responseType = 'blob';
             xhr.withCredentials = true;
+
+            // Add JWT authentication header
+            var authHeaders = moqui.getAuthHeaders();
+            for (var headerName in authHeaders) {
+                xhr.setRequestHeader(headerName, authHeaders[headerName]);
+            }
             xhr.onload = function () {
                 if (this.status === 200) {
                     // decrement loading counter
@@ -955,7 +990,7 @@ Vue.component('m-form-link', {
                 var key = pair[0];
                 var value = pair[1];
 
-                if (value.trim().length === 0 || key === "moquiSessionToken" || key === "moquiFormName" || key.indexOf('[]') > 0) continue;
+                if (value.trim().length === 0 || key === "moquiFormName" || key.indexOf('[]') > 0) continue;
                 if (key.indexOf("_op") > 0 || key.indexOf("_not") > 0 || key.indexOf("_ic") > 0) {
                     extraList.push({name:key, value:value});
                 } else {
@@ -1432,7 +1467,7 @@ Vue.component('m-display', {
             var hasAllParms = true;
             var dependsOnMap = this.dependsOn;
             var parmMap = this.valueParameters;
-            var reqData = { moquiSessionToken: this.$root.moquiSessionToken };
+            var reqData = {};
             for (var parmName in parmMap) { if (parmMap.hasOwnProperty(parmName)) reqData[parmName] = parmMap[parmName]; }
             for (var doParm in dependsOnMap) { if (dependsOnMap.hasOwnProperty(doParm)) {
                 var doValue;
@@ -1464,7 +1499,7 @@ Vue.component('m-display', {
             }
             var vm = this;
             this.loading = true;
-            $.ajax({ type:"POST", url:this.valueUrl, data:reqData, dataType:"text", headers:{Accept:'text/plain'},
+            var ajaxOptions = moqui.makeAuthenticatedRequest({ type:"POST", url:this.valueUrl, data:reqData, dataType:"text", headers:{Accept:'text/plain'},
                 error:function(jqXHR, textStatus, errorThrown) {
                     vm.loading = false;
                     moqui.handleAjaxError(jqXHR, textStatus, errorThrown);
@@ -1490,6 +1525,7 @@ Vue.component('m-display', {
                     vm.curDisplay = newLabel;
                 }
             });
+            $.ajax(ajaxOptions);
         }
     },
     computed: {
@@ -1608,7 +1644,7 @@ Vue.component('m-drop-down', {
             var hasAllParms = true;
             var dependsOnMap = this.dependsOn;
             var parmMap = this.optionsParameters;
-            var reqData = { moquiSessionToken: this.$root.moquiSessionToken };
+            var reqData = {};
             for (var parmName in parmMap) { if (parmMap.hasOwnProperty(parmName)) reqData[parmName] = parmMap[parmName]; }
             for (var doParm in dependsOnMap) { if (dependsOnMap.hasOwnProperty(doParm)) {
                 var doValue;
@@ -1819,7 +1855,7 @@ Vue.component('m-text-line', {
             var hasAllParms = true;
             var dependsOnMap = this.dependsOn;
             var parmMap = this.defaultParameters;
-            var reqData = { moquiSessionToken: this.$root.moquiSessionToken };
+            var reqData = {};
             for (var parmName in parmMap) { if (parmMap.hasOwnProperty(parmName)) reqData[parmName] = parmMap[parmName]; }
             for (var doParm in dependsOnMap) { if (dependsOnMap.hasOwnProperty(doParm)) {
                 var doValue;
@@ -2173,7 +2209,7 @@ try {
     data: { basePath:"", linkBasePath:"", currentPathList:[], extraPathList:[], currentParameters:{}, bodyParameters:null,
         activeSubscreens:[], navMenuList:[], navHistoryList:[], navPlugins:[], accountPlugins:[], notifyHistoryList:[],
         lastNavTime:Date.now(), loading:0, currentLoadRequest:null, activeContainers:{}, urlListeners:[],
-        moquiSessionToken:"", appHost:"", appRootPath:"", userId:"", username:"", locale:"en",
+        jwtToken:"", appHost:"", appRootPath:"", userId:"", username:"", locale:"en",
         reLoginShow:false, reLoginPassword:null, reLoginMfaData:null, reLoginOtp:null,
         notificationClient:null, sessionTokenBc:null, qzVue:null, leftOpen:false, moqui:moqui },
     methods: {
@@ -2333,13 +2369,15 @@ try {
         },
         switchDarkLight: function() {
             this.$q.dark.toggle();
-            $.ajax({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
-                data:{ moquiSessionToken:this.moquiSessionToken, preferenceKey:'QUASAR_DARK', preferenceValue:(this.$q.dark.isActive ? 'true' : 'false') } });
+            var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
+                data:{ preferenceKey:'QUASAR_DARK', preferenceValue:(this.$q.dark.isActive ? 'true' : 'false') } });
+            $.ajax(ajaxOptions);
         },
         toggleLeftOpen: function() {
             this.leftOpen = !this.leftOpen;
-            $.ajax({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
-                data:{ moquiSessionToken:this.moquiSessionToken, preferenceKey:'QUASAR_LEFT_OPEN', preferenceValue:(this.leftOpen ? 'true' : 'false') } });
+            var ajaxOptions2 = moqui.makeAuthenticatedRequest({ type:'POST', url:(this.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
+                data:{ preferenceKey:'QUASAR_LEFT_OPEN', preferenceValue:(this.leftOpen ? 'true' : 'false') } });
+            $.ajax(ajaxOptions2);
         },
         stopProp: function (e) { e.stopPropagation(); },
         getNavHref: function(navIndex) {
@@ -2368,19 +2406,28 @@ try {
         getQuasarColor: function(bootstrapColor) { return moqui.getQuasarColor(bootstrapColor); },
         // Re-Login Functions
         getCsrfToken: function(jqXHR) {
-            // update the session token, new session after login (along with xhrFields:{withCredentials:true} for cookie)
-            var sessionToken = jqXHR.getResponseHeader("X-CSRF-Token");
-            if (sessionToken && sessionToken.length && sessionToken !== this.moquiSessionToken) {
-                console.log("Updating session token from jqXHR, sending to BroadcastChannel")
-                this.moquiSessionToken = sessionToken;
-                this.sessionTokenBc.postMessage(sessionToken);
+            // In JWT mode, we check for updated JWT tokens in response headers
+            var authToken = jqXHR.getResponseHeader("Authorization");
+            if (authToken && authToken.startsWith("Bearer ")) {
+                var newToken = authToken.substring(7);
+                if (newToken !== this.jwtToken) {
+                    console.log("Updating JWT token from response");
+                    this.jwtToken = newToken;
+                    localStorage.setItem('jwt_access_token', newToken);
+                    // Broadcast to other tabs/windows
+                    if (this.sessionTokenBc) {
+                        this.sessionTokenBc.postMessage(newToken);
+                    }
+                }
             }
         },
         receiveBcCsrfToken: function(event) {
-            var sessionToken = event.data;
-            if (sessionToken && sessionToken.length && this.moquiSessionToken !== sessionToken) {
-                console.log("Updating session token from BroadcastChannel")
-                this.moquiSessionToken = sessionToken;
+            // Receive JWT token updates from other tabs/windows
+            var newToken = event.data;
+            if (newToken && newToken !== this.jwtToken) {
+                console.log("Updating JWT token from BroadcastChannel");
+                this.jwtToken = newToken;
+                localStorage.setItem('jwt_access_token', newToken);
             }
         },
         reLoginCheckShow: function() {
@@ -2395,10 +2442,11 @@ try {
         },
         /* NOTE DEJ-2022-12 removing use of the userInfo endpoint which is commented out for security reasons:
         reLoginCheckResponseSuccess: function(resp, status, jqXHR) {
-            if (resp.username && resp.sessionToken) {
-                this.moquiSessionToken = resp.sessionToken;
+            if (resp.username && resp.jwtToken) {
+                this.jwtToken = resp.jwtToken;
+                localStorage.setItem('jwt_access_token', resp.jwtToken);
                 // show success notification, add to notify history
-                var msg = 'Session refreshed after login in another tab, no changes made, please try again';
+                var msg = 'JWT token refreshed after login in another tab, no changes made, please try again';
                 // show for 12 seconds because we want it to show longer than the no user authenticated notification which shows for 15 seconds (minus some password typing time)
                 this.$q.notify({ timeout:10000, type:'warning', message:msg });
                 this.addNotify(msg, 'warning');
@@ -2458,18 +2506,20 @@ try {
                 window.location.href = this.currentLinkUrl;
         },
         reLoginSendOtp: function(factorId) {
-            $.ajax({ type:'POST', url:(this.appRootPath + '/rest/sendOtp'), error:moqui.handleAjaxError, success:this.reLoginSendOtpResponse,
+            var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', url:(this.appRootPath + '/rest/sendOtp'), error:moqui.handleAjaxError, success:this.reLoginSendOtpResponse,
                 dataType:'json', headers:{Accept:'application/json'}, xhrFields:{withCredentials:true},
-                data:{ moquiSessionToken:this.moquiSessionToken, factorId:factorId } });
+                data:{ factorId:factorId } });
+            $.ajax(ajaxOptions);
         },
         reLoginSendOtpResponse: function(resp, status, jqXHR) {
             // console.warn("re-login send otp response: " + JSON.stringify(resp));
             if (resp) moqui.notifyMessages(resp.messages, resp.errors, resp.validationErrors);
         },
         reLoginVerifyOtp: function() {
-            $.ajax({ type:'POST', url:(this.appRootPath + '/rest/verifyOtp'), error:moqui.handleAjaxError, success:this.reLoginVerifyOtpResponse,
+            var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', url:(this.appRootPath + '/rest/verifyOtp'), error:moqui.handleAjaxError, success:this.reLoginVerifyOtpResponse,
                 dataType:'json', headers:{Accept:'application/json'}, xhrFields:{withCredentials:true},
-                data:{ moquiSessionToken:this.moquiSessionToken, code:this.reLoginOtp } });
+                data:{ code:this.reLoginOtp } });
+            $.ajax(ajaxOptions);
         },
         reLoginVerifyOtpResponse: function(resp, status, jqXHR) {
             this.getCsrfToken(jqXHR);
@@ -2505,7 +2555,7 @@ try {
             var curUrl = cur.pathWithParams;
             var questIdx = curUrl.indexOf("?");
             if (questIdx > 0) {
-                var excludeKeys = ["pageIndex", "orderBySelect", "orderByField", "moquiSessionToken"];
+                var excludeKeys = ["pageIndex", "orderBySelect", "orderByField"];
                 var parmList = curUrl.substring(questIdx+1).split("&");
                 curUrl = curUrl.substring(0, questIdx);
                 var dpCount = 0;
@@ -2579,7 +2629,7 @@ try {
         }
     },
     created: function() {
-        this.moquiSessionToken = $("#confMoquiSessionToken").val();
+        // JWT token will be retrieved from localStorage/cookies when needed
         this.appHost = $("#confAppHost").val(); this.appRootPath = $("#confAppRootPath").val();
         this.basePath = $("#confBasePath").val(); this.linkBasePath = $("#confLinkBasePath").val();
         this.userId = $("#confUserId").val();
