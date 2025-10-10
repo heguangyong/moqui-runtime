@@ -785,7 +785,6 @@ Vue.component('m-editable', {
         cancel:{type:String,'default':'Cancel'}, submit:{type:String,'default':'Save'} },
     mounted: function() {
         var reqData = $.extend({ parameterName:this.parameterName }, this.urlParameters);
-        var ajaxOptions = moqui.makeAuthenticatedRequest({ type:'POST', dataType:'json', url:this.url, data:reqData,
         var edConfig = { indicator:this.indicator, tooltip:this.tooltip, cancel:this.cancel, submit:this.submit,
                 name:this.parameterName, type:this.widgetType, cssclass:'editable-form', submitdata:reqData };
         if (this.loadUrl && this.loadUrl.length > 0) {
