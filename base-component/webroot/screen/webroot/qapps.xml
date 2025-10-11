@@ -123,6 +123,30 @@ along with this software (see the LICENSE.md file). If not, see
         <default-response type="none"/>
     </transition>
 
+    <transition name="menuData" read-only="true" begin-transaction="false">
+        <actions><script><![CDATA[
+            // Get menu data for qapps navigation, always include homepage link at top
+            List menuDataList = []
+
+            // Add "返回主页" (Return to Homepage) link at the top
+            menuDataList.add([
+                title: "返回主页",
+                url: "/qapps/AppList",
+                image: "fa fa-home",
+                imageType: "icon"
+            ])
+
+            // Get standard menu data from screen
+            List standardMenuList = sri.getMenuData(sri.screenUrlInfo.extraPathNameList)
+            if (standardMenuList != null) {
+                menuDataList.addAll(standardMenuList)
+            }
+
+            ec.web.sendJsonResponse(menuDataList)
+        ]]></script></actions>
+        <default-response type="none" save-parameters="true"/>
+    </transition>
+
     <subscreens default-item="AppList">
         <subscreens-item name="AppList" location="component://webroot/screen/webroot/apps/AppList.xml"/>
         <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>

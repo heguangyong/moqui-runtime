@@ -786,7 +786,7 @@ Vue.component('m-editable', {
     mounted: function() {
         var reqData = $.extend({ parameterName:this.parameterName }, this.urlParameters);
         var edConfig = { indicator:this.indicator, tooltip:this.tooltip, cancel:this.cancel, submit:this.submit,
-                name:this.parameterName, type:this.widgetType, cssclass:'editable-form', submitdata:reqData };
+                'name':this.parameterName, 'type':this.widgetType, cssclass:'editable-form', submitdata:reqData };
         if (this.loadUrl && this.loadUrl.length > 0) {
             var vm = this; edConfig.loadurl = this.loadUrl; edConfig.loadtype = "POST";
             edConfig.loaddata = function(value) {
@@ -2436,8 +2436,15 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
 
                 // update menu, which triggers update of screen/subscreen components
                 var vm = this;
-                var menuDataUrl = this.appRootPath && this.appRootPath.length && screenUrl.indexOf(this.appRootPath) === 0 ?
-                    this.appRootPath + "/menuData" + screenUrl.slice(this.appRootPath.length) : "/menuData" + screenUrl;
+
+                // Special handling for qapps: always use root qapps menuData for consistent navigation
+                var menuDataUrl;
+                if (screenUrl.indexOf("/qapps") === 0) {
+                    menuDataUrl = "/qapps/menuData";
+                } else {
+                    menuDataUrl = this.appRootPath && this.appRootPath.length && screenUrl.indexOf(this.appRootPath) === 0 ?
+                        this.appRootPath + "/menuData" + screenUrl.slice(this.appRootPath.length) : "/menuData" + screenUrl;
+                }
                 console.error("=== MenuData AJAX DEBUG ===");
                 console.error("screenUrl:", screenUrl);
                 console.error("menuDataUrl:", menuDataUrl);
