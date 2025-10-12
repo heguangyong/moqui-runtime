@@ -37,20 +37,6 @@ def downloadBase = "http://cdnjs.cloudflare.com/ajax/libs/"
 def fileMap = [
     "rsvp/4.8.3/rsvp.min.js":"",
 
-    "twitter-bootstrap/3.4.1/css/bootstrap.min.css":"",
-    "twitter-bootstrap/3.4.1/js/bootstrap.min.js":"",
-    "twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.eot":"",
-    "twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.svg":"",
-    "twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.ttf":"",
-    "twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff":"",
-    "twitter-bootstrap/3.4.1/fonts/glyphicons-halflings-regular.woff2":"",
-
-    "bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css":"",
-    // js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js 4.17.47 has a small change so that keyBinds are handled properly
-    // "bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js":"",
-
-    "mouse0270-bootstrap-notify/3.1.7/bootstrap-notify.min.js":"",
-
     "font-awesome/4.7.0/css/font-awesome.min.css":"",
     "font-awesome/4.7.0/fonts/FontAwesome.otf":"",
     "font-awesome/4.7.0/fonts/fontawesome-webfont.eot":"",
@@ -81,7 +67,6 @@ def fileMap = [
 
     // js/select2/select2.min.js 4.0.3 has small changes so that widths are handled properly, so not in download list
     "select2/4.0.3/css/select2.min.css":"",
-    "select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css":"",
 
     "Selectivity.js/2.1.0/selectivity-full.min.js":"",
     "Selectivity.js/2.1.0/selectivity-full.min.css":"",
@@ -192,8 +177,6 @@ def baseJs = []
 baseJs.add(libsPath + '/rsvp/rsvp.min.js')
 // jQuery
 baseJs.add(libsPath + '/jquery/jquery.min.js')
-// Bootstrap
-baseJs.add(libsPath + '/twitter-bootstrap/js/bootstrap.min.js')
 // Autocomplete (Twitter TypeAhead)
 baseJs.add(libsPath + '/typeahead.js/typeahead.jquery.min.js')
 // Input Masking
@@ -201,14 +184,11 @@ baseJs.add(libsPath + '/jquery.inputmask/jquery.inputmask.bundle.min.js')
 // Form Validation and AJAX (jquery-validation, jquery-form)
 baseJs.add(libsPath + '/jquery-validate/jquery.validate.min.js')
 baseJs.add(libsPath + '/jquery-validate/additional-methods.min.js')
-// Date/Time (Moment, bootstrap-datetimepicker)
+// Date/Time (Moment.js)
 baseJs.add(libsPath + '/moment.js/moment-with-locales.min.js')
-baseJs.add(webrootPath + '/js/bootstrap-datetimepicker.min.js')
 // Drop-down (Select2, Selectivity)
 baseJs.add(webrootPath + '/js/select2.min.js')
 baseJs.add(libsPath + '/Selectivity.js/selectivity-full.min.js')
-// Notify/Growl (Bootstrap Notify)
-baseJs.add(libsPath + '/mouse0270-bootstrap-notify/bootstrap-notify.min.js')
 // Inline Editable
 baseJs.add(libsPath + '/jeditable.js/jeditable.min.js')
 // Sortable Hierarchical List
@@ -223,14 +203,6 @@ def htmlJs = []
 htmlJs.add(libsPath + '/jquery.form/jquery.form.min.js')
 // Tree (JSTree)
 htmlJs.add(libsPath + '/jstree/jstree.min.js')
-
-def vuetJs = []
-// Vue JS
-vuetJs.add(libsPath + '/vue/vue.min.js')
-// http-vue-loader
-vuetJs.add(webrootPath + '/js/http-vue-loader/httpVueLoader.js')
-// Vue root component instance, in footer so runs after page loaded
-vuetJs.add(webrootPath + '/js/WebrootVue.min.js')
 
 task minifyJsDir(type: org.gradlewebtools.minify.JsMinifyTask) {
     // see: https://github.com/gradle-webtools/gradle-minify-plugin
@@ -247,8 +219,6 @@ task minifyJsDir(type: org.gradlewebtools.minify.JsMinifyTask) {
     // because all sub-directories are processed for js files to minify, move and remove manually to clean up here...
     doLast {
         // move the two min files we want
-        file(webrootPath + '/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js')
-                .renameTo(file(webrootPath + '/js/bootstrap-datetimepicker.min.js'))
         file(webrootPath + '/js/select2/select2.min.js')
                 .renameTo(file(webrootPath + '/js/select2.min.js'))
         // delete the min files we don't need/want
@@ -270,26 +240,12 @@ task combineBaseJs {
         })
     }
 }
-task combineVuetJs {
-    dependsOn downloadFiles
-    dependsOn minifyJsDir
-    doLast {
-        def destFile = file("${webrootPath}/js/CombinedVuet.min.js")
-        destFile.write("")
-        vuetJs.each({
-            destFile.append(file(it).getText("UTF-8"), "UTF-8")
-            destFile.append("\n")
-        })
-    }
-}
-
 task build {
     dependsOn downloadFiles
 
     dependsOn minifyJsDir
 
     dependsOn combineBaseJs
-    dependsOn combineVuetJs
 }
 task clean { doLast {
     delete fileTree(dir: "${webrootPath}/js", include: '*.min.js')

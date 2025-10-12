@@ -1,0 +1,925 @@
+09:50:04.437 INFO  .jetty.server.Server jetty-10.0.25; built: 2025-03-13T00:02:39.342Z; git: 96cc25d2f26c3fb61444b801be87640e59cf380e; jvm 11.0.6+8-LTS
+09:50:04.499 INFO  aultSessionIdManager Session workerName=node0
+09:50:08.696 INFO  dDescriptorProcessor NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+09:50:09.207 INFO  MoquiContextListener Loading Webapp 'webroot' (Moqui Root Webapp) on ROOT, located at: E:\moqui-framework\execwartmp\ROOT\webapp
+09:50:09.380 INFO  onContextFactoryImpl Initializing Moqui Framework version 3.1.0-rc2
+ - runtime directory: E:\moqui-framework\runtime
+ - runtime config:    E:\moqui-framework\runtime/conf/MoquiDevConf.xml
+09:50:09.380 INFO  onContextFactoryImpl Running on Java 11.0.6 VM 11.0.6+8-LTS Runtime 11.0.6+8-LTS
+09:50:09.859 INFO  onContextFactoryImpl Added component tools              at file:E:/moqui-framework/runtime/base-component/tools
+09:50:09.869 INFO  onContextFactoryImpl Added component webroot            at file:E:/moqui-framework/runtime/base-component/webroot
+09:50:09.871 INFO  onContextFactoryImpl Added component HiveMind           at file:E:/moqui-framework/runtime/component/HiveMind
+09:50:09.873 INFO  onContextFactoryImpl Added component SimpleScreens      at file:E:/moqui-framework/runtime/component/SimpleScreens
+09:50:09.884 INFO  onContextFactoryImpl Added component example            at file:E:/moqui-framework/runtime/component/example
+09:50:09.885 INFO  onContextFactoryImpl Added component mantle-udm         at file:E:/moqui-framework/runtime/component/mantle-udm
+09:50:09.886 INFO  onContextFactoryImpl Added component mantle-usl         at file:E:/moqui-framework/runtime/component/mantle-usl
+09:50:09.888 INFO  onContextFactoryImpl Added component moqui-fop          at file:E:/moqui-framework/runtime/component/moqui-fop
+09:50:09.889 INFO  onContextFactoryImpl Added component moqui-minio        at file:E:/moqui-framework/runtime/component/moqui-minio
+09:50:09.889 INFO  onContextFactoryImpl Components after depends-on sort: [tools, webroot, moqui-fop, mantle-udm, mantle-usl, SimpleScreens, HiveMind, example, moqui-minio]
+09:50:09.897 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component tools
+09:50:09.907 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component moqui-fop
+09:50:09.914 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component mantle-udm
+09:50:09.916 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component SimpleScreens
+09:50:09.919 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component HiveMind
+09:50:09.921 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component example
+09:50:09.923 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component moqui-minio
+09:50:09.924 INFO  onContextFactoryImpl Merging runtime configuration at E:\moqui-framework\runtime/conf/MoquiDevConf.xml
+09:50:09.932 INFO  onContextFactoryImpl Setting property instance_purpose from default with value [dev]
+09:50:09.932 INFO  onContextFactoryImpl Setting property default_locale from default with value [zh_CN]
+09:50:09.932 INFO  onContextFactoryImpl Setting property default_time_zone from default with value [Asia/Shanghai]
+09:50:09.932 INFO  onContextFactoryImpl Setting property database_time_zone from default with value [Asia/Shanghai]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_https_enabled from default with value [false]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_allow_origins from default with value [*]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_handle_cors from default with value [true]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_status_ips from default with value [127.0.0.1]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_require_session_token from default with value [true]
+09:50:09.932 INFO  onContextFactoryImpl Setting property webapp_upload_executable_allow from default with value [false]
+09:50:09.932 INFO  onContextFactoryImpl Setting property entity_ds_db_conf from default with value [h2]
+09:50:09.932 INFO  onContextFactoryImpl Setting property entity_ds_host from default with value [127.0.0.1]
+09:50:09.932 INFO  onContextFactoryImpl Setting property entity_ds_database from default with value [moqui]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_ds_url from default with value [jdbc:h2:E:\moqui-framework\runtime/db/h2/moqui;lock_timeout=30000]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_ds_user from default with value [sa]
+09:50:09.944 INFO  onContextFactoryImpl Setting secret property entity_ds_password from default
+09:50:09.944 INFO  onContextFactoryImpl Setting secret property entity_ds_crypt_pass from default
+09:50:09.944 INFO  onContextFactoryImpl Setting secret property entity_ds_crypt_pass_old from default
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_add_missing_runtime from default with value [false]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_add_missing_startup from default with value [true]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_lock_track from default with value [true]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_statement_timeout from default with value [false]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_empty_db_load from default with value [all]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_on_start_load_types from default with value [none]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_ds_c1_disabled from default with value [true]
+09:50:09.944 INFO  onContextFactoryImpl Setting property entity_ds_c1_db_conf from default with value [mysql]
+09:50:09.944 INFO  onContextFactoryImpl Setting property scheduled_job_check_time from default with value [60]
+09:50:09.945 INFO  onContextFactoryImpl Setting property kibana_host from default with value [127.0.0.1]
+09:50:09.945 INFO  onContextFactoryImpl Setting property kibana_port from default with value [5601]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.endpoint from default with value [http://localhost:9000]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.accessKey from default with value [admin]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.secretKey from default with value [admin123]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.region from default with value [us-east-1]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.secure from default with value [false]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.connectionTimeout from default with value [10000]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.readTimeout from default with value [10000]
+09:50:09.945 INFO  onContextFactoryImpl Setting property minio.writeTimeout from default with value [10000]
+09:50:09.945 INFO  onContextFactoryImpl Found default_time_zone Asia/Shanghai: sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+09:50:09.945 INFO  onContextFactoryImpl Default locale zh_CN, time zone sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+09:50:09.967 INFO  onContextFactoryImpl Initializing worker ThreadPoolExecutor: queue limit 65535, pool-core 16, pool-max 32, pool-alive 60s
+09:50:09.977 INFO  onContextFactoryImpl Initializing MClassLoader context MoquiStart$StartClassLoader cur class MoquiStart$StartClassLoader system null
+09:50:09.982 INFO  onContextFactoryImpl Initialized MClassLoader with parent MoquiStart$StartClassLoader
+09:50:12.636 INFO  onContextFactoryImpl Added JARs from component moqui-fop: [antlr4-runtime-4.5.3.jar, avalon-framework-api-4.3.1.jar, avalon-framework-impl-4.3.1.jar, barcode4j-2.1.jar, barcode4j-fop-ext-2.1.jar, batik-anim-1.17.jar, batik-awt-util-1.17.jar, batik-bridge-1.17.jar, batik-codec-1.17.jar, batik-constants-1.17.jar, batik-css-1.17.jar, batik-dom-1.17.jar, batik-ext-1.17.jar, batik-extension-1.17.jar, batik-gvt-1.17.jar, batik-i18n-1.17.jar, batik-parser-1.17.jar, batik-script-1.17.jar, batik-shared-resources-1.17.jar, batik-svg-dom-1.17.jar, batik-svggen-1.17.jar, batik-transcoder-1.17.jar, batik-util-1.17.jar, batik-xml-1.17.jar, cssbox-4.17.jar, cssbox-pdf-1.0-SNAPSHOT.jar, fontbox-3.0.0.jar, fop-core-2.9.jar, fop-events-2.9.jar, fop-util-2.9.jar, jstyleparser-3.5.jar, moqui-fop-1.1.3.jar, nekohtml-1.9.22.jar, pdfbox-3.0.0.jar, pdfbox-io-3.0.0.jar, qdox-1.12.jar, unbescape-1.1.6.RELEASE.jar, xercesImpl-2.12.2.jar, xml-apis-1.4.01.jar, xml-apis-ext-1.3.04.jar, xmlgraphics-commons-2.9.jar]
+09:50:12.666 INFO  onContextFactoryImpl Added JARs from component example: [example-3.0.0.jar]
+09:50:13.442 INFO  onContextFactoryImpl Added JARs from component moqui-minio: [bcprov-jdk18on-1.78.jar, checker-qual-3.41.0.jar, commons-compress-1.26.0.jar, error_prone_annotations-2.23.0.jar, failureaccess-1.0.2.jar, guava-33.0.0-jre.jar, jsr305-3.0.2.jar, kotlin-stdlib-1.9.10.jar, kotlin-stdlib-common-1.9.10.jar, kotlin-stdlib-jdk7-1.9.10.jar, kotlin-stdlib-jdk8-1.9.10.jar, listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, minio-8.5.12.jar, moqui-minio-1.0.0.jar, okhttp-4.12.0.jar, okio-jvm-3.6.0.jar, simple-xml-safe-2.7.1.jar, snappy-java-1.1.10.5.jar]
+09:50:13.442 INFO  onContextFactoryImpl Initialized ClassLoaders in 3469ms
+09:50:13.444 INFO  onContextFactoryImpl Not loading disabled ToolFactory with class: org.moqui.impl.tools.JackrabbitRunToolFactory
+09:50:13.444 INFO  onContextFactoryImpl Not loading disabled ToolFactory with class: org.moqui.impl.tools.SubEthaSmtpToolFactory
+09:50:13.448 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.tools.MCacheToolFactory
+09:50:13.471 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.tools.H2ServerToolFactory
+09:50:13.478 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.fop.FopToolFactory
+09:50:13.495 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.service.minio.MinioToolFactory
+09:50:13.517 INFO  onContextFactoryImpl Cache Facade initialized
+09:50:13.764 INFO  t.ResourceFacadeImpl Using xsl-fo-handler-factory FOP (org.moqui.fop.FopToolFactory)
+09:50:13.764 INFO  onContextFactoryImpl Resource Facade initialized
+09:50:13.835 WARN  nix.tm.Configuration Cannot get the unique server ID for this JVM ('bitronix.tm.serverId'). Make sure it is configured and you use only US-ASCII characters. Will use IP address instead (unsafe for production usage!).
+09:50:13.856 WARN  .journal.DiskJournal active log file is unclean, did you call BitronixTransactionManager.shutdown() at the end of the last run?
+09:50:13.983 INFO  ransactionFacadeImpl Internal transaction manager initialized: UserTransaction class bitronix.tm.BitronixTransactionManager, TransactionManager class bitronix.tm.BitronixTransactionManager
+09:50:13.983 INFO  onContextFactoryImpl Transaction Facade initialized
+09:50:14.042 INFO  ity.EntityFacadeImpl Database time zone is sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+09:50:14.156 INFO  tionInternalBitronix Initializing DataSource transactional_DS (h2) with properties: [user:sa, url:jdbc:h2:E:\moqui-framework\runtime/db/h2/moqui;lock_timeout=30000]
+09:50:15.200 INFO  tionInternalBitronix Init DataSource transactional_DS (h2) isolation READ_COMMITTED (2), max pool 50
+09:50:15.210 INFO  ity.EntityFacadeImpl Skipping disabled datasource transactional#clone1
+09:50:15.223 INFO  l.entity.EntityCache Entity Cache initialized, distributed cache invalidate enabled: false
+09:50:15.236 INFO  onContextFactoryImpl Entity Facade initialized
+09:50:15.425 INFO  impl.service.RestApi Loaded REST API from moqui.rest.xml (83 paths, 89 methods)
+09:50:15.445 INFO  impl.service.RestApi Loaded REST API from mantle.rest.xml (392 paths, 416 methods)
+09:50:15.451 INFO  impl.service.RestApi Loaded REST API from example.rest.xml (12 paths, 28 methods)
+09:50:15.454 INFO  impl.service.RestApi Loaded REST API from minio.rest.xml (2 paths, 5 methods)
+09:50:15.454 INFO  impl.service.RestApi Loaded REST API files, 4 roots, in 181ms
+09:50:15.454 INFO  ce.ServiceFacadeImpl Setting Service Job worker pool size to 12 based on available processors * 2
+09:50:15.454 INFO  ce.ServiceFacadeImpl Initializing Service Job ThreadPoolExecutor: queue limit 0, pool-core 2, pool-max 12, pool-alive 120s
+09:50:15.455 INFO  onContextFactoryImpl Service Facade initialized
+09:50:15.470 INFO  onContextFactoryImpl Screen Facade initialized
+09:50:15.470 INFO  ity.EntityFacadeImpl Loading entity definitions
+09:50:15.651 INFO  ity.EntityFacadeImpl Found entities in 45 files in 181ms
+09:50:15.983 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+09:50:16.130 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.party.PartyDimension
+09:50:16.140 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimension
+09:50:16.142 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimensionAndType
+09:50:16.145 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimension
+09:50:16.147 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimensionAndType
+09:50:16.280 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity moqui.screen.form.DbFormFieldAttribute
+09:50:16.280 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity moqui.screen.form.DbFormFieldEntOptsCond
+09:50:16.309 INFO  ity.EntityFacadeImpl Loaded 883 entity definitions in 839ms
+09:50:16.330 INFO  ity.EntityFacadeImpl Checking tables for entities in groups [transactional]
+09:50:16.361 INFO  ity.EntityFacadeImpl Checked tables for all entities in 0.051 seconds
+09:50:16.376 INFO  ity.EntityFacadeImpl Loaded 25 Entity ECA rules from 5 .eecas.xml files, 0 rules have no id, 25 EECA rules active
+09:50:16.463 INFO  ce.ServiceFacadeImpl Loaded 60 Service ECA rules from 10 .secas.xml files, 0 rules have no id, 60 SECA rules active
+09:50:16.469 INFO  ce.ServiceFacadeImpl Loaded [1] Email ECA rules from [file:E:/moqui-framework/runtime/component/example/service/Example.emecas.xml]
+09:50:16.470 INFO  ce.ServiceFacadeImpl No distributed-factory specified, distributed async service calls will be run local only
+09:50:16.479 INFO  ce.ServiceFacadeImpl Starting Scheduled Service Job Runner, checking for jobs every 60 seconds after a 120 second initial delay
+09:50:16.495 INFO  onContextFactoryImpl Initializing ToolFactory: MCache
+09:50:16.495 INFO  onContextFactoryImpl Initializing ToolFactory: H2Server
+09:50:16.534 INFO  .H2ServerToolFactory Started H2 remote server on port 9092 status: TCP server running at tcp://172.30.208.1:9092 (only local connections)
+09:50:16.534 INFO  .H2ServerToolFactory H2 args: [-tcpPort, 9092, -ifExists, -baseDir, E:\moqui-framework\runtime/db/h2]
+09:50:16.534 INFO  .H2ServerToolFactory Found shutdown hook: org.h2.engine.OnExitDatabaseCloser Thread[Thread-10,5,main]
+09:50:16.535 INFO  .H2ServerToolFactory Removing H2 shutdown hook with class org.h2.engine.OnExitDatabaseCloser
+09:50:16.535 INFO  .H2ServerToolFactory Found shutdown hook: org.eclipse.jetty.util.thread.ShutdownThread Thread[JettyShutdownThread,5,main]
+09:50:16.535 INFO  .H2ServerToolFactory Found shutdown hook: java.util.logging.LogManager$Cleaner Thread[Logging-Cleaner,5,main]
+09:50:16.535 INFO  onContextFactoryImpl Initializing ToolFactory: FOP
+09:50:17.165 INFO  onContextFactoryImpl Initializing ToolFactory: Minio
+09:50:17.166 INFO  nio.MinioToolFactory Initializing MinIO Tool Factory
+09:50:17.166 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:50:17.166 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:50:17.166 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:50:17.166 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:50:17.166 INFO  ce.minio.MinioConfig   Secure: false
+09:50:17.166 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:50:17.166 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:50:17.166 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:50:17.167 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:50:17.167 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:50:17.167 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:50:17.167 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:50:17.167 INFO  ce.minio.MinioConfig   Secure: false
+09:50:17.167 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:50:17.167 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:50:17.167 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:50:17.615 INFO  o.MinioClientFactory MinIO client created successfully for endpoint: http://localhost:9000
+09:50:17.946 INFO  inio.MinioClientPool 新MinIO客户端已缓存: http://localhost:9000:admin:us-east-1:false
+09:50:17.959 INFO  nio.MinioToolFactory MinIO Tool Factory initialized successfully
+09:50:18.088 INFO  xt.ElasticFacadeImpl Initializing ElasticFacade Client for cluster default at 
+09:50:18.088 WARN  xt.ElasticFacadeImpl ElasticFacade Client for cluster default has no url, skipping
+09:50:18.090 WARN  xt.ElasticFacadeImpl No Elastic Client found with name 'logger' or 'default', not initializing ElasticSearchLogger
+09:50:18.090 INFO  onContextFactoryImpl Elastic Facade initialized
+09:50:18.090 INFO  onContextFactoryImpl Execution Context Factory initialized in 8.816 seconds
+09:50:18.106 INFO  onContextFactoryImpl Found 1813 Enumeration records, NOT loading empty-db-load data types (all)
+09:50:18.212 INFO  onContextFactoryImpl Initializing webapp webroot http://null:null https://null:null https enabled? false
+09:50:18.223 INFO  MoquiContextListener Added webapp filter ElasticRequestLogFilter on: [/*], [REQUEST]
+09:50:18.227 INFO  MoquiContextListener Added webapp filter ElasticAuthFilter on: [/elastic/*], []
+09:50:18.227 INFO  MoquiContextListener Added webapp filter KibanaAuthFilter on: [/kibana/*], []
+09:50:18.232 INFO  MoquiContextListener Added webapp listener org.moqui.impl.webapp.MoquiSessionListener
+09:50:18.257 INFO  MoquiContextListener Added servlet MoquiServlet on: [/*]
+09:50:18.261 INFO  MoquiContextListener Added servlet MoquiFopServlet on: [/fop/*]
+09:50:18.311 INFO  MoquiContextListener Added servlet ElasticSearchProxy on: [/elastic/*]
+09:50:18.326 INFO  MoquiContextListener Added servlet KibanaProxy on: [/kibana/*]
+09:50:18.334 INFO  MoquiContextListener Added servlet HtmlRenderServlet on: [/htmlr/*]
+09:50:18.341 INFO  MoquiContextListener Added servlet H2Console on: [/h2/*]
+09:50:18.341 INFO  MoquiContextListener Found WebSocket ServerContainer org.eclipse.jetty.websocket.javax.server.internal.JavaxWebSocketServerContainer
+09:50:18.367 INFO  MoquiContextListener Added WebSocket endpoint /notws for class org.moqui.impl.webapp.NotificationEndpoint
+09:50:18.368 INFO  MoquiContextListener Added WebSocket endpoint /groovysh for class org.moqui.impl.webapp.GroovyShellEndpoint
+09:50:18.368 INFO  MoquiContextListener Moqui Framework initialized in 9.364 seconds
+09:50:18.373 ERROR sticRequestLogFilter In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+09:50:18.477 INFO  bapp.MoquiFopServlet MoquiFopServlet initialized for webapp webroot
+09:50:18.477 INFO  .webapp.MoquiServlet MoquiServlet initialized for webapp webroot
+09:50:18.477 INFO  ndler.ContextHandler Started o.e.j.w.WebAppContext@60c16548{Moqui Root Webapp,/,file:///E:/moqui-framework/execwartmp/ROOT/webapp/,AVAILABLE}{file:/E:/moqui-framework/moqui.war}
+09:50:18.489 INFO  er.AbstractConnector Started ServerConnector@64337702{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+09:50:18.493 INFO  .jetty.server.Server Started Server@7fe083b1{STARTING}[10.0.25,sto=30000] @23249ms
+09:50:34.467 WARN  pl.util.SimpleSigner Could not initialize signing key qz-private-key.pem: org.moqui.BaseException: Could not find signing key resource qz-private-key.pem on classpath
+09:50:34.838 INFO  ity.EntityFacadeImpl Created 1520 automatic reverse relationships
+09:50:34.892 INFO  ntity.EntityDataFeed Built entity.data.feed.info cache in 108ms, entries for 62 entities
+09:50:35.321 INFO  een.ScreenRenderImpl Redirecting to /Login instead of rendering [qapps]
+09:50:35.338 INFO  een.ScreenRenderImpl qapps [] in 419ms (text/html;charset=utf-8) session node01g3ir58m2gicqzps2hs16p1m60
+09:50:36.730 INFO  een.ScreenRenderImpl Login [] in 1376ms (text/html;charset=utf-8) session node01g3ir58m2gicqzps2hs16p1m60
+09:50:37.015 INFO  ontext.WebFacadeImpl Streamed 1150 bytes from location component://webroot/screen/webroot/favicon.ico
+09:50:37.025 INFO  ontext.WebFacadeImpl Streamed 1150 bytes from location component://webroot/screen/webroot/favicon.ico
+09:50:38.648 WARN  util.MoquiShiroRealm Web login with IPv6 client IP 0:0:0:0:0:0:0:1 for userId EX_JOHN_DOE, not checking ipAllowed
+09:50:38.678 WARN  text.ContextJavaUtil Potential lock conflict entity moqui.server.Visit pk 101111 thread MoquiWorker-2 TX 24 began 2025-09-28 09:50:38.677 at: 
+00: AT_ENTITY:moqui.security.UserLoginHistory (AUTHZA_CREATE:create) 1ms TX 24
+== OTHER LOCK 0 thread qtp1058822905-51 TX 22 began 2025-09-28 09:50:38.396 at: 
+00: AT_ENTITY:moqui.server.Visit (AUTHZA_UPDATE:update) 156ms TX 22
+01: AT_XML_SCREEN_TRANS:component://webroot/screen/webroot/Login.xml/login (AUTHZA_VIEW:text/html) 282ms TX 22
+02: AT_XML_SCREEN:component://webroot/screen/webroot/Login.xml (AUTHZA_VIEW) 282ms TX 22
+03: AT_XML_SCREEN:component://webroot/screen/webroot.xml (AUTHZA_VIEW) 282ms TX 22
+09:50:38.721 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node01g3ir58m2gicqzps2hs16p1m60: java.lang.IllegalStateException: Invalid for read: id=node01g3ir58m2gicqzps2hs16p1m60 created=1759024234489 accessed=1759024238382 lastaccessed=1759024237022 maxInactiveMs=3600000 expiry=1759027838382
+09:50:38.721 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node01g3ir58m2gicqzps2hs16p1m60: java.lang.IllegalStateException: Invalid for read: id=node01g3ir58m2gicqzps2hs16p1m60 created=1759024234489 accessed=1759024238382 lastaccessed=1759024237022 maxInactiveMs=3600000 expiry=1759027838382
+09:50:38.722 INFO  een.ScreenRenderImpl Transition Login/login in 327ms, redirecting to screen path URL: http://localhost:8080/qapps
+09:50:38.966 INFO  een.ScreenRenderImpl qapps [] in 185ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:39.103 INFO  xt.MessageFacadeImpl [info] Geo IP lookup disabled
+09:50:40.189 INFO  ontext.WebFacadeImpl Service REST for GET to /rest/s1/mantle/my/userOrgInfo headers [Cookie, X-Requested-With, Accept, Connection, User-Agent, Referer, Sec-Fetch-Site, Sec-Fetch-Dest, Host, Accept-Encoding, Sec-Fetch-Mode, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform, Accept-Language] parameters []
+09:50:40.209 INFO  impl.service.RestApi Loaded REST API from mantle.rest.xml (392 paths, 416 methods)
+09:50:40.215 INFO  impl.service.RestApi Loaded REST API files, 4 roots, in 26ms
+09:50:41.963 INFO  een.ScreenRenderImpl apps/AppList [] in 1683ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:44.579 INFO  een.ScreenRenderImpl apps/minio [] in 3ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:44.609 INFO  een.ScreenRenderImpl apps/minio/Bucket [] in 7ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:44.681 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+09:50:44.682 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:50:44.683 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:50:44.683 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:50:44.683 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:50:44.683 INFO  ce.minio.MinioConfig   Secure: false
+09:50:44.683 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:50:44.683 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:50:44.683 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:50:44.896 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+09:50:45.465 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 848ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:49.129 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:system-resources] in 142ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:50:50.486 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:50:50.486 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:50:50.486 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:50:50.486 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:50:50.486 INFO  ce.minio.MinioConfig   Secure: false
+09:50:50.486 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:50:50.486 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:50:50.486 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:50:50.490 INFO  nioElFinderConnector getFiles called with target: system-resources_cm9vdA, tree: true
+09:50:50.491 INFO  nioElFinderConnector location: minio://system-resources/, objectName: 
+09:51:11.936 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+09:51:11.937 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:51:11.937 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:51:11.937 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:51:11.937 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:51:11.937 INFO  ce.minio.MinioConfig   Secure: false
+09:51:11.937 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:51:11.937 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:51:11.937 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:51:12.033 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+09:51:12.192 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 258ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:51:15.516 INFO  een.ScreenRenderImpl Redirecting with 205 and X-Redirect-To ../FindBucket instead of rendering [apps, minio, Bucket, FileExplorer]
+09:51:15.529 ERROR .FtlTemplateRenderer [Template Error: expression 'bucketName' was null or not found (template/screen-macro/DefaultScreenMacros.any.ftl->component://moqui-minio/screen/MinioApp/Bucket/FileExplorer/ElFinder.xml.render_mode.text:13,112)]
+09:51:15.533 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [] in 18ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:51:19.177 INFO  een.ScreenRenderImpl apps/AppList [] in 90ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:51:23.196 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+09:51:23.197 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:51:23.197 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:51:23.197 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:51:23.197 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:51:23.197 INFO  ce.minio.MinioConfig   Secure: false
+09:51:23.197 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:51:23.197 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:51:23.197 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:51:23.281 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+09:51:23.366 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 172ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:51:32.141 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 74ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:51:32.209 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:51:32.209 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:51:32.209 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:51:32.209 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:51:32.209 INFO  ce.minio.MinioConfig   Secure: false
+09:51:32.209 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:51:32.209 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:51:32.209 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:51:32.209 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+09:51:32.209 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+09:51:45.715 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:51:45.715 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:51:45.715 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:51:45.715 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:51:45.715 INFO  ce.minio.MinioConfig   Secure: false
+09:51:45.715 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:51:45.715 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:51:45.715 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:51:45.716 INFO  nioElFinderConnector Minio elFinder upload 短信验证功能参考.pdf to minio://test-m001/
+09:52:05.298 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:52:05.298 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:52:05.298 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:52:05.298 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:52:05.298 INFO  ce.minio.MinioConfig   Secure: false
+09:52:05.298 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:52:05.298 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:52:05.298 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:52:05.298 INFO  nioElFinderConnector Minio elFinder upload 短信验证功能参考.pdf to minio://test-m001/
+09:52:16.542 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103927 (last run 2025-09-25 18:15:52.909, schedule 2025-09-28T09:45+08:00[Asia/Shanghai])
+09:52:16.563 INFO  e.ScheduledJobRunner Running job clean_ArtifactData_daily run 103928 (last run 2025-09-25 02:00:01.066, schedule 2025-09-28T02:00+08:00[Asia/Shanghai])
+09:52:16.571 INFO  e.ScheduledJobRunner Running job clean_PrintJobData_daily run 103929 (last run 2025-09-25 02:00:01.066, schedule 2025-09-28T02:00+08:00[Asia/Shanghai])
+09:52:16.577 INFO  e.ScheduledJobRunner Running job clean_ServiceJobRun_daily run 103930 (last run 2025-09-25 02:00:01.066, schedule 2025-09-28T02:00+08:00[Asia/Shanghai])
+09:52:16.585 INFO  e.ScheduledJobRunner Running job create_RecurringOrders run 103931 (last run 2025-09-25 02:00:01.066, schedule 2025-09-28T02:00+08:00[Asia/Shanghai])
+09:52:16.589 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 103932 (last run 2025-09-25 18:00:52.909, schedule 2025-09-28T09:00+08:00[Asia/Shanghai])
+09:52:16.601 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103933 (last run 2025-09-25 18:15:52.909, schedule 2025-09-28T09:45+08:00[Asia/Shanghai])
+09:52:16.604 INFO  e.ScheduledJobRunner Ran 7 Service Jobs starting 2025-09-28T09:52:16.509472800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 7 of 12 job slots
+09:52:17.030 INFO  ext.LoggerFacadeImpl Removed 0 PrintJob records more than 7 days old
+09:52:17.142 INFO  ext.LoggerFacadeImpl Removed 0 ArtifactHit records and 0 ArtifactHitBin records more than 90 days old
+09:52:17.154 INFO  ext.LoggerFacadeImpl Removed 0 ServiceJobRun records.
+09:52:17.878 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-25 18:00:52.909, 3 time periods, organizations: [ORG_ZIZI_CORP]
+09:52:17.899 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 73ms; updated 0 Organization and 0 Period summary records
+09:53:58.182 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 83ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:53:58.218 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:53:58.218 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:53:58.218 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:53:58.218 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:53:58.218 INFO  ce.minio.MinioConfig   Secure: false
+09:53:58.218 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:53:58.218 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:53:58.218 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:53:58.218 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+09:53:58.218 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+09:53:58.239 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+09:54:12.609 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+09:54:12.611 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:54:12.611 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:54:12.611 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:54:12.611 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:54:12.611 INFO  ce.minio.MinioConfig   Secure: false
+09:54:12.611 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:54:12.611 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:54:12.611 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:54:12.675 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+09:54:12.804 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 197ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:54:18.692 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 59ms (text/html;charset=utf-8) session node01n8ngkq4v2gwx11elh0365qquc1
+09:54:18.746 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+09:54:18.746 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+09:54:18.746 INFO  ce.minio.MinioConfig   Access Key: adm***
+09:54:18.746 INFO  ce.minio.MinioConfig   Region: us-east-1
+09:54:18.746 INFO  ce.minio.MinioConfig   Secure: false
+09:54:18.746 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+09:54:18.746 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+09:54:18.746 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+09:54:18.747 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+09:54:18.748 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+09:54:18.788 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+11:47:09.549 INFO  .jetty.server.Server jetty-10.0.25; built: 2025-03-13T00:02:39.342Z; git: 96cc25d2f26c3fb61444b801be87640e59cf380e; jvm 11.0.6+8-LTS
+11:47:09.594 INFO  aultSessionIdManager Session workerName=node0
+11:47:14.432 INFO  dDescriptorProcessor NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+11:47:15.149 INFO  MoquiContextListener Loading Webapp 'webroot' (Moqui Root Webapp) on ROOT, located at: E:\moqui-framework\execwartmp\ROOT\webapp
+11:47:15.260 INFO  onContextFactoryImpl Initializing Moqui Framework version 3.1.0-rc2
+ - runtime directory: E:\moqui-framework\runtime
+ - runtime config:    E:\moqui-framework\runtime/conf/MoquiDevConf.xml
+11:47:15.260 INFO  onContextFactoryImpl Running on Java 11.0.6 VM 11.0.6+8-LTS Runtime 11.0.6+8-LTS
+11:47:15.932 INFO  onContextFactoryImpl Added component tools              at file:E:/moqui-framework/runtime/base-component/tools
+11:47:15.944 INFO  onContextFactoryImpl Added component webroot            at file:E:/moqui-framework/runtime/base-component/webroot
+11:47:15.946 INFO  onContextFactoryImpl Added component HiveMind           at file:E:/moqui-framework/runtime/component/HiveMind
+11:47:15.947 INFO  onContextFactoryImpl Added component SimpleScreens      at file:E:/moqui-framework/runtime/component/SimpleScreens
+11:47:15.959 INFO  onContextFactoryImpl Added component example            at file:E:/moqui-framework/runtime/component/example
+11:47:15.961 INFO  onContextFactoryImpl Added component mantle-udm         at file:E:/moqui-framework/runtime/component/mantle-udm
+11:47:15.963 INFO  onContextFactoryImpl Added component mantle-usl         at file:E:/moqui-framework/runtime/component/mantle-usl
+11:47:15.965 INFO  onContextFactoryImpl Added component moqui-fop          at file:E:/moqui-framework/runtime/component/moqui-fop
+11:47:15.966 INFO  onContextFactoryImpl Added component moqui-minio        at file:E:/moqui-framework/runtime/component/moqui-minio
+11:47:15.966 INFO  onContextFactoryImpl Components after depends-on sort: [tools, webroot, moqui-fop, mantle-udm, mantle-usl, SimpleScreens, HiveMind, example, moqui-minio]
+11:47:15.975 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component tools
+11:47:15.988 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component moqui-fop
+11:47:15.999 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component mantle-udm
+11:47:16.002 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component SimpleScreens
+11:47:16.004 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component HiveMind
+11:47:16.006 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component example
+11:47:16.009 INFO  onContextFactoryImpl Merging MoquiConf.xml file from component moqui-minio
+11:47:16.010 INFO  onContextFactoryImpl Merging runtime configuration at E:\moqui-framework\runtime/conf/MoquiDevConf.xml
+11:47:16.017 INFO  onContextFactoryImpl Setting property instance_purpose from default with value [dev]
+11:47:16.017 INFO  onContextFactoryImpl Setting property default_locale from default with value [zh_CN]
+11:47:16.017 INFO  onContextFactoryImpl Setting property default_time_zone from default with value [Asia/Shanghai]
+11:47:16.017 INFO  onContextFactoryImpl Setting property database_time_zone from default with value [Asia/Shanghai]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_https_enabled from default with value [false]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_allow_origins from default with value [*]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_handle_cors from default with value [true]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_status_ips from default with value [127.0.0.1]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_require_session_token from default with value [true]
+11:47:16.017 INFO  onContextFactoryImpl Setting property webapp_upload_executable_allow from default with value [false]
+11:47:16.017 INFO  onContextFactoryImpl Setting property entity_ds_db_conf from default with value [h2]
+11:47:16.017 INFO  onContextFactoryImpl Setting property entity_ds_host from default with value [127.0.0.1]
+11:47:16.017 INFO  onContextFactoryImpl Setting property entity_ds_database from default with value [moqui]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_ds_url from default with value [jdbc:h2:E:\moqui-framework\runtime/db/h2/moqui;lock_timeout=30000]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_ds_user from default with value [sa]
+11:47:16.034 INFO  onContextFactoryImpl Setting secret property entity_ds_password from default
+11:47:16.034 INFO  onContextFactoryImpl Setting secret property entity_ds_crypt_pass from default
+11:47:16.034 INFO  onContextFactoryImpl Setting secret property entity_ds_crypt_pass_old from default
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_add_missing_runtime from default with value [false]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_add_missing_startup from default with value [true]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_lock_track from default with value [true]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_statement_timeout from default with value [false]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_empty_db_load from default with value [all]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_on_start_load_types from default with value [none]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_ds_c1_disabled from default with value [true]
+11:47:16.034 INFO  onContextFactoryImpl Setting property entity_ds_c1_db_conf from default with value [mysql]
+11:47:16.034 INFO  onContextFactoryImpl Setting property scheduled_job_check_time from default with value [60]
+11:47:16.034 INFO  onContextFactoryImpl Setting property kibana_host from default with value [127.0.0.1]
+11:47:16.034 INFO  onContextFactoryImpl Setting property kibana_port from default with value [5601]
+11:47:16.034 INFO  onContextFactoryImpl Setting property minio.endpoint from default with value [http://localhost:9000]
+11:47:16.034 INFO  onContextFactoryImpl Setting property minio.accessKey from default with value [admin]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.secretKey from default with value [admin123]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.region from default with value [us-east-1]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.secure from default with value [false]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.connectionTimeout from default with value [10000]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.readTimeout from default with value [10000]
+11:47:16.035 INFO  onContextFactoryImpl Setting property minio.writeTimeout from default with value [10000]
+11:47:16.035 INFO  onContextFactoryImpl Found default_time_zone Asia/Shanghai: sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+11:47:16.035 INFO  onContextFactoryImpl Default locale zh_CN, time zone sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+11:47:16.068 INFO  onContextFactoryImpl Initializing worker ThreadPoolExecutor: queue limit 65535, pool-core 16, pool-max 32, pool-alive 60s
+11:47:16.082 INFO  onContextFactoryImpl Initializing MClassLoader context MoquiStart$StartClassLoader cur class MoquiStart$StartClassLoader system null
+11:47:16.087 INFO  onContextFactoryImpl Initialized MClassLoader with parent MoquiStart$StartClassLoader
+11:47:18.307 INFO  onContextFactoryImpl Added JARs from component moqui-fop: [antlr4-runtime-4.5.3.jar, avalon-framework-api-4.3.1.jar, avalon-framework-impl-4.3.1.jar, barcode4j-2.1.jar, barcode4j-fop-ext-2.1.jar, batik-anim-1.17.jar, batik-awt-util-1.17.jar, batik-bridge-1.17.jar, batik-codec-1.17.jar, batik-constants-1.17.jar, batik-css-1.17.jar, batik-dom-1.17.jar, batik-ext-1.17.jar, batik-extension-1.17.jar, batik-gvt-1.17.jar, batik-i18n-1.17.jar, batik-parser-1.17.jar, batik-script-1.17.jar, batik-shared-resources-1.17.jar, batik-svg-dom-1.17.jar, batik-svggen-1.17.jar, batik-transcoder-1.17.jar, batik-util-1.17.jar, batik-xml-1.17.jar, cssbox-4.17.jar, cssbox-pdf-1.0-SNAPSHOT.jar, fontbox-3.0.0.jar, fop-core-2.9.jar, fop-events-2.9.jar, fop-util-2.9.jar, jstyleparser-3.5.jar, moqui-fop-1.1.3.jar, nekohtml-1.9.22.jar, pdfbox-3.0.0.jar, pdfbox-io-3.0.0.jar, qdox-1.12.jar, unbescape-1.1.6.RELEASE.jar, xercesImpl-2.12.2.jar, xml-apis-1.4.01.jar, xml-apis-ext-1.3.04.jar, xmlgraphics-commons-2.9.jar]
+11:47:18.310 INFO  onContextFactoryImpl Added JARs from component example: [example-3.0.0.jar]
+11:47:19.029 INFO  onContextFactoryImpl Added JARs from component moqui-minio: [bcprov-jdk18on-1.78.jar, checker-qual-3.41.0.jar, commons-compress-1.26.0.jar, error_prone_annotations-2.23.0.jar, failureaccess-1.0.2.jar, guava-33.0.0-jre.jar, jsr305-3.0.2.jar, kotlin-stdlib-1.9.10.jar, kotlin-stdlib-common-1.9.10.jar, kotlin-stdlib-jdk7-1.9.10.jar, kotlin-stdlib-jdk8-1.9.10.jar, listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar, minio-8.5.12.jar, moqui-minio-1.0.0.jar, okhttp-4.12.0.jar, okio-jvm-3.6.0.jar, simple-xml-safe-2.7.1.jar, snappy-java-1.1.10.5.jar]
+11:47:19.029 INFO  onContextFactoryImpl Initialized ClassLoaders in 2953ms
+11:47:19.032 INFO  onContextFactoryImpl Not loading disabled ToolFactory with class: org.moqui.impl.tools.JackrabbitRunToolFactory
+11:47:19.032 INFO  onContextFactoryImpl Not loading disabled ToolFactory with class: org.moqui.impl.tools.SubEthaSmtpToolFactory
+11:47:19.034 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.tools.MCacheToolFactory
+11:47:19.045 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.tools.H2ServerToolFactory
+11:47:19.049 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.fop.FopToolFactory
+11:47:19.056 INFO  onContextFactoryImpl Loading ToolFactory with class: org.moqui.impl.service.minio.MinioToolFactory
+11:47:19.067 INFO  onContextFactoryImpl Cache Facade initialized
+11:47:19.282 INFO  t.ResourceFacadeImpl Using xsl-fo-handler-factory FOP (org.moqui.fop.FopToolFactory)
+11:47:19.282 INFO  onContextFactoryImpl Resource Facade initialized
+11:47:19.357 WARN  nix.tm.Configuration Cannot get the unique server ID for this JVM ('bitronix.tm.serverId'). Make sure it is configured and you use only US-ASCII characters. Will use IP address instead (unsafe for production usage!).
+11:47:19.392 WARN  .journal.DiskJournal active log file is unclean, did you call BitronixTransactionManager.shutdown() at the end of the last run?
+11:47:19.640 INFO  ransactionFacadeImpl Internal transaction manager initialized: UserTransaction class bitronix.tm.BitronixTransactionManager, TransactionManager class bitronix.tm.BitronixTransactionManager
+11:47:19.640 INFO  onContextFactoryImpl Transaction Facade initialized
+11:47:19.764 INFO  ity.EntityFacadeImpl Database time zone is sun.util.calendar.ZoneInfo[id="Asia/Shanghai",offset=28800000,dstSavings=0,useDaylight=false,transitions=29,lastRule=null]
+11:47:19.938 INFO  tionInternalBitronix Initializing DataSource transactional_DS (h2) with properties: [user:sa, url:jdbc:h2:E:\moqui-framework\runtime/db/h2/moqui;lock_timeout=30000]
+11:47:21.628 INFO  tionInternalBitronix Init DataSource transactional_DS (h2) isolation READ_COMMITTED (2), max pool 50
+11:47:21.656 INFO  ity.EntityFacadeImpl Skipping disabled datasource transactional#clone1
+11:47:21.680 INFO  l.entity.EntityCache Entity Cache initialized, distributed cache invalidate enabled: false
+11:47:21.701 INFO  onContextFactoryImpl Entity Facade initialized
+11:47:21.972 INFO  impl.service.RestApi Loaded REST API from moqui.rest.xml (83 paths, 89 methods)
+11:47:21.993 INFO  impl.service.RestApi Loaded REST API from mantle.rest.xml (392 paths, 416 methods)
+11:47:22.001 INFO  impl.service.RestApi Loaded REST API from example.rest.xml (12 paths, 28 methods)
+11:47:22.004 INFO  impl.service.RestApi Loaded REST API from minio.rest.xml (2 paths, 5 methods)
+11:47:22.005 INFO  impl.service.RestApi Loaded REST API files, 4 roots, in 236ms
+11:47:22.005 INFO  ce.ServiceFacadeImpl Setting Service Job worker pool size to 12 based on available processors * 2
+11:47:22.005 INFO  ce.ServiceFacadeImpl Initializing Service Job ThreadPoolExecutor: queue limit 0, pool-core 2, pool-max 12, pool-alive 120s
+11:47:22.005 INFO  onContextFactoryImpl Service Facade initialized
+11:47:22.025 INFO  onContextFactoryImpl Screen Facade initialized
+11:47:22.025 INFO  ity.EntityFacadeImpl Loading entity definitions
+11:47:22.419 INFO  ity.EntityFacadeImpl Found entities in 45 files in 394ms
+11:47:22.843 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+11:47:23.053 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.party.PartyDimension
+11:47:23.064 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimension
+11:47:23.069 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimensionAndType
+11:47:23.071 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimension
+11:47:23.074 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimensionAndType
+11:47:23.519 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity moqui.screen.form.DbFormFieldAttribute
+11:47:23.525 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity moqui.screen.form.DbFormFieldEntOptsCond
+11:47:23.597 INFO  ity.EntityFacadeImpl Loaded 883 entity definitions in 1572ms
+11:47:23.626 INFO  ity.EntityFacadeImpl Checking tables for entities in groups [transactional]
+11:47:23.678 INFO  ity.EntityFacadeImpl Checked tables for all entities in 0.079 seconds
+11:47:23.724 INFO  ity.EntityFacadeImpl Loaded 25 Entity ECA rules from 5 .eecas.xml files, 0 rules have no id, 25 EECA rules active
+11:47:23.876 INFO  ce.ServiceFacadeImpl Loaded 60 Service ECA rules from 10 .secas.xml files, 0 rules have no id, 60 SECA rules active
+11:47:23.884 INFO  ce.ServiceFacadeImpl Loaded [1] Email ECA rules from [file:E:/moqui-framework/runtime/component/example/service/Example.emecas.xml]
+11:47:23.885 INFO  ce.ServiceFacadeImpl No distributed-factory specified, distributed async service calls will be run local only
+11:47:23.894 INFO  ce.ServiceFacadeImpl Starting Scheduled Service Job Runner, checking for jobs every 60 seconds after a 120 second initial delay
+11:47:23.921 INFO  onContextFactoryImpl Initializing ToolFactory: MCache
+11:47:23.921 INFO  onContextFactoryImpl Initializing ToolFactory: H2Server
+11:47:23.970 INFO  .H2ServerToolFactory Started H2 remote server on port 9092 status: TCP server running at tcp://172.30.208.1:9092 (only local connections)
+11:47:23.970 INFO  .H2ServerToolFactory H2 args: [-tcpPort, 9092, -ifExists, -baseDir, E:\moqui-framework\runtime/db/h2]
+11:47:23.972 INFO  .H2ServerToolFactory Found shutdown hook: org.eclipse.jetty.util.thread.ShutdownThread Thread[JettyShutdownThread,5,main]
+11:47:23.972 INFO  .H2ServerToolFactory Found shutdown hook: java.util.logging.LogManager$Cleaner Thread[Logging-Cleaner,5,main]
+11:47:23.972 INFO  .H2ServerToolFactory Found shutdown hook: org.h2.engine.OnExitDatabaseCloser Thread[Thread-10,5,main]
+11:47:23.972 INFO  .H2ServerToolFactory Removing H2 shutdown hook with class org.h2.engine.OnExitDatabaseCloser
+11:47:23.972 INFO  onContextFactoryImpl Initializing ToolFactory: FOP
+11:47:24.743 INFO  onContextFactoryImpl Initializing ToolFactory: Minio
+11:47:24.743 INFO  nio.MinioToolFactory Initializing MinIO Tool Factory
+11:47:24.744 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+11:47:24.744 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+11:47:24.744 INFO  ce.minio.MinioConfig   Access Key: adm***
+11:47:24.744 INFO  ce.minio.MinioConfig   Region: us-east-1
+11:47:24.744 INFO  ce.minio.MinioConfig   Secure: false
+11:47:24.744 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+11:47:24.744 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+11:47:24.744 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+11:47:24.746 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+11:47:24.746 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+11:47:24.746 INFO  ce.minio.MinioConfig   Access Key: adm***
+11:47:24.746 INFO  ce.minio.MinioConfig   Region: us-east-1
+11:47:24.746 INFO  ce.minio.MinioConfig   Secure: false
+11:47:24.746 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+11:47:24.746 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+11:47:24.746 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+11:47:25.436 INFO  o.MinioClientFactory MinIO client created successfully for endpoint: http://localhost:9000
+11:47:25.717 INFO  inio.MinioClientPool 新MinIO客户端已缓存: http://localhost:9000:admin:us-east-1:false
+11:47:25.730 INFO  nio.MinioToolFactory MinIO Tool Factory initialized successfully
+11:47:25.859 INFO  xt.ElasticFacadeImpl Initializing ElasticFacade Client for cluster default at 
+11:47:25.859 WARN  xt.ElasticFacadeImpl ElasticFacade Client for cluster default has no url, skipping
+11:47:25.863 WARN  xt.ElasticFacadeImpl No Elastic Client found with name 'logger' or 'default', not initializing ElasticSearchLogger
+11:47:25.863 INFO  onContextFactoryImpl Elastic Facade initialized
+11:47:25.863 INFO  onContextFactoryImpl Execution Context Factory initialized in 10.676 seconds
+11:47:25.942 INFO  onContextFactoryImpl Found 1813 Enumeration records, NOT loading empty-db-load data types (all)
+11:47:26.197 INFO  onContextFactoryImpl Initializing webapp webroot http://null:null https://null:null https enabled? false
+11:47:26.206 INFO  MoquiContextListener Added webapp filter ElasticRequestLogFilter on: [/*], [REQUEST]
+11:47:26.209 INFO  MoquiContextListener Added webapp filter ElasticAuthFilter on: [/elastic/*], []
+11:47:26.209 INFO  MoquiContextListener Added webapp filter KibanaAuthFilter on: [/kibana/*], []
+11:47:26.214 INFO  MoquiContextListener Added webapp listener org.moqui.impl.webapp.MoquiSessionListener
+11:47:26.242 INFO  MoquiContextListener Added servlet MoquiServlet on: [/*]
+11:47:26.245 INFO  MoquiContextListener Added servlet MoquiFopServlet on: [/fop/*]
+11:47:26.280 INFO  MoquiContextListener Added servlet ElasticSearchProxy on: [/elastic/*]
+11:47:26.312 INFO  MoquiContextListener Added servlet KibanaProxy on: [/kibana/*]
+11:47:26.326 INFO  MoquiContextListener Added servlet HtmlRenderServlet on: [/htmlr/*]
+11:47:26.333 INFO  MoquiContextListener Added servlet H2Console on: [/h2/*]
+11:47:26.333 INFO  MoquiContextListener Found WebSocket ServerContainer org.eclipse.jetty.websocket.javax.server.internal.JavaxWebSocketServerContainer
+11:47:26.378 INFO  MoquiContextListener Added WebSocket endpoint /notws for class org.moqui.impl.webapp.NotificationEndpoint
+11:47:26.378 INFO  MoquiContextListener Added WebSocket endpoint /groovysh for class org.moqui.impl.webapp.GroovyShellEndpoint
+11:47:26.379 INFO  MoquiContextListener Moqui Framework initialized in 11.46 seconds
+11:47:26.381 ERROR sticRequestLogFilter In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+11:47:26.474 INFO  bapp.MoquiFopServlet MoquiFopServlet initialized for webapp webroot
+11:47:26.474 INFO  .webapp.MoquiServlet MoquiServlet initialized for webapp webroot
+11:47:26.474 INFO  ndler.ContextHandler Started o.e.j.w.WebAppContext@39ce27f2{Moqui Root Webapp,/,file:///E:/moqui-framework/execwartmp/ROOT/webapp/,AVAILABLE}{file:/E:/moqui-framework/moqui.war}
+11:47:26.480 INFO  er.AbstractConnector Started ServerConnector@756cf158{HTTP/1.1, (http/1.1)}{0.0.0.0:8080}
+11:47:26.484 INFO  .jetty.server.Server Started Server@8ab78bc{STARTING}[10.0.25,sto=30000] @24803ms
+11:49:24.290 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.party.PartyDimension
+11:49:24.307 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimension
+11:49:24.310 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductDimensionAndType
+11:49:24.314 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimension
+11:49:24.318 INFO  mpl.entity.FieldInfo Replacing column name VALUE with replace name THE_VALUE for entity mantle.product.ProductUomDimensionAndType
+11:49:24.405 INFO  ity.EntityFacadeImpl Created 1520 automatic reverse relationships
+11:49:24.474 INFO  ntity.EntityDataFeed Built entity.data.feed.info cache in 463ms, entries for 62 entities
+11:49:24.489 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103978 (last run 2025-09-28 09:52:16.509, schedule 2025-09-28T11:45+08:00[Asia/Shanghai])
+11:49:24.559 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 103979 (last run 2025-09-28 09:52:16.509, schedule 2025-09-28T11:00+08:00[Asia/Shanghai])
+11:49:24.593 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103980 (last run 2025-09-28 09:52:16.509, schedule 2025-09-28T11:45+08:00[Asia/Shanghai])
+11:49:24.604 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T11:49:23.926182100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+11:49:27.274 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 09:52:16.509, 3 time periods, organizations: [ORG_ZIZI_CORP]
+11:49:27.311 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 150ms; updated 0 Organization and 0 Period summary records
+12:00:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103981 (last run 2025-09-28 11:49:23.926, schedule 2025-09-28T12:00+08:00[Asia/Shanghai])
+12:00:23.948 INFO  ity.EntityFacadeImpl Found entities in 45 files in 22ms
+12:00:23.949 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:00:23.958 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 103982 (last run 2025-09-28 11:49:23.926, schedule 2025-09-28T12:00+08:00[Asia/Shanghai])
+12:00:23.964 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103983 (last run 2025-09-28 11:49:23.926, schedule 2025-09-28T12:00+08:00[Asia/Shanghai])
+12:00:23.967 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T12:00:23.922685100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+12:00:24.147 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 11:49:23.926, 3 time periods, organizations: [ORG_ZIZI_CORP]
+12:00:24.152 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 8ms; updated 0 Organization and 0 Period summary records
+12:15:23.942 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103984 (last run 2025-09-28 12:00:23.922, schedule 2025-09-28T12:15+08:00[Asia/Shanghai])
+12:15:23.959 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+12:15:23.959 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:15:23.967 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103985 (last run 2025-09-28 12:00:23.922, schedule 2025-09-28T12:15+08:00[Asia/Shanghai])
+12:15:23.972 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T12:15:23.928547600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+12:30:23.942 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103986 (last run 2025-09-28 12:15:23.928, schedule 2025-09-28T12:30+08:00[Asia/Shanghai])
+12:30:23.960 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+12:30:23.960 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:30:23.974 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103987 (last run 2025-09-28 12:15:23.928, schedule 2025-09-28T12:30+08:00[Asia/Shanghai])
+12:30:23.976 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T12:30:23.934430500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+12:45:23.941 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103988 (last run 2025-09-28 12:30:23.934, schedule 2025-09-28T12:45+08:00[Asia/Shanghai])
+12:45:23.975 INFO  ity.EntityFacadeImpl Found entities in 45 files in 30ms
+12:45:23.976 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:45:24.025 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103989 (last run 2025-09-28 12:30:23.934, schedule 2025-09-28T12:45+08:00[Asia/Shanghai])
+12:45:24.027 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T12:45:23.930797400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:00:23.927 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103990 (last run 2025-09-28 12:45:23.93, schedule 2025-09-28T13:00+08:00[Asia/Shanghai])
+13:00:23.946 INFO  ity.EntityFacadeImpl Found entities in 45 files in 18ms
+13:00:23.946 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:00:23.953 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 103991 (last run 2025-09-28 12:00:23.922, schedule 2025-09-28T13:00+08:00[Asia/Shanghai])
+13:00:23.958 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103992 (last run 2025-09-28 12:45:23.93, schedule 2025-09-28T13:00+08:00[Asia/Shanghai])
+13:00:23.962 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T13:00:23.923980100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+13:00:24.208 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 12:00:23.922, 3 time periods, organizations: [ORG_ZIZI_CORP]
+13:00:24.214 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 49ms; updated 0 Organization and 0 Period summary records
+13:15:23.932 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103993 (last run 2025-09-28 13:00:23.923, schedule 2025-09-28T13:15+08:00[Asia/Shanghai])
+13:15:23.944 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+13:15:23.945 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:15:23.950 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103994 (last run 2025-09-28 13:00:23.923, schedule 2025-09-28T13:15+08:00[Asia/Shanghai])
+13:15:23.951 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T13:15:23.929478+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:30:23.931 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103995 (last run 2025-09-28 13:15:23.929, schedule 2025-09-28T13:30+08:00[Asia/Shanghai])
+13:30:23.945 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+13:30:23.946 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:30:23.989 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103996 (last run 2025-09-28 13:15:23.929, schedule 2025-09-28T13:30+08:00[Asia/Shanghai])
+13:30:23.991 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T13:30:23.928610100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:45:23.930 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103997 (last run 2025-09-28 13:30:23.928, schedule 2025-09-28T13:45+08:00[Asia/Shanghai])
+13:45:23.947 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+13:45:23.947 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:45:23.994 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 103998 (last run 2025-09-28 13:30:23.928, schedule 2025-09-28T13:45+08:00[Asia/Shanghai])
+13:45:23.998 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T13:45:23.920890800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+14:00:23.930 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 103999 (last run 2025-09-28 13:45:23.92, schedule 2025-09-28T14:00+08:00[Asia/Shanghai])
+14:00:23.939 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+14:00:23.939 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+14:00:23.944 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104000 (last run 2025-09-28 13:00:23.923, schedule 2025-09-28T14:00+08:00[Asia/Shanghai])
+14:00:23.951 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104001 (last run 2025-09-28 13:45:23.92, schedule 2025-09-28T14:00+08:00[Asia/Shanghai])
+14:00:23.954 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T14:00:23.923184700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+14:00:24.143 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 13:00:23.923, 3 time periods, organizations: [ORG_ZIZI_CORP]
+14:00:24.148 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 44ms; updated 0 Organization and 0 Period summary records
+14:09:42.411 INFO  ity.EntityFacadeImpl Found entities in 45 files in 20ms
+14:09:42.411 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+14:09:42.432 WARN  .webapp.MoquiServlet In MoquiServlet.service there is already an ExecutionContext for user null (from 23:qtp1191864687-23) in this thread (23:qtp1191864687-23), destroying
+14:09:42.441 WARN  pl.util.SimpleSigner Could not initialize signing key qz-private-key.pem: org.moqui.BaseException: Could not find signing key resource qz-private-key.pem on classpath
+14:09:43.773 INFO  een.ScreenRenderImpl Redirecting to /Login instead of rendering [qapps]
+14:09:43.800 INFO  een.ScreenRenderImpl qapps [] in 435ms (text/html;charset=utf-8) session node015fmzaj0wpnpj1anuj7qhqf70w0
+14:09:44.546 INFO  een.ScreenRenderImpl Login [] in 696ms (text/html;charset=utf-8) session node015fmzaj0wpnpj1anuj7qhqf70w0
+14:09:46.085 WARN  util.MoquiShiroRealm Web login with IPv6 client IP 0:0:0:0:0:0:0:1 for userId EX_JOHN_DOE, not checking ipAllowed
+14:09:46.106 WARN  text.ContextJavaUtil Potential lock conflict entity moqui.server.Visit pk 101212 thread MoquiWorker-4 TX 306 began 2025-09-28 14:09:46.106 at: 
+00: AT_ENTITY:moqui.security.UserLoginHistory (AUTHZA_CREATE:create) 0ms TX 306
+== OTHER LOCK 0 thread qtp1191864687-20 TX 304 began 2025-09-28 14:09:45.924 at: 
+00: AT_ENTITY:moqui.server.Visit (AUTHZA_UPDATE:update) 106ms TX 304
+01: AT_XML_SCREEN_TRANS:component://webroot/screen/webroot/Login.xml/login (AUTHZA_VIEW:text/html) 182ms TX 304
+02: AT_XML_SCREEN:component://webroot/screen/webroot/Login.xml (AUTHZA_VIEW) 182ms TX 304
+03: AT_XML_SCREEN:component://webroot/screen/webroot.xml (AUTHZA_VIEW) 182ms TX 304
+14:09:46.200 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node015fmzaj0wpnpj1anuj7qhqf70w0: java.lang.IllegalStateException: Invalid for read: id=node015fmzaj0wpnpj1anuj7qhqf70w0 created=1759039782474 accessed=1759039785909 lastaccessed=1759039784626 maxInactiveMs=3600000 expiry=1759043385909
+14:09:46.201 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node015fmzaj0wpnpj1anuj7qhqf70w0: java.lang.IllegalStateException: Invalid for read: id=node015fmzaj0wpnpj1anuj7qhqf70w0 created=1759039782474 accessed=1759039785909 lastaccessed=1759039784626 maxInactiveMs=3600000 expiry=1759043385909
+14:09:46.201 INFO  een.ScreenRenderImpl Transition Login/login in 278ms, redirecting to screen path URL: http://localhost:8080/qapps
+14:09:46.303 INFO  een.ScreenRenderImpl qapps [] in 91ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:09:46.305 INFO  xt.MessageFacadeImpl [info] Geo IP lookup disabled
+14:09:47.305 INFO  ontext.WebFacadeImpl Service REST for GET to /rest/s1/mantle/my/userOrgInfo headers [Cookie, X-Requested-With, Accept, Connection, User-Agent, Referer, Sec-Fetch-Site, Sec-Fetch-Dest, Host, Accept-Encoding, Sec-Fetch-Mode, sec-ch-ua, sec-ch-ua-mobile, sec-ch-ua-platform, Accept-Language] parameters []
+14:09:47.318 INFO  impl.service.RestApi Loaded REST API from mantle.rest.xml (392 paths, 416 methods)
+14:09:47.321 INFO  impl.service.RestApi Loaded REST API files, 4 roots, in 13ms
+14:09:48.003 INFO  een.ScreenRenderImpl apps/AppList [] in 812ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:09:49.396 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+14:09:49.396 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:09:49.399 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:09:49.399 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:09:49.399 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:09:49.399 INFO  ce.minio.MinioConfig   Secure: false
+14:09:49.399 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:09:49.399 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:09:49.399 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:09:49.543 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+14:09:50.109 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 768ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:10:02.912 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 182ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:10:03.230 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:10:03.230 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:10:03.230 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:10:03.230 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:10:03.230 INFO  ce.minio.MinioConfig   Secure: false
+14:10:03.230 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:10:03.230 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:10:03.230 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:10:03.235 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+14:10:03.235 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+14:10:03.250 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+14:15:23.936 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104002 (last run 2025-09-28 14:00:23.923, schedule 2025-09-28T14:15+08:00[Asia/Shanghai])
+14:15:23.951 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+14:15:23.951 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+14:15:23.957 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104003 (last run 2025-09-28 14:00:23.923, schedule 2025-09-28T14:15+08:00[Asia/Shanghai])
+14:15:23.959 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T14:15:23.929085400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+14:26:20.946 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 121ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:26:20.991 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:26:20.991 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:26:20.991 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:26:20.991 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:26:20.992 INFO  ce.minio.MinioConfig   Secure: false
+14:26:20.992 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:26:20.992 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:26:20.992 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:26:20.992 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+14:26:20.992 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+14:26:21.020 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+14:26:24.950 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+14:26:24.952 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:26:24.952 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:26:24.952 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:26:24.952 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:26:24.952 INFO  ce.minio.MinioConfig   Secure: false
+14:26:24.952 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:26:24.952 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:26:24.952 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:26:25.032 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+14:26:25.138 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 190ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:30:23.939 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104004 (last run 2025-09-28 14:15:23.929, schedule 2025-09-28T14:30+08:00[Asia/Shanghai])
+14:30:23.960 INFO  ity.EntityFacadeImpl Found entities in 45 files in 20ms
+14:30:23.961 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+14:30:23.966 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104005 (last run 2025-09-28 14:15:23.929, schedule 2025-09-28T14:30+08:00[Asia/Shanghai])
+14:30:23.968 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T14:30:23.934435100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+14:36:38.858 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:system-resources] in 66ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:36:38.932 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:36:38.932 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:36:38.932 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:36:38.932 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:36:38.932 INFO  ce.minio.MinioConfig   Secure: false
+14:36:38.932 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:36:38.932 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:36:38.932 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:36:38.933 INFO  nioElFinderConnector getFiles called with target: system-resources_cm9vdA, tree: true
+14:36:38.933 INFO  nioElFinderConnector location: minio://system-resources/, objectName: 
+14:39:38.985 INFO  ext.LoggerFacadeImpl 管理员用户 EX_JOHN_DOE 查看所有用户的存储桶
+14:39:38.987 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:39:38.987 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:39:38.987 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:39:38.987 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:39:38.987 INFO  ce.minio.MinioConfig   Secure: false
+14:39:38.987 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:39:38.987 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:39:38.987 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:39:39.061 INFO  ext.LoggerFacadeImpl 查询存储桶成功: 当前用户=EX_JOHN_DOE, 查询用户=所有用户, 找到 9 个存储桶
+14:39:39.184 INFO  een.ScreenRenderImpl apps/minio/Bucket/FindBucket [] in 200ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:39:42.621 INFO  een.ScreenRenderImpl apps/minio/Bucket/FileExplorer [bucketName:test-m001] in 3ms (text/html;charset=utf-8) session node01q0gqtef6t9zk1fknfg82lhpj91
+14:39:42.675 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:39:42.675 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:39:42.675 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:39:42.675 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:39:42.675 INFO  ce.minio.MinioConfig   Secure: false
+14:39:42.675 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:39:42.675 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:39:42.675 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:39:42.676 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+14:39:42.676 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+14:39:42.691 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+14:42:35.996 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:42:35.996 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:42:35.996 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:42:35.996 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:42:35.996 INFO  ce.minio.MinioConfig   Secure: false
+14:42:35.996 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:42:35.996 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:42:35.996 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:42:36.018 INFO  ce.minio.MinioConfig MinIO Configuration initialized:
+14:42:36.018 INFO  ce.minio.MinioConfig   Endpoint: http://localhost:9000
+14:42:36.018 INFO  ce.minio.MinioConfig   Access Key: adm***
+14:42:36.018 INFO  ce.minio.MinioConfig   Region: us-east-1
+14:42:36.018 INFO  ce.minio.MinioConfig   Secure: false
+14:42:36.018 INFO  ce.minio.MinioConfig   Connection Timeout: 10000ms
+14:42:36.018 INFO  ce.minio.MinioConfig   Read Timeout: 10000ms
+14:42:36.018 INFO  ce.minio.MinioConfig   Write Timeout: 10000ms
+14:42:36.019 INFO  nioElFinderConnector getFiles called with target: test-m001_cm9vdA, tree: true
+14:42:36.019 INFO  nioElFinderConnector location: minio://test-m001/, objectName: 
+14:42:36.038 INFO  nioElFinderConnector Processing item: 短信验证功能参考.pdf (isDir: false)
+14:45:23.935 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104006 (last run 2025-09-28 14:30:23.934, schedule 2025-09-28T14:45+08:00[Asia/Shanghai])
+14:45:23.963 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+14:45:23.964 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+14:45:24.005 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104007 (last run 2025-09-28 14:30:23.934, schedule 2025-09-28T14:45+08:00[Asia/Shanghai])
+14:45:24.012 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T14:45:23.931075+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+15:00:23.923 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104008 (last run 2025-09-28 14:45:23.931, schedule 2025-09-28T15:00+08:00[Asia/Shanghai])
+15:00:23.934 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+15:00:23.934 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+15:00:23.971 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104009 (last run 2025-09-28 14:00:23.923, schedule 2025-09-28T15:00+08:00[Asia/Shanghai])
+15:00:23.975 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104010 (last run 2025-09-28 14:45:23.931, schedule 2025-09-28T15:00+08:00[Asia/Shanghai])
+15:00:23.980 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T15:00:23.921527800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+15:00:24.483 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 14:00:23.923, 3 time periods, organizations: [ORG_ZIZI_CORP]
+15:00:24.486 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 5ms; updated 0 Organization and 0 Period summary records
+15:09:46.893 INFO  oquiAbstractEndpoint Timeout in WebSocket Session f75a7f4f-6d46-4121-b5a2-3662b7cda4fc, User EX_JOHN_DOE (john.doe): Connection Idle Timeout
+15:15:23.932 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104011 (last run 2025-09-28 15:00:23.921, schedule 2025-09-28T15:15+08:00[Asia/Shanghai])
+15:15:23.945 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+15:15:23.946 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+15:15:23.982 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104012 (last run 2025-09-28 15:00:23.921, schedule 2025-09-28T15:15+08:00[Asia/Shanghai])
+15:15:23.984 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T15:15:23.929981+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+15:30:23.930 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104013 (last run 2025-09-28 15:15:23.929, schedule 2025-09-28T15:30+08:00[Asia/Shanghai])
+15:30:23.944 INFO  ity.EntityFacadeImpl Found entities in 45 files in 12ms
+15:30:23.945 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+15:30:23.995 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104014 (last run 2025-09-28 15:15:23.929, schedule 2025-09-28T15:30+08:00[Asia/Shanghai])
+15:30:24.003 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T15:30:23.927206300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+15:45:23.922 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104015 (last run 2025-09-28 15:30:23.927, schedule 2025-09-28T15:45+08:00[Asia/Shanghai])
+15:45:23.933 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+15:45:23.934 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+15:45:23.998 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104016 (last run 2025-09-28 15:30:23.927, schedule 2025-09-28T15:45+08:00[Asia/Shanghai])
+15:45:24.001 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T15:45:23.920649700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+16:00:23.932 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104017 (last run 2025-09-28 15:45:23.92, schedule 2025-09-28T16:00+08:00[Asia/Shanghai])
+16:00:23.957 INFO  ity.EntityFacadeImpl Found entities in 45 files in 21ms
+16:00:23.957 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+16:00:23.962 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104018 (last run 2025-09-28 15:00:23.921, schedule 2025-09-28T16:00+08:00[Asia/Shanghai])
+16:00:23.996 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104019 (last run 2025-09-28 15:45:23.92, schedule 2025-09-28T16:00+08:00[Asia/Shanghai])
+16:00:23.998 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T16:00:23.925635+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+16:00:24.121 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 15:00:23.921, 3 time periods, organizations: [ORG_ZIZI_CORP]
+16:00:24.125 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 33ms; updated 0 Organization and 0 Period summary records
+16:10:17.578 INFO  oquiAbstractEndpoint Timeout in WebSocket Session b53c60ae-14f5-48dd-9fe1-11198097a1e9, User EX_JOHN_DOE (john.doe): Connection Idle Timeout
+16:15:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104020 (last run 2025-09-28 16:00:23.925, schedule 2025-09-28T16:15+08:00[Asia/Shanghai])
+16:15:23.947 INFO  ity.EntityFacadeImpl Found entities in 45 files in 18ms
+16:15:23.947 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+16:15:23.954 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104021 (last run 2025-09-28 16:00:23.925, schedule 2025-09-28T16:15+08:00[Asia/Shanghai])
+16:15:23.956 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T16:15:23.921780900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+16:30:23.938 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104022 (last run 2025-09-28 16:15:23.921, schedule 2025-09-28T16:30+08:00[Asia/Shanghai])
+16:30:23.949 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+16:30:23.949 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+16:30:23.955 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104023 (last run 2025-09-28 16:15:23.921, schedule 2025-09-28T16:30+08:00[Asia/Shanghai])
+16:30:23.956 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T16:30:23.935731900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+16:45:23.936 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104024 (last run 2025-09-28 16:30:23.935, schedule 2025-09-28T16:45+08:00[Asia/Shanghai])
+16:45:23.948 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+16:45:23.948 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+16:45:23.985 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104025 (last run 2025-09-28 16:30:23.935, schedule 2025-09-28T16:45+08:00[Asia/Shanghai])
+16:45:23.989 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T16:45:23.933023900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+17:00:23.931 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104026 (last run 2025-09-28 16:45:23.933, schedule 2025-09-28T17:00+08:00[Asia/Shanghai])
+17:00:23.942 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+17:00:23.942 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+17:00:23.946 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104027 (last run 2025-09-28 16:00:23.925, schedule 2025-09-28T17:00+08:00[Asia/Shanghai])
+17:00:23.949 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104028 (last run 2025-09-28 16:45:23.933, schedule 2025-09-28T17:00+08:00[Asia/Shanghai])
+17:00:23.952 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T17:00:23.929683800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+17:00:24.110 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 16:00:23.925, 3 time periods, organizations: [ORG_ZIZI_CORP]
+17:00:24.113 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 33ms; updated 0 Organization and 0 Period summary records
+17:10:48.606 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 52ae1be3-8f01-4672-99c6-7cc9248f5ec7, User null (null): Connection Idle Timeout
+17:15:25.627 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104029 (last run 2025-09-28 17:00:23.929, schedule 2025-09-28T17:15+08:00[Asia/Shanghai])
+17:15:25.650 INFO  ity.EntityFacadeImpl Found entities in 45 files in 22ms
+17:15:25.650 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+17:15:25.656 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104030 (last run 2025-09-28 17:00:23.929, schedule 2025-09-28T17:15+08:00[Asia/Shanghai])
+17:15:25.658 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T17:15:25.576173900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+17:30:23.924 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104031 (last run 2025-09-28 17:15:25.576, schedule 2025-09-28T17:30+08:00[Asia/Shanghai])
+17:30:23.935 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+17:30:23.935 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+17:30:23.938 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104032 (last run 2025-09-28 17:15:25.576, schedule 2025-09-28T17:30+08:00[Asia/Shanghai])
+17:30:23.939 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T17:30:23.922828800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+17:45:23.928 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104033 (last run 2025-09-28 17:30:23.922, schedule 2025-09-28T17:45+08:00[Asia/Shanghai])
+17:45:23.940 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+17:45:23.941 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+17:45:23.946 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104034 (last run 2025-09-28 17:30:23.922, schedule 2025-09-28T17:45+08:00[Asia/Shanghai])
+17:45:23.948 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T17:45:23.925400700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+18:00:23.940 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104035 (last run 2025-09-28 17:45:23.925, schedule 2025-09-28T18:00+08:00[Asia/Shanghai])
+18:00:23.976 INFO  ity.EntityFacadeImpl Found entities in 45 files in 31ms
+18:00:23.976 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+18:00:23.982 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104036 (last run 2025-09-28 17:00:23.929, schedule 2025-09-28T18:00+08:00[Asia/Shanghai])
+18:00:23.985 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104037 (last run 2025-09-28 17:45:23.925, schedule 2025-09-28T18:00+08:00[Asia/Shanghai])
+18:00:23.986 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T18:00:23.933191300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+18:00:24.134 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 17:00:23.929, 3 time periods, organizations: [ORG_ZIZI_CORP]
+18:00:24.136 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 28ms; updated 0 Organization and 0 Period summary records
+18:11:19.575 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 86082a14-3435-4d59-8ab1-2503bed7a892, User null (null): Connection Idle Timeout
+18:15:23.928 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104038 (last run 2025-09-28 18:00:23.933, schedule 2025-09-28T18:15+08:00[Asia/Shanghai])
+18:15:23.940 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+18:15:23.940 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+18:15:23.978 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104039 (last run 2025-09-28 18:00:23.933, schedule 2025-09-28T18:15+08:00[Asia/Shanghai])
+18:15:23.981 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T18:15:23.925156400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+18:30:23.933 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104040 (last run 2025-09-28 18:15:23.925, schedule 2025-09-28T18:30+08:00[Asia/Shanghai])
+18:30:23.957 INFO  ity.EntityFacadeImpl Found entities in 45 files in 22ms
+18:30:23.957 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+18:30:23.996 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104041 (last run 2025-09-28 18:15:23.925, schedule 2025-09-28T18:30+08:00[Asia/Shanghai])
+18:30:23.999 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T18:30:23.928377400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+18:32:16.044 INFO  een.ScreenRenderImpl Screen at location component://moqui-minio/screen/MinioApp/Bucket.xml, which is part of [apps, minio, Bucket, FileExplorer, ElFinder, command] under screen component://webroot/screen/webroot.xml requires authentication but no user is currently logged in.
+18:32:34.512 INFO  een.ScreenRenderImpl Screen at location component://moqui-minio/screen/MinioApp/Bucket.xml, which is part of [apps, minio, Bucket, FileExplorer, ElFinder, command] under screen component://webroot/screen/webroot.xml requires authentication but no user is currently logged in.
+18:45:23.931 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104042 (last run 2025-09-28 18:30:23.928, schedule 2025-09-28T18:45+08:00[Asia/Shanghai])
+18:45:23.956 INFO  ity.EntityFacadeImpl Found entities in 45 files in 22ms
+18:45:23.956 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+18:45:23.962 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104043 (last run 2025-09-28 18:30:23.928, schedule 2025-09-28T18:45+08:00[Asia/Shanghai])
+18:45:23.970 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T18:45:23.927057800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+19:00:23.922 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104044 (last run 2025-09-28 18:45:23.927, schedule 2025-09-28T19:00+08:00[Asia/Shanghai])
+19:00:23.954 INFO  ity.EntityFacadeImpl Found entities in 45 files in 32ms
+19:00:23.954 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+19:00:23.954 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104045 (last run 2025-09-28 18:00:23.933, schedule 2025-09-28T19:00+08:00[Asia/Shanghai])
+19:00:23.954 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104046 (last run 2025-09-28 18:45:23.927, schedule 2025-09-28T19:00+08:00[Asia/Shanghai])
+19:00:23.954 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T19:00:23.922319+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+19:00:24.123 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 18:00:23.933, 3 time periods, organizations: [ORG_ZIZI_CORP]
+19:00:24.123 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 36ms; updated 0 Organization and 0 Period summary records
+19:11:50.569 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 7ce2c5b3-acb0-4ee9-92f1-9ea5c91f83a4, User null (null): Connection Idle Timeout
+19:15:23.934 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104047 (last run 2025-09-28 19:00:23.922, schedule 2025-09-28T19:15+08:00[Asia/Shanghai])
+19:15:23.965 INFO  ity.EntityFacadeImpl Found entities in 45 files in 31ms
+19:15:23.966 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+19:15:23.967 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104048 (last run 2025-09-28 19:00:23.922, schedule 2025-09-28T19:15+08:00[Asia/Shanghai])
+19:15:23.967 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T19:15:23.934689800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+19:30:23.935 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104049 (last run 2025-09-28 19:15:23.934, schedule 2025-09-28T19:30+08:00[Asia/Shanghai])
+19:30:23.981 INFO  ity.EntityFacadeImpl Found entities in 45 files in 42ms
+19:30:23.981 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+19:30:24.049 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104050 (last run 2025-09-28 19:15:23.934, schedule 2025-09-28T19:30+08:00[Asia/Shanghai])
+19:30:24.049 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T19:30:23.930815400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+19:45:23.926 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104051 (last run 2025-09-28 19:30:23.93, schedule 2025-09-28T19:45+08:00[Asia/Shanghai])
+19:45:23.936 INFO  ity.EntityFacadeImpl Found entities in 45 files in 9ms
+19:45:23.937 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+19:45:23.976 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104052 (last run 2025-09-28 19:30:23.93, schedule 2025-09-28T19:45+08:00[Asia/Shanghai])
+19:45:23.979 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T19:45:23.924173+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+20:00:23.927 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104053 (last run 2025-09-28 19:45:23.924, schedule 2025-09-28T20:00+08:00[Asia/Shanghai])
+20:00:23.939 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+20:00:23.939 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+20:00:23.989 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104054 (last run 2025-09-28 19:00:23.922, schedule 2025-09-28T20:00+08:00[Asia/Shanghai])
+20:00:23.991 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104055 (last run 2025-09-28 19:45:23.924, schedule 2025-09-28T20:00+08:00[Asia/Shanghai])
+20:00:23.993 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T20:00:23.923516200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+20:00:24.596 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 19:00:23.922, 3 time periods, organizations: [ORG_ZIZI_CORP]
+20:00:24.598 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 40ms; updated 0 Organization and 0 Period summary records
+20:12:21.587 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 17e1907e-f811-424b-b56c-828ab7b61fcb, User null (null): Connection Idle Timeout
+20:15:23.940 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104056 (last run 2025-09-28 20:00:23.923, schedule 2025-09-28T20:15+08:00[Asia/Shanghai])
+20:15:23.952 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+20:15:23.967 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+20:15:24.049 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104057 (last run 2025-09-28 20:00:23.923, schedule 2025-09-28T20:15+08:00[Asia/Shanghai])
+20:15:24.052 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T20:15:23.935244900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+20:30:23.931 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104058 (last run 2025-09-28 20:15:23.935, schedule 2025-09-28T20:30+08:00[Asia/Shanghai])
+20:30:23.937 INFO  ity.EntityFacadeImpl Found entities in 45 files in 6ms
+20:30:23.937 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+20:30:23.987 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104059 (last run 2025-09-28 20:15:23.935, schedule 2025-09-28T20:30+08:00[Asia/Shanghai])
+20:30:23.993 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T20:30:23.930723300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+20:45:23.928 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104060 (last run 2025-09-28 20:30:23.93, schedule 2025-09-28T20:45+08:00[Asia/Shanghai])
+20:45:23.962 INFO  ity.EntityFacadeImpl Found entities in 45 files in 34ms
+20:45:23.963 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+20:45:23.999 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104061 (last run 2025-09-28 20:30:23.93, schedule 2025-09-28T20:45+08:00[Asia/Shanghai])
+20:45:24.001 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T20:45:23.926544900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+21:00:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104062 (last run 2025-09-28 20:45:23.926, schedule 2025-09-28T21:00+08:00[Asia/Shanghai])
+21:00:23.935 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+21:00:23.935 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+21:00:23.938 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104063 (last run 2025-09-28 20:00:23.923, schedule 2025-09-28T21:00+08:00[Asia/Shanghai])
+21:00:23.973 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104064 (last run 2025-09-28 20:45:23.926, schedule 2025-09-28T21:00+08:00[Asia/Shanghai])
+21:00:23.973 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T21:00:23.922153200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+21:00:24.089 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 20:00:23.923, 3 time periods, organizations: [ORG_ZIZI_CORP]
+21:00:24.089 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 4ms; updated 0 Organization and 0 Period summary records
+21:12:52.572 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 3a9756ec-e593-48ee-82af-3b9a67b6668b, User null (null): Connection Idle Timeout
+21:15:23.937 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104065 (last run 2025-09-28 21:00:23.922, schedule 2025-09-28T21:15+08:00[Asia/Shanghai])
+21:15:23.969 INFO  ity.EntityFacadeImpl Found entities in 45 files in 32ms
+21:15:23.969 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+21:15:23.969 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104066 (last run 2025-09-28 21:00:23.922, schedule 2025-09-28T21:15+08:00[Asia/Shanghai])
+21:15:24.002 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T21:15:23.933612100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+21:30:23.933 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104067 (last run 2025-09-28 21:15:23.933, schedule 2025-09-28T21:30+08:00[Asia/Shanghai])
+21:30:23.952 INFO  ity.EntityFacadeImpl Found entities in 45 files in 18ms
+21:30:23.952 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+21:30:23.982 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104068 (last run 2025-09-28 21:15:23.933, schedule 2025-09-28T21:30+08:00[Asia/Shanghai])
+21:30:23.982 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T21:30:23.931115400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+21:45:23.928 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104069 (last run 2025-09-28 21:30:23.931, schedule 2025-09-28T21:45+08:00[Asia/Shanghai])
+21:45:23.928 INFO  ity.EntityFacadeImpl Found entities in 45 files in 0ms
+21:45:23.928 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+21:45:23.928 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104070 (last run 2025-09-28 21:30:23.931, schedule 2025-09-28T21:45+08:00[Asia/Shanghai])
+21:45:23.928 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T21:45:23.926415400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+22:00:23.930 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104071 (last run 2025-09-28 21:45:23.926, schedule 2025-09-28T22:00+08:00[Asia/Shanghai])
+22:00:23.959 INFO  ity.EntityFacadeImpl Found entities in 45 files in 26ms
+22:00:23.959 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+22:00:23.963 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104072 (last run 2025-09-28 21:00:23.922, schedule 2025-09-28T22:00+08:00[Asia/Shanghai])
+22:00:23.966 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104073 (last run 2025-09-28 21:45:23.926, schedule 2025-09-28T22:00+08:00[Asia/Shanghai])
+22:00:23.968 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T22:00:23.925320100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+22:00:24.109 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 21:00:23.922, 3 time periods, organizations: [ORG_ZIZI_CORP]
+22:00:24.111 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 27ms; updated 0 Organization and 0 Period summary records
+22:13:23.570 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 60f0c6a9-b321-406a-ad1d-4021decfbb11, User null (null): Connection Idle Timeout
+22:15:23.924 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104074 (last run 2025-09-28 22:00:23.925, schedule 2025-09-28T22:15+08:00[Asia/Shanghai])
+22:15:23.937 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+22:15:23.937 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+22:15:24.004 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104075 (last run 2025-09-28 22:00:23.925, schedule 2025-09-28T22:15+08:00[Asia/Shanghai])
+22:15:24.005 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T22:15:23.920820600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+22:30:23.934 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104076 (last run 2025-09-28 22:15:23.92, schedule 2025-09-28T22:30+08:00[Asia/Shanghai])
+22:30:23.934 INFO  ity.EntityFacadeImpl Found entities in 45 files in 0ms
+22:30:23.934 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+22:30:23.948 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104077 (last run 2025-09-28 22:15:23.92, schedule 2025-09-28T22:30+08:00[Asia/Shanghai])
+22:30:23.952 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T22:30:23.931196400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+22:45:23.933 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104078 (last run 2025-09-28 22:30:23.931, schedule 2025-09-28T22:45+08:00[Asia/Shanghai])
+22:45:23.947 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+22:45:23.947 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+22:45:23.979 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104079 (last run 2025-09-28 22:30:23.931, schedule 2025-09-28T22:45+08:00[Asia/Shanghai])
+22:45:23.979 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T22:45:23.930614+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+23:00:23.924 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104080 (last run 2025-09-28 22:45:23.93, schedule 2025-09-28T23:00+08:00[Asia/Shanghai])
+23:00:23.935 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+23:00:23.935 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+23:00:23.970 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104081 (last run 2025-09-28 22:00:23.925, schedule 2025-09-28T23:00+08:00[Asia/Shanghai])
+23:00:23.973 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104082 (last run 2025-09-28 22:45:23.93, schedule 2025-09-28T23:00+08:00[Asia/Shanghai])
+23:00:23.976 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-28T23:00:23.921530400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+23:00:24.103 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 22:00:23.925, 3 time periods, organizations: [ORG_ZIZI_CORP]
+23:00:24.104 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 2ms; updated 0 Organization and 0 Period summary records
+23:13:54.572 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 06c98e95-b680-426f-8b3e-1586955c135e, User null (null): Connection Idle Timeout
+23:15:23.923 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104083 (last run 2025-09-28 23:00:23.921, schedule 2025-09-28T23:15+08:00[Asia/Shanghai])
+23:15:23.950 INFO  ity.EntityFacadeImpl Found entities in 45 files in 27ms
+23:15:23.950 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+23:15:23.990 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104084 (last run 2025-09-28 23:00:23.921, schedule 2025-09-28T23:15+08:00[Asia/Shanghai])
+23:15:23.990 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T23:15:23.923112200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+23:30:23.939 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104085 (last run 2025-09-28 23:15:23.923, schedule 2025-09-28T23:30+08:00[Asia/Shanghai])
+23:30:23.967 INFO  ity.EntityFacadeImpl Found entities in 45 files in 26ms
+23:30:23.967 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+23:30:24.000 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104086 (last run 2025-09-28 23:15:23.923, schedule 2025-09-28T23:30+08:00[Asia/Shanghai])
+23:30:24.000 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T23:30:23.934915+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+23:45:23.931 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104087 (last run 2025-09-28 23:30:23.934, schedule 2025-09-28T23:45+08:00[Asia/Shanghai])
+23:45:23.941 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+23:45:23.941 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+23:45:23.943 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104088 (last run 2025-09-28 23:30:23.934, schedule 2025-09-28T23:45+08:00[Asia/Shanghai])
+23:45:23.945 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-28T23:45:23.930746500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots

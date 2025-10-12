@@ -1,0 +1,6 @@
+--- 2025-09-28 09:50:18.373 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-28 09:51:15.529 [tp1058822905-51] ERROR rg.moqui.impl.context.renderer.FtlTemplateRenderer [] []
+ [Template Error: expression 'bucketName' was null or not found (template/screen-macro/DefaultScreenMacros.any.ftl->component://moqui-minio/screen/MinioApp/Bucket/FileExplorer/ElFinder.xml.render_mode.text:13,112)]
+--- 2025-09-28 11:47:26.381 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting

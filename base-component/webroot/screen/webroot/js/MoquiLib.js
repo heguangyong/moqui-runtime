@@ -1,4 +1,4 @@
-/* This software is in the public domain under CC0 1.0 Universal plus a Grant of Patent License. */
+﻿/* This software is in the public domain under CC0 1.0 Universal plus a Grant of Patent License. */
 
 var moqui = {
     // map locale to a locale that exists in moment-with-locales.js
@@ -508,7 +508,7 @@ var moqui = {
 
 if ($.fn.select2) {
     // set defaults for select2
-    $.fn.select2.defaults.set("theme", "bootstrap");
+    $.fn.select2.defaults.set("theme", "default");
     $.fn.select2.defaults.set("minimumResultsForSearch", "10");
     $.fn.select2.defaults.set("dropdownAutoWidth", true);
     // for select2 with multiple delete item on backspace instead of changing it to text
@@ -521,10 +521,6 @@ if ($.fn.select2) {
     // custom event handler: programmatically trigger validation
     $(function() { $('.select2-hidden-accessible').on('select2:select', function(evt) { $(this).valid(); }); });
 
-    if ($.fn.modal) {
-        // this is a fix for Select2 search input within Bootstrap Modal
-        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
-    }
 }
 
 if ($.validator) {
@@ -642,3 +638,4 @@ if (window.Chart) {
     };
 }
 */
+

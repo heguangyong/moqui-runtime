@@ -1,0 +1,343 @@
+00:00:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104089 (last run 2025-09-28 23:45:23.93, schedule 2025-09-29T00:00+08:00[Asia/Shanghai])
+00:00:23.937 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+00:00:23.937 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+00:00:23.942 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104090 (last run 2025-09-28 23:00:23.921, schedule 2025-09-29T00:00+08:00[Asia/Shanghai])
+00:00:23.942 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104091 (last run 2025-09-28 23:45:23.93, schedule 2025-09-29T00:00+08:00[Asia/Shanghai])
+00:00:23.942 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T00:00:23.923447900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+00:00:24.092 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-28 23:00:23.921, 3 time periods, organizations: [ORG_ZIZI_CORP]
+00:00:24.093 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 29ms; updated 0 Organization and 0 Period summary records
+00:14:25.573 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 9185a060-26c0-4469-a951-c943d4c7b4e0, User null (null): Connection Idle Timeout
+00:15:23.940 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104092 (last run 2025-09-29 00:00:23.923, schedule 2025-09-29T00:15+08:00[Asia/Shanghai])
+00:15:23.960 INFO  ity.EntityFacadeImpl Found entities in 45 files in 19ms
+00:15:23.960 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+00:15:23.963 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104093 (last run 2025-09-29 00:00:23.923, schedule 2025-09-29T00:15+08:00[Asia/Shanghai])
+00:15:23.965 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T00:15:23.935674400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+00:30:23.935 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104094 (last run 2025-09-29 00:15:23.935, schedule 2025-09-29T00:30+08:00[Asia/Shanghai])
+00:30:23.950 INFO  ity.EntityFacadeImpl Found entities in 45 files in 14ms
+00:30:23.950 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+00:30:23.988 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104095 (last run 2025-09-29 00:15:23.935, schedule 2025-09-29T00:30+08:00[Asia/Shanghai])
+00:30:23.988 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T00:30:23.933161600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+00:45:23.928 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104096 (last run 2025-09-29 00:30:23.933, schedule 2025-09-29T00:45+08:00[Asia/Shanghai])
+00:45:23.937 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+00:45:23.937 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+00:45:23.969 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104097 (last run 2025-09-29 00:30:23.933, schedule 2025-09-29T00:45+08:00[Asia/Shanghai])
+00:45:23.971 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T00:45:23.927373300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+01:00:23.926 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104098 (last run 2025-09-29 00:45:23.927, schedule 2025-09-29T01:00+08:00[Asia/Shanghai])
+01:00:23.944 INFO  ity.EntityFacadeImpl Found entities in 45 files in 18ms
+01:00:23.944 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+01:00:23.975 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104099 (last run 2025-09-29 00:00:23.923, schedule 2025-09-29T01:00+08:00[Asia/Shanghai])
+01:00:23.975 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104100 (last run 2025-09-29 00:45:23.927, schedule 2025-09-29T01:00+08:00[Asia/Shanghai])
+01:00:23.975 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T01:00:23.924396700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+01:00:24.094 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 00:00:23.923, 3 time periods, organizations: [ORG_ZIZI_CORP]
+01:00:24.094 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 7ms; updated 0 Organization and 0 Period summary records
+01:14:56.568 INFO  oquiAbstractEndpoint Timeout in WebSocket Session ff395498-a7a7-40d0-ab8f-155f21642d41, User null (null): Connection Idle Timeout
+01:15:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104101 (last run 2025-09-29 01:00:23.924, schedule 2025-09-29T01:15+08:00[Asia/Shanghai])
+01:15:23.938 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+01:15:23.938 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+01:15:23.987 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104102 (last run 2025-09-29 01:00:23.924, schedule 2025-09-29T01:15+08:00[Asia/Shanghai])
+01:15:23.987 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T01:15:23.921202700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+01:30:23.932 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104103 (last run 2025-09-29 01:15:23.921, schedule 2025-09-29T01:30+08:00[Asia/Shanghai])
+01:30:23.942 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+01:30:23.942 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+01:30:23.953 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104104 (last run 2025-09-29 01:15:23.921, schedule 2025-09-29T01:30+08:00[Asia/Shanghai])
+01:30:23.955 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T01:30:23.930268300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+01:45:23.929 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104105 (last run 2025-09-29 01:30:23.93, schedule 2025-09-29T01:45+08:00[Asia/Shanghai])
+01:45:23.959 INFO  ity.EntityFacadeImpl Found entities in 45 files in 30ms
+01:45:23.959 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+01:45:23.961 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104106 (last run 2025-09-29 01:30:23.93, schedule 2025-09-29T01:45+08:00[Asia/Shanghai])
+01:45:23.961 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T01:45:23.927848900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+02:00:23.925 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104107 (last run 2025-09-29 01:45:23.927, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.951 INFO  ity.EntityFacadeImpl Found entities in 45 files in 26ms
+02:00:23.952 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+02:00:23.953 INFO  e.ScheduledJobRunner Running job clean_ArtifactData_daily run 104108 (last run 2025-09-28 09:52:16.509, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.992 INFO  e.ScheduledJobRunner Running job clean_PrintJobData_daily run 104109 (last run 2025-09-28 09:52:16.509, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.994 INFO  e.ScheduledJobRunner Running job clean_ServiceJobRun_daily run 104110 (last run 2025-09-28 09:52:16.509, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.996 INFO  e.ScheduledJobRunner Running job create_RecurringOrders run 104111 (last run 2025-09-28 09:52:16.509, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.997 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104112 (last run 2025-09-29 01:00:23.924, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:23.999 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104113 (last run 2025-09-29 01:45:23.927, schedule 2025-09-29T02:00+08:00[Asia/Shanghai])
+02:00:24.000 INFO  e.ScheduledJobRunner Ran 7 Service Jobs starting 2025-09-29T02:00:23.922489300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 6 of 12 job slots
+02:00:24.052 INFO  ext.LoggerFacadeImpl Removed 0 PrintJob records more than 7 days old
+02:00:24.089 INFO  ext.LoggerFacadeImpl Removed 0 ServiceJobRun records.
+02:00:24.106 INFO  ext.LoggerFacadeImpl Removed 0 ArtifactHit records and 0 ArtifactHitBin records more than 90 days old
+02:00:24.256 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 01:00:23.924, 3 time periods, organizations: [ORG_ZIZI_CORP]
+02:00:24.259 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 31ms; updated 0 Organization and 0 Period summary records
+02:15:23.934 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104114 (last run 2025-09-29 02:00:23.922, schedule 2025-09-29T02:15+08:00[Asia/Shanghai])
+02:15:23.945 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+02:15:23.945 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+02:15:23.987 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104115 (last run 2025-09-29 02:00:23.922, schedule 2025-09-29T02:15+08:00[Asia/Shanghai])
+02:15:23.989 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T02:15:23.932393600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+02:15:27.567 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 913f2b29-6cc0-4399-8185-949d6eb486b1, User null (null): Connection Idle Timeout
+02:30:23.929 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104116 (last run 2025-09-29 02:15:23.932, schedule 2025-09-29T02:30+08:00[Asia/Shanghai])
+02:30:23.929 INFO  ity.EntityFacadeImpl Found entities in 45 files in 0ms
+02:30:23.929 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+02:30:23.929 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104117 (last run 2025-09-29 02:15:23.932, schedule 2025-09-29T02:30+08:00[Asia/Shanghai])
+02:30:23.947 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T02:30:23.927438600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+02:45:23.930 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104118 (last run 2025-09-29 02:30:23.927, schedule 2025-09-29T02:45+08:00[Asia/Shanghai])
+02:45:23.942 INFO  ity.EntityFacadeImpl Found entities in 45 files in 9ms
+02:45:23.942 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+02:45:24.074 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104119 (last run 2025-09-29 02:30:23.927, schedule 2025-09-29T02:45+08:00[Asia/Shanghai])
+02:45:24.092 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T02:45:23.925626400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+03:00:23.934 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104120 (last run 2025-09-29 02:45:23.925, schedule 2025-09-29T03:00+08:00[Asia/Shanghai])
+03:00:23.952 INFO  ity.EntityFacadeImpl Found entities in 45 files in 17ms
+03:00:23.952 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+03:00:23.955 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104121 (last run 2025-09-29 02:00:23.922, schedule 2025-09-29T03:00+08:00[Asia/Shanghai])
+03:00:23.957 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104122 (last run 2025-09-29 02:45:23.925, schedule 2025-09-29T03:00+08:00[Asia/Shanghai])
+03:00:23.959 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T03:00:23.932489900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+03:00:24.429 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 02:00:23.922, 3 time periods, organizations: [ORG_ZIZI_CORP]
+03:00:24.430 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 17ms; updated 0 Organization and 0 Period summary records
+03:15:23.934 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104123 (last run 2025-09-29 03:00:23.932, schedule 2025-09-29T03:15+08:00[Asia/Shanghai])
+03:15:23.947 INFO  ity.EntityFacadeImpl Found entities in 45 files in 12ms
+03:15:23.947 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+03:15:23.980 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104124 (last run 2025-09-29 03:00:23.932, schedule 2025-09-29T03:15+08:00[Asia/Shanghai])
+03:15:23.997 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T03:15:23.930960200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+03:15:58.565 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 2bf87bcb-bfbb-45df-a78f-da7d2ee38b71, User null (null): Connection Idle Timeout
+03:30:23.929 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104125 (last run 2025-09-29 03:15:23.93, schedule 2025-09-29T03:30+08:00[Asia/Shanghai])
+03:30:23.946 INFO  ity.EntityFacadeImpl Found entities in 45 files in 14ms
+03:30:23.946 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+03:30:23.985 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104126 (last run 2025-09-29 03:15:23.93, schedule 2025-09-29T03:30+08:00[Asia/Shanghai])
+03:30:23.988 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T03:30:23.924591400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+03:45:22.851 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104127 (last run 2025-09-29 03:30:23.924, schedule 2025-09-29T03:45+08:00[Asia/Shanghai])
+03:45:22.881 INFO  ity.EntityFacadeImpl Found entities in 45 files in 30ms
+03:45:22.882 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+03:45:22.883 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104128 (last run 2025-09-29 03:30:23.924, schedule 2025-09-29T03:45+08:00[Asia/Shanghai])
+03:45:22.883 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T03:45:22.851866500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+04:00:22.859 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104129 (last run 2025-09-29 03:45:22.851, schedule 2025-09-29T04:00+08:00[Asia/Shanghai])
+04:00:22.861 INFO  ity.EntityFacadeImpl Found entities in 45 files in 0ms
+04:00:22.861 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+04:00:22.861 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104130 (last run 2025-09-29 03:00:23.932, schedule 2025-09-29T04:00+08:00[Asia/Shanghai])
+04:00:22.881 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104131 (last run 2025-09-29 03:45:22.851, schedule 2025-09-29T04:00+08:00[Asia/Shanghai])
+04:00:22.883 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T04:00:22.857704900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+04:00:23.027 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 03:00:23.932, 3 time periods, organizations: [ORG_ZIZI_CORP]
+04:00:23.027 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 2ms; updated 0 Organization and 0 Period summary records
+04:15:22.870 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104132 (last run 2025-09-29 04:00:22.857, schedule 2025-09-29T04:15+08:00[Asia/Shanghai])
+04:15:22.907 INFO  ity.EntityFacadeImpl Found entities in 45 files in 27ms
+04:15:22.907 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+04:15:22.923 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104133 (last run 2025-09-29 04:00:22.857, schedule 2025-09-29T04:15+08:00[Asia/Shanghai])
+04:15:22.925 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T04:15:22.864803100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+04:16:28.508 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 03bc20f2-42a3-4efe-ae53-5e77c70a0640, User null (null): Connection Idle Timeout
+04:30:22.871 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104134 (last run 2025-09-29 04:15:22.864, schedule 2025-09-29T04:30+08:00[Asia/Shanghai])
+04:30:22.899 INFO  ity.EntityFacadeImpl Found entities in 45 files in 26ms
+04:30:22.899 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+04:30:22.949 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104135 (last run 2025-09-29 04:15:22.864, schedule 2025-09-29T04:30+08:00[Asia/Shanghai])
+04:30:22.949 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T04:30:22.851349400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+04:45:22.861 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104136 (last run 2025-09-29 04:30:22.851, schedule 2025-09-29T04:45+08:00[Asia/Shanghai])
+04:45:22.873 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+04:45:22.873 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+04:45:22.911 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104137 (last run 2025-09-29 04:30:22.851, schedule 2025-09-29T04:45+08:00[Asia/Shanghai])
+04:45:22.911 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T04:45:22.859652800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+05:00:22.860 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104138 (last run 2025-09-29 04:45:22.859, schedule 2025-09-29T05:00+08:00[Asia/Shanghai])
+05:00:22.888 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+05:00:22.889 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+05:00:22.938 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104139 (last run 2025-09-29 04:00:22.857, schedule 2025-09-29T05:00+08:00[Asia/Shanghai])
+05:00:22.941 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104140 (last run 2025-09-29 04:45:22.859, schedule 2025-09-29T05:00+08:00[Asia/Shanghai])
+05:00:22.942 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T05:00:22.855444600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+05:00:23.054 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 04:00:22.857, 3 time periods, organizations: [ORG_ZIZI_CORP]
+05:00:23.054 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 33ms; updated 0 Organization and 0 Period summary records
+05:15:22.851 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104141 (last run 2025-09-29 05:00:22.855, schedule 2025-09-29T05:15+08:00[Asia/Shanghai])
+05:15:22.884 INFO  ity.EntityFacadeImpl Found entities in 45 files in 33ms
+05:15:22.884 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+05:15:22.932 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104142 (last run 2025-09-29 05:00:22.855, schedule 2025-09-29T05:15+08:00[Asia/Shanghai])
+05:15:22.932 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T05:15:22.851017600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+05:16:59.514 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 2ea777bb-4b73-4cce-84fd-7e89b9c4842e, User null (null): Connection Idle Timeout
+05:30:22.862 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104143 (last run 2025-09-29 05:15:22.851, schedule 2025-09-29T05:30+08:00[Asia/Shanghai])
+05:30:22.891 INFO  ity.EntityFacadeImpl Found entities in 45 files in 29ms
+05:30:22.891 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+05:30:22.894 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104144 (last run 2025-09-29 05:15:22.851, schedule 2025-09-29T05:30+08:00[Asia/Shanghai])
+05:30:22.894 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T05:30:22.860111200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+05:45:22.856 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104145 (last run 2025-09-29 05:30:22.86, schedule 2025-09-29T05:45+08:00[Asia/Shanghai])
+05:45:22.885 INFO  ity.EntityFacadeImpl Found entities in 45 files in 29ms
+05:45:22.885 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+05:45:22.887 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104146 (last run 2025-09-29 05:30:22.86, schedule 2025-09-29T05:45+08:00[Asia/Shanghai])
+05:45:22.887 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T05:45:22.852146200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+06:00:22.863 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104147 (last run 2025-09-29 05:45:22.852, schedule 2025-09-29T06:00+08:00[Asia/Shanghai])
+06:00:22.868 INFO  ity.EntityFacadeImpl Found entities in 45 files in 4ms
+06:00:22.868 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+06:00:22.868 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104148 (last run 2025-09-29 05:00:22.855, schedule 2025-09-29T06:00+08:00[Asia/Shanghai])
+06:00:22.881 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104149 (last run 2025-09-29 05:45:22.852, schedule 2025-09-29T06:00+08:00[Asia/Shanghai])
+06:00:22.883 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T06:00:22.862711100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+06:00:23.016 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 05:00:22.855, 3 time periods, organizations: [ORG_ZIZI_CORP]
+06:00:23.017 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 26ms; updated 0 Organization and 0 Period summary records
+06:15:22.858 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104150 (last run 2025-09-29 06:00:22.862, schedule 2025-09-29T06:15+08:00[Asia/Shanghai])
+06:15:22.866 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+06:15:22.866 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+06:15:22.902 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104151 (last run 2025-09-29 06:00:22.862, schedule 2025-09-29T06:15+08:00[Asia/Shanghai])
+06:15:22.910 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T06:15:22.856953100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+06:17:30.506 INFO  oquiAbstractEndpoint Timeout in WebSocket Session ace2bb80-54aa-4bd9-ba92-df7fd4ee2066, User null (null): Connection Idle Timeout
+06:30:22.853 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104152 (last run 2025-09-29 06:15:22.856, schedule 2025-09-29T06:30+08:00[Asia/Shanghai])
+06:30:22.877 INFO  ity.EntityFacadeImpl Found entities in 45 files in 24ms
+06:30:22.878 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+06:30:22.917 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104153 (last run 2025-09-29 06:15:22.856, schedule 2025-09-29T06:30+08:00[Asia/Shanghai])
+06:30:22.919 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T06:30:22.853641800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+06:45:22.863 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104154 (last run 2025-09-29 06:30:22.853, schedule 2025-09-29T06:45+08:00[Asia/Shanghai])
+06:45:22.872 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+06:45:22.872 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+06:45:22.874 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104155 (last run 2025-09-29 06:30:22.853, schedule 2025-09-29T06:45+08:00[Asia/Shanghai])
+06:45:22.876 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T06:45:22.862254+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+07:00:22.861 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104156 (last run 2025-09-29 06:45:22.862, schedule 2025-09-29T07:00+08:00[Asia/Shanghai])
+07:00:22.882 INFO  ity.EntityFacadeImpl Found entities in 45 files in 19ms
+07:00:22.882 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+07:00:22.882 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104157 (last run 2025-09-29 06:00:22.862, schedule 2025-09-29T07:00+08:00[Asia/Shanghai])
+07:00:22.891 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104158 (last run 2025-09-29 06:45:22.862, schedule 2025-09-29T07:00+08:00[Asia/Shanghai])
+07:00:22.893 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T07:00:22.856646300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+07:00:23.066 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 06:00:22.862, 3 time periods, organizations: [ORG_ZIZI_CORP]
+07:00:23.068 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 3ms; updated 0 Organization and 0 Period summary records
+07:15:22.867 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104159 (last run 2025-09-29 07:00:22.856, schedule 2025-09-29T07:15+08:00[Asia/Shanghai])
+07:15:22.878 INFO  ity.EntityFacadeImpl Found entities in 45 files in 9ms
+07:15:22.878 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+07:15:22.881 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104160 (last run 2025-09-29 07:00:22.856, schedule 2025-09-29T07:15+08:00[Asia/Shanghai])
+07:15:22.882 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T07:15:22.866364200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+07:18:01.498 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 73845746-dac5-46f9-8068-dbabc4a12e81, User null (null): Connection Idle Timeout
+07:30:22.859 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104161 (last run 2025-09-29 07:15:22.866, schedule 2025-09-29T07:30+08:00[Asia/Shanghai])
+07:30:22.881 INFO  ity.EntityFacadeImpl Found entities in 45 files in 21ms
+07:30:22.881 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+07:30:22.913 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104162 (last run 2025-09-29 07:15:22.866, schedule 2025-09-29T07:30+08:00[Asia/Shanghai])
+07:30:22.916 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T07:30:22.857513600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+07:45:22.854 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104163 (last run 2025-09-29 07:30:22.857, schedule 2025-09-29T07:45+08:00[Asia/Shanghai])
+07:45:22.856 INFO  ity.EntityFacadeImpl Found entities in 45 files in 0ms
+07:45:22.856 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+07:45:22.856 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104164 (last run 2025-09-29 07:30:22.857, schedule 2025-09-29T07:45+08:00[Asia/Shanghai])
+07:45:22.856 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T07:45:22.852779500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+08:00:22.855 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104165 (last run 2025-09-29 07:45:22.852, schedule 2025-09-29T08:00+08:00[Asia/Shanghai])
+08:00:22.883 INFO  ity.EntityFacadeImpl Found entities in 45 files in 24ms
+08:00:22.883 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+08:00:22.883 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104166 (last run 2025-09-29 07:00:22.856, schedule 2025-09-29T08:00+08:00[Asia/Shanghai])
+08:00:22.897 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104167 (last run 2025-09-29 07:45:22.852, schedule 2025-09-29T08:00+08:00[Asia/Shanghai])
+08:00:22.901 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T08:00:22.851126300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+08:00:23.032 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 07:00:22.856, 3 time periods, organizations: [ORG_ZIZI_CORP]
+08:00:23.032 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 34ms; updated 0 Organization and 0 Period summary records
+08:15:22.861 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104168 (last run 2025-09-29 08:00:22.851, schedule 2025-09-29T08:15+08:00[Asia/Shanghai])
+08:15:22.878 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+08:15:22.878 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+08:15:22.878 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104169 (last run 2025-09-29 08:00:22.851, schedule 2025-09-29T08:15+08:00[Asia/Shanghai])
+08:15:22.878 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T08:15:22.858165200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+08:18:32.490 INFO  oquiAbstractEndpoint Timeout in WebSocket Session e738042a-66b6-4009-a3c4-bb63e9518022, User null (null): Connection Idle Timeout
+08:30:22.856 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104170 (last run 2025-09-29 08:15:22.858, schedule 2025-09-29T08:30+08:00[Asia/Shanghai])
+08:30:22.865 INFO  ity.EntityFacadeImpl Found entities in 45 files in 8ms
+08:30:22.865 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+08:30:22.893 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104171 (last run 2025-09-29 08:15:22.858, schedule 2025-09-29T08:30+08:00[Asia/Shanghai])
+08:30:22.896 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T08:30:22.853655500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+08:45:22.864 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104172 (last run 2025-09-29 08:30:22.853, schedule 2025-09-29T08:45+08:00[Asia/Shanghai])
+08:45:22.881 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+08:45:22.881 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+08:45:22.926 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104173 (last run 2025-09-29 08:30:22.853, schedule 2025-09-29T08:45+08:00[Asia/Shanghai])
+08:45:22.929 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T08:45:22.859699100+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+09:00:22.855 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104174 (last run 2025-09-29 08:45:22.859, schedule 2025-09-29T09:00+08:00[Asia/Shanghai])
+09:00:22.877 INFO  ity.EntityFacadeImpl Found entities in 45 files in 21ms
+09:00:22.877 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+09:00:22.879 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104175 (last run 2025-09-29 08:00:22.851, schedule 2025-09-29T09:00+08:00[Asia/Shanghai])
+09:00:22.880 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104176 (last run 2025-09-29 08:45:22.859, schedule 2025-09-29T09:00+08:00[Asia/Shanghai])
+09:00:22.882 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T09:00:22.853798600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+09:00:23.012 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 08:00:22.851, 3 time periods, organizations: [ORG_ZIZI_CORP]
+09:00:23.013 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 26ms; updated 0 Organization and 0 Period summary records
+09:15:22.858 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104177 (last run 2025-09-29 09:00:22.853, schedule 2025-09-29T09:15+08:00[Asia/Shanghai])
+09:15:22.887 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+09:15:22.887 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+09:15:22.890 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104178 (last run 2025-09-29 09:00:22.853, schedule 2025-09-29T09:15+08:00[Asia/Shanghai])
+09:15:22.892 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T09:15:22.851614300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+09:19:03.501 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 865ca864-c355-4551-9baf-d2e9ced04ce2, User null (null): Connection Idle Timeout
+09:30:22.863 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104179 (last run 2025-09-29 09:15:22.851, schedule 2025-09-29T09:30+08:00[Asia/Shanghai])
+09:30:22.873 INFO  ity.EntityFacadeImpl Found entities in 45 files in 9ms
+09:30:22.873 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+09:30:22.875 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104180 (last run 2025-09-29 09:15:22.851, schedule 2025-09-29T09:30+08:00[Asia/Shanghai])
+09:30:22.877 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T09:30:22.861506400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+09:45:22.859 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104181 (last run 2025-09-29 09:30:22.861, schedule 2025-09-29T09:45+08:00[Asia/Shanghai])
+09:45:22.884 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+09:45:22.884 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+09:45:22.915 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104182 (last run 2025-09-29 09:30:22.861, schedule 2025-09-29T09:45+08:00[Asia/Shanghai])
+09:45:22.917 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T09:45:22.856755+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+10:00:22.863 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104183 (last run 2025-09-29 09:45:22.856, schedule 2025-09-29T10:00+08:00[Asia/Shanghai])
+10:00:22.875 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+10:00:22.875 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+10:00:22.878 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104184 (last run 2025-09-29 09:00:22.853, schedule 2025-09-29T10:00+08:00[Asia/Shanghai])
+10:00:22.880 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104185 (last run 2025-09-29 09:45:22.856, schedule 2025-09-29T10:00+08:00[Asia/Shanghai])
+10:00:22.882 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T10:00:22.861626800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+10:00:23.463 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 09:00:22.853, 3 time periods, organizations: [ORG_ZIZI_CORP]
+10:00:23.465 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 16ms; updated 0 Organization and 0 Period summary records
+10:15:22.861 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104186 (last run 2025-09-29 10:00:22.861, schedule 2025-09-29T10:15+08:00[Asia/Shanghai])
+10:15:22.877 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+10:15:22.877 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+10:15:22.879 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104187 (last run 2025-09-29 10:00:22.861, schedule 2025-09-29T10:15+08:00[Asia/Shanghai])
+10:15:22.882 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T10:15:22.859424400+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+10:19:34.525 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 69b0ab1c-23ff-4a2b-ae82-3564c7a8fd7e, User null (null): Connection Idle Timeout
+10:30:22.857 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104188 (last run 2025-09-29 10:15:22.859, schedule 2025-09-29T10:30+08:00[Asia/Shanghai])
+10:30:22.873 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+10:30:22.875 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+10:30:22.916 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104189 (last run 2025-09-29 10:15:22.859, schedule 2025-09-29T10:30+08:00[Asia/Shanghai])
+10:30:22.918 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T10:30:22.856482900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+10:45:22.856 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104190 (last run 2025-09-29 10:30:22.856, schedule 2025-09-29T10:45+08:00[Asia/Shanghai])
+10:45:22.869 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+10:45:22.870 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+10:45:22.903 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104191 (last run 2025-09-29 10:30:22.856, schedule 2025-09-29T10:45+08:00[Asia/Shanghai])
+10:45:22.908 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T10:45:22.853950800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+11:00:22.867 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104192 (last run 2025-09-29 10:45:22.853, schedule 2025-09-29T11:00+08:00[Asia/Shanghai])
+11:00:22.883 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+11:00:22.883 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+11:00:22.917 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104193 (last run 2025-09-29 10:00:22.861, schedule 2025-09-29T11:00+08:00[Asia/Shanghai])
+11:00:22.920 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104194 (last run 2025-09-29 10:45:22.853, schedule 2025-09-29T11:00+08:00[Asia/Shanghai])
+11:00:22.922 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T11:00:22.860193800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+11:00:23.044 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 10:00:22.861, 3 time periods, organizations: [ORG_ZIZI_CORP]
+11:00:23.046 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 13ms; updated 0 Organization and 0 Period summary records
+11:15:22.859 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104195 (last run 2025-09-29 11:00:22.86, schedule 2025-09-29T11:15+08:00[Asia/Shanghai])
+11:15:22.887 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+11:15:22.888 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+11:15:22.929 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104196 (last run 2025-09-29 11:00:22.86, schedule 2025-09-29T11:15+08:00[Asia/Shanghai])
+11:15:22.931 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T11:15:22.853518+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+11:20:05.501 INFO  oquiAbstractEndpoint Timeout in WebSocket Session cc012638-ee70-431d-93e3-900f1bca7680, User null (null): Connection Idle Timeout
+11:30:22.859 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104197 (last run 2025-09-29 11:15:22.853, schedule 2025-09-29T11:30+08:00[Asia/Shanghai])
+11:30:22.871 INFO  ity.EntityFacadeImpl Found entities in 45 files in 11ms
+11:30:22.872 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+11:30:22.875 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104198 (last run 2025-09-29 11:15:22.853, schedule 2025-09-29T11:30+08:00[Asia/Shanghai])
+11:30:22.876 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T11:30:22.857832800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+11:45:22.860 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104199 (last run 2025-09-29 11:30:22.857, schedule 2025-09-29T11:45+08:00[Asia/Shanghai])
+11:45:22.880 INFO  ity.EntityFacadeImpl Found entities in 45 files in 17ms
+11:45:22.880 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+11:45:22.883 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104200 (last run 2025-09-29 11:30:22.857, schedule 2025-09-29T11:45+08:00[Asia/Shanghai])
+11:45:22.885 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T11:45:22.855050300+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+12:00:22.865 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104201 (last run 2025-09-29 11:45:22.855, schedule 2025-09-29T12:00+08:00[Asia/Shanghai])
+12:00:22.874 INFO  ity.EntityFacadeImpl Found entities in 45 files in 9ms
+12:00:22.875 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:00:22.877 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104202 (last run 2025-09-29 11:00:22.86, schedule 2025-09-29T12:00+08:00[Asia/Shanghai])
+12:00:22.880 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104203 (last run 2025-09-29 11:45:22.855, schedule 2025-09-29T12:00+08:00[Asia/Shanghai])
+12:00:22.881 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T12:00:22.864099500+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+12:00:23.004 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 11:00:22.86, 3 time periods, organizations: [ORG_ZIZI_CORP]
+12:00:23.006 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 23ms; updated 0 Organization and 0 Period summary records
+12:15:22.862 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104204 (last run 2025-09-29 12:00:22.864, schedule 2025-09-29T12:15+08:00[Asia/Shanghai])
+12:15:22.877 INFO  ity.EntityFacadeImpl Found entities in 45 files in 13ms
+12:15:22.877 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:15:22.914 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104205 (last run 2025-09-29 12:00:22.864, schedule 2025-09-29T12:15+08:00[Asia/Shanghai])
+12:15:22.916 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T12:15:22.861964800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+12:20:36.524 INFO  oquiAbstractEndpoint Timeout in WebSocket Session 3f9b5d73-47c7-4d73-8112-181d072c962b, User null (null): Connection Idle Timeout
+12:30:22.865 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104206 (last run 2025-09-29 12:15:22.861, schedule 2025-09-29T12:30+08:00[Asia/Shanghai])
+12:30:22.892 INFO  ity.EntityFacadeImpl Found entities in 45 files in 25ms
+12:30:22.892 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:30:22.929 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104207 (last run 2025-09-29 12:15:22.861, schedule 2025-09-29T12:30+08:00[Asia/Shanghai])
+12:30:22.930 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T12:30:22.862620800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+12:45:22.867 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104208 (last run 2025-09-29 12:30:22.862, schedule 2025-09-29T12:45+08:00[Asia/Shanghai])
+12:45:22.878 INFO  ity.EntityFacadeImpl Found entities in 45 files in 10ms
+12:45:22.879 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+12:45:22.882 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104209 (last run 2025-09-29 12:30:22.862, schedule 2025-09-29T12:45+08:00[Asia/Shanghai])
+12:45:22.884 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T12:45:22.866405700+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:00:22.862 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104210 (last run 2025-09-29 12:45:22.866, schedule 2025-09-29T13:00+08:00[Asia/Shanghai])
+13:00:22.879 INFO  ity.EntityFacadeImpl Found entities in 45 files in 12ms
+13:00:22.879 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:00:22.885 INFO  e.ScheduledJobRunner Running job recalculate_GlAccountOrgSummaries run 104211 (last run 2025-09-29 12:00:22.864, schedule 2025-09-29T13:00+08:00[Asia/Shanghai])
+13:00:22.895 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104212 (last run 2025-09-29 12:45:22.866, schedule 2025-09-29T13:00+08:00[Asia/Shanghai])
+13:00:22.897 INFO  e.ScheduledJobRunner Ran 3 Service Jobs starting 2025-09-29T13:00:22.861464600+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 3 of 12 job slots
+13:00:23.069 INFO  ext.LoggerFacadeImpl [Recalculate GlAccountOrgSummaries] lastRunTime 2025-09-29 12:00:22.864, 3 time periods, organizations: [ORG_ZIZI_CORP]
+13:00:23.071 INFO  xt.MessageFacadeImpl [info] Updated GL Account Org Summaries for orgs [ORG_ZIZI_CORP] in 30ms; updated 0 Organization and 0 Period summary records
+13:15:22.865 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104213 (last run 2025-09-29 13:00:22.861, schedule 2025-09-29T13:15+08:00[Asia/Shanghai])
+13:15:22.881 INFO  ity.EntityFacadeImpl Found entities in 45 files in 15ms
+13:15:22.882 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:15:22.925 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104214 (last run 2025-09-29 13:00:22.861, schedule 2025-09-29T13:15+08:00[Asia/Shanghai])
+13:15:22.928 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T13:15:22.860061800+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:21:07.499 INFO  oquiAbstractEndpoint Timeout in WebSocket Session c6f0638c-29b5-4890-9fee-896e76a6027b, User null (null): Connection Idle Timeout
+13:30:22.853 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104215 (last run 2025-09-29 13:15:22.86, schedule 2025-09-29T13:30+08:00[Asia/Shanghai])
+13:30:22.867 INFO  ity.EntityFacadeImpl Found entities in 45 files in 12ms
+13:30:22.868 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:30:22.903 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104216 (last run 2025-09-29 13:15:22.86, schedule 2025-09-29T13:30+08:00[Asia/Shanghai])
+13:30:22.907 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T13:30:22.851856200+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 2 of 12 job slots
+13:45:22.863 INFO  e.ScheduledJobRunner Running job autoApprove_OrdersDelayed run 104217 (last run 2025-09-29 13:30:22.851, schedule 2025-09-29T13:45+08:00[Asia/Shanghai])
+13:45:22.880 INFO  ity.EntityFacadeImpl Found entities in 45 files in 16ms
+13:45:22.880 INFO  ity.EntityFacadeImpl Found 1 view-entity definitions in database (DbViewEntity records)
+13:45:22.918 INFO  e.ScheduledJobRunner Running job render_ScheduledScreens_frequent run 104218 (last run 2025-09-29 13:30:22.851, schedule 2025-09-29T13:45+08:00[Asia/Shanghai])
+13:45:22.921 INFO  e.ScheduledJobRunner Ran 2 Service Jobs starting 2025-09-29T13:45:22.861456900+08:00[Asia/Shanghai] - active: 7, paused: 12; on this server using 1 of 12 job slots

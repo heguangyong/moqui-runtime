@@ -1,0 +1,54 @@
+10:13:36.490 INFO  MoquiContextListener Loading Webapp 'webroot' (Moqui Root Webapp) on ROOT, located at: E:\moqui-framework\execwartmp\ROOT\webapp
+10:13:45.464 WARN  o.MinioClientFactory MinIO client connection validation failed: ConnectException - Failed to connect to localhost/[0:0:0:0:0:0:0:1]:9000
+10:13:45.464 WARN  inio.MinioClientPool MinIO客户端连接验证失败，不缓存: http://localhost:9000:admin:us-east-1:false
+10:13:45.480 WARN  o.MinioClientFactory MinIO client connection validation failed: ConnectException - Failed to connect to localhost/[0:0:0:0:0:0:0:1]:9000
+10:13:45.480 WARN  nio.MinioToolFactory MinIO Tool Factory initialized but connection validation failed
+10:13:45.607 WARN  xt.ElasticFacadeImpl ElasticFacade Client for cluster default has no url, skipping
+10:13:45.608 WARN  xt.ElasticFacadeImpl No Elastic Client found with name 'logger' or 'default', not initializing ElasticSearchLogger
+10:13:45.761 INFO  MoquiContextListener Added webapp filter ElasticRequestLogFilter on: [/*], [REQUEST]
+10:13:45.767 INFO  MoquiContextListener Added webapp filter ElasticAuthFilter on: [/elastic/*], []
+10:13:45.767 INFO  MoquiContextListener Added webapp filter KibanaAuthFilter on: [/kibana/*], []
+10:13:45.773 INFO  MoquiContextListener Added webapp listener org.moqui.impl.webapp.MoquiSessionListener
+10:13:45.799 INFO  MoquiContextListener Added servlet MoquiServlet on: [/*]
+10:13:45.803 INFO  MoquiContextListener Added servlet MoquiFopServlet on: [/fop/*]
+10:13:45.836 INFO  MoquiContextListener Added servlet ElasticSearchProxy on: [/elastic/*]
+10:13:45.847 INFO  MoquiContextListener Added servlet KibanaProxy on: [/kibana/*]
+10:13:45.852 INFO  MoquiContextListener Added servlet HtmlRenderServlet on: [/htmlr/*]
+10:13:45.855 INFO  MoquiContextListener Added servlet H2Console on: [/h2/*]
+10:13:45.855 INFO  MoquiContextListener Found WebSocket ServerContainer org.eclipse.jetty.websocket.javax.server.internal.JavaxWebSocketServerContainer
+10:13:45.875 INFO  MoquiContextListener Added WebSocket endpoint /notws for class org.moqui.impl.webapp.NotificationEndpoint
+10:13:45.875 INFO  MoquiContextListener Added WebSocket endpoint /groovysh for class org.moqui.impl.webapp.GroovyShellEndpoint
+10:13:45.875 INFO  MoquiContextListener Moqui Framework initialized in 9.6 seconds
+10:13:45.875 INFO  MoquiContextListener 
+10:13:45.875 INFO  MoquiContextListener === Access Application ===
+10:13:45.875 INFO  MoquiContextListener Web UI: http://localhost:8080
+10:13:45.875 INFO  MoquiContextListener REST API: http://localhost:8080/rest/
+10:13:45.875 INFO  MoquiContextListener Default Admin: john.doe / moqui
+10:13:45.875 INFO  MoquiContextListener ============================
+10:26:19.737 INFO  MoquiContextListener Loading Webapp 'webroot' (Moqui Root Webapp) on ROOT, located at: E:\moqui-framework\execwartmp\ROOT\webapp
+10:26:26.984 WARN  xt.ElasticFacadeImpl ElasticFacade Client for cluster default has no url, skipping
+10:26:26.986 WARN  xt.ElasticFacadeImpl No Elastic Client found with name 'logger' or 'default', not initializing ElasticSearchLogger
+10:26:27.106 INFO  MoquiContextListener Added webapp filter ElasticRequestLogFilter on: [/*], [REQUEST]
+10:26:27.110 INFO  MoquiContextListener Added webapp filter ElasticAuthFilter on: [/elastic/*], []
+10:26:27.110 INFO  MoquiContextListener Added webapp filter KibanaAuthFilter on: [/kibana/*], []
+10:26:27.113 INFO  MoquiContextListener Added webapp listener org.moqui.impl.webapp.MoquiSessionListener
+10:26:27.136 INFO  MoquiContextListener Added servlet MoquiServlet on: [/*]
+10:26:27.139 INFO  MoquiContextListener Added servlet MoquiFopServlet on: [/fop/*]
+10:26:27.172 INFO  MoquiContextListener Added servlet ElasticSearchProxy on: [/elastic/*]
+10:26:27.181 INFO  MoquiContextListener Added servlet KibanaProxy on: [/kibana/*]
+10:26:27.186 INFO  MoquiContextListener Added servlet HtmlRenderServlet on: [/htmlr/*]
+10:26:27.190 INFO  MoquiContextListener Added servlet H2Console on: [/h2/*]
+10:26:27.190 INFO  MoquiContextListener Found WebSocket ServerContainer org.eclipse.jetty.websocket.javax.server.internal.JavaxWebSocketServerContainer
+10:26:27.212 INFO  MoquiContextListener Added WebSocket endpoint /notws for class org.moqui.impl.webapp.NotificationEndpoint
+10:26:27.212 INFO  MoquiContextListener Added WebSocket endpoint /groovysh for class org.moqui.impl.webapp.GroovyShellEndpoint
+10:26:27.212 INFO  MoquiContextListener Moqui Framework initialized in 7.697 seconds
+10:26:27.212 INFO  MoquiContextListener 
+10:26:27.212 INFO  MoquiContextListener === Access Application ===
+10:26:27.212 INFO  MoquiContextListener Web UI: http://localhost:8080
+10:26:27.212 INFO  MoquiContextListener REST API: http://localhost:8080/rest/
+10:26:27.212 INFO  MoquiContextListener Default Admin: john.doe / moqui
+10:26:27.212 INFO  MoquiContextListener ============================
+10:44:09.779 WARN  util.MoquiShiroRealm Web login with IPv6 client IP 0:0:0:0:0:0:0:1 for userId EX_JOHN_DOE, not checking ipAllowed
+10:44:09.999 WARN  util.MoquiShiroRealm Web login with IPv6 client IP 0:0:0:0:0:0:0:1 for userId EX_JOHN_DOE, not checking ipAllowed
+10:44:10.024 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node06c1uhtat7n05llmqlnfitbuh1: java.lang.IllegalStateException: Invalid for read: id=node06c1uhtat7n05llmqlnfitbuh1 created=1759200249670 accessed=1759200249670 lastaccessed=1759200249670 maxInactiveMs=3600000 expiry=1759203849672
+10:44:10.024 WARN  ui.util.WebUtilities Tried getAttributeNames() on invalidated session node06c1uhtat7n05llmqlnfitbuh1: java.lang.IllegalStateException: Invalid for read: id=node06c1uhtat7n05llmqlnfitbuh1 created=1759200249670 accessed=1759200249670 lastaccessed=1759200249670 maxInactiveMs=3600000 expiry=1759203849672

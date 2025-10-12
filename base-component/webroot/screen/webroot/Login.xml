@@ -13,105 +13,38 @@ along with this software (see the LICENSE.md file). If not, see
 <http://creativecommons.org/publicdomain/zero/1.0/>.
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
-        default-menu-include="false" require-authentication="false" history="false">
+        standalone="true" default-menu-include="false" require-authentication="false" history="false">
 
     <parameter name="initialTab"/>
     <parameter name="returnTo"/>
 
-    <!-- partial list of scenarios:
-      x basic login
-        - login username + password success
-        - next screen 2nd factor
-      x login with password change required
-        - login username + password but require password change
-        - next screen change password
-          - go to directly with anchor in URL or something
-          - if password was correct and authc code required for user allow instead of pw on change password
-          - login after change password, don't require login again
-      x cold change password
-        - start on change password tab, enter username, password, new password + confirm
-        - if 2nd factor required go to SecondFactor screen - instead go back to Login#change and get code + new password/verify
-      - reset password
-        - given username send email to UserAccount.emailAddress with separate reset password
-        - in email link to change password tab on login screen with username and reset password filled in
-        - if 2nd factor required for user also require
-      - change user after pre-auth
-    -->
-
-    <transition name="login">
+    <transition name="login" require-session-token="false">
         <actions>
-            <if condition="!username"><return error="true" message="用户名是必需的"/></if>
-            <if condition="!password"><return error="true" message="密码是必需的"/></if>
-
-            <!-- 使用REST API JWT认证 -->
-<script><![CDATA[
-                // 调用JWT REST API进行认证
-                try {
-                    def url = "http://localhost:8080/rest/s1/moqui/auth/login"
-                    def data = [username: username, password: password, merchantId: 'DEMO_MERCHANT']
-                    def jsonData = new groovy.json.JsonBuilder(data).toString()
-
-                    def connection = new URL(url).openConnection()
-                    connection.setRequestMethod("POST")
-                    connection.setRequestProperty("Content-Type", "application/json")
-                    connection.setDoOutput(true)
-
-                    // 写入请求数据
-                    connection.outputStream.withWriter('UTF-8') { writer ->
-                        writer.write(jsonData)
-                    }
-
-                    def responseCode = connection.responseCode
-                    if (responseCode == 200) {
-                        def response = connection.inputStream.text
-                        def jsonSlurper = new groovy.json.JsonSlurper()
-                        def jwtResult = jsonSlurper.parseText(response)
-
-                        if (jwtResult.success) {
-                            accessToken = jwtResult.accessToken
-                            refreshToken = jwtResult.refreshToken
-                            loginSuccess = true
-                            message = "JWT认证成功"
-
-                            // 仅在响应头中设置JWT token - 前端将从header获取并存储到localStorage
-                            ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
-                            ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
-                            ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
-
-                            // 调用内部登录以兼容现有系统
-                            ec.user.internalLoginUser(username)
-                        } else {
-                            loginSuccess = false
-                            message = "登录失败: " + (jwtResult.message ?: "认证失败")
-                        }
-                    } else {
-                        loginSuccess = false
-                        // 读取错误响应
-                        def errorResponse = ""
-                        try {
-                            errorResponse = connection.errorStream?.text ?: ""
-                        } catch (Exception ex) {
-                            // ignore
-                        }
-                        message = "JWT API调用失败，状态码: " + responseCode + (errorResponse ? ", 错误: " + errorResponse : "")
-                    }
-                } catch (Exception e) {
-                    loginSuccess = false
-                    ec.logger.error("JWT认证异常", e)
-                    message = "认证异常: " + e.message
-                }
-            ]]></script>
-
-            <if condition="!loginSuccess">
-                <message error="true" message="${message}"/>
-            <else>
-                <message message="${message}"/>
+            <if condition="ec.web?.sessionAttributes?.moquiPreAuthcUsername"><then>
+                <!-- already pre-auth'ed, verify code below -->
+                <set field="username" from="ec.web?.sessionAttributes?.moquiPreAuthcUsername"/>
+            </then><else>
+                <!-- no pre-auth, try logging in (pre-auth if 2nd factor required) -->
+                <set field="loggedIn" from="ec.user.loginUser(username, password)"/>
             </else></if>
+
+            <if condition="ec.web.sessionAttributes.moquiAuthcFactorRequired">
+                <if condition="code"><then>
+                    <service-call name="org.moqui.impl.UserServices.validate#ExternalUserAuthcCode"
+                            in-map="[code:code]" out-map="validateOut"/>
+                    <if condition="validateOut.verified"><then>
+                        <script>ec.user.internalLoginUser(validateOut.username)</script>
+                        <return/>
+                    </then><else>
+                        <message error="true" public="true">Authentication code is not valid</message>
+                    </else></if>
+                </then><else>
+                    <message error="true" public="true">Authentication code required for user </message>
+                </else></if>
+            </if>
         </actions>
-        <conditional-response type="screen-last">
-            <condition><expression>loginSuccess</expression></condition>
-        </conditional-response>
-        <default-response url="."/>
+        <default-response type="screen-last"/>
+        <error-response url="."/>
     </transition>
     <transition name="logout">
         <actions><script>ec.user.logoutUser()</script></actions>
@@ -120,18 +53,20 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
     <transition name="removePreAuth">
         <actions><script>
-            // JWT authentication - no session-based pre-auth needed
-            // User can simply login again with different credentials
+            ec.web.sessionAttributes.remove("moquiPreAuthcUsername")
+            ec.web.sessionAttributes.remove("moquiAuthcFactorRequired")
+            ec.web.sessionAttributes.remove("moquiPasswordChangeRequired")
+            ec.web.sessionAttributes.remove("moquiExpiredCredentials")
         </script></actions>
         <default-response url="."/>
     </transition>
     <transition name="resetPassword">
-        <parameter name="username"/>
+        <parameter name="username" from="ec.web?.sessionAttributes?.moquiPreAuthcUsername ?: username"/>
         <service-call name="org.moqui.impl.UserServices.reset#Password" in-map="[username:username]"/>
         <default-response url="."/>
     </transition>
     <transition name="changePassword">
-        <parameter name="username"/>
+        <parameter name="username" from="ec.web?.sessionAttributes?.moquiPreAuthcUsername ?: username"/>
         <service-call name="org.moqui.impl.UserServices.update#Password"/>
         <actions>
             <!-- password change success, login the user -->
@@ -152,40 +87,36 @@ along with this software (see the LICENSE.md file). If not, see
     </transition>
 
     <pre-actions><script>
-        // if user already logged in redirect to root
         if (ec.user.userId) sri.sendRedirectAndStopRender('/')
-
-        // jQuery/UI
-        html_scripts.add('/libs/jquery/jquery.min.js')
-        // Bootstrap
-        html_scripts.add('/libs/twitter-bootstrap/js/bootstrap.min.js')
-        // JWT Authentication Manager (framework level)
-        html_scripts.add('/includes/JwtAuth.js')
-        // Moqui webroot layout
-        html_stylesheets.add('/css/webroot-layout.css')
     </script></pre-actions>
     <actions>
-        <!-- handle returnTo parameter, and general handling for when the Login screen is reached directly
-            (as opposed to redirect following attempted request to screen that requires authz) -->
-        <!-- JWT authentication - returnTo handling simplified -->
         <if condition="returnTo"><then>
-            <log message="setting return path to ${returnTo}"/>
-            <!-- Client-side handling via JWT token, no server session needed -->
+            <log message="setting last path to "/>
+            <script>ec.web.session.setAttribute('moqui.screen.last.path', returnTo)</script>
         </then><else>
-            <set field="referrer" from="ec.web.request.getHeader('Referer')"/>
-            <!-- Client-side redirect handling via JWT token -->
+            <if condition="!ec.web.session.getAttribute('moqui.screen.last.path')">
+                <set field="referrer" from="ec.web.request.getHeader('Referer')"/>
+                <if condition="referrer"><script>ec.web.session.setAttribute('moqui.screen.last.path', referrer)</script></if>
+            </if>
         </else></if>
 
-        <!-- JWT authentication - password state managed client-side -->
-        <set field="passwordChangeRequired" from="false" type="Boolean"/>
-        <set field="expiredCredentials" from="false" type="Boolean"/>
+        <set field="passwordChangeRequired" from="ec.web.sessionAttributes.moquiPasswordChangeRequired ?: 'false'" type="Boolean"/>
+        <set field="expiredCredentials" from="ec.web.sessionAttributes.moquiExpiredCredentials ?: 'false'" type="Boolean"/>
         <if condition="passwordChangeRequired || expiredCredentials">
             <set field="initialTab" value="#change"/></if>
         <if condition="initialTab &amp;&amp; !initialTab.startsWith('#')"><set field="initialTab" from="'#' + initialTab"/></if>
 
-        <!-- JWT authentication - no session-based pre-auth -->
-        <set field="secondFactorRequired" from="false"/>
-        <set field="username" from="ec.web.errorParameters?.username ?: ''"/>
+        <set field="secondFactorRequired" from="ec.web.sessionAttributes.moquiAuthcFactorRequired ?: 'false'" type="Boolean"/>
+        <if condition="secondFactorRequired"><then>
+            <set field="username" from="ec.web.sessionAttributes.moquiPreAuthcUsername"/>
+            <service-call name="org.moqui.impl.UserServices.get#ExternalUserAuthcFactorInfo" out-map="context"/>
+        </then><else>
+            <set field="username" from="ec.web.errorParameters?.username ?: ''"/>
+        </else></if>
+
+        <set field="hasExistingUsers" from="ec.entity.find('moqui.security.UserAccount').disableAuthz().count() &gt; 1" type="Boolean"/>
+        <set field="testLoginAvailable" from="ec.entity.find('moqui.security.UserAccount').condition('userId', 'EX_JOHN_DOE')
+                .condition('currentPassword', '16ac58bbfa332c1c55bd98b53e60720bfa90d394').disableAuthz().count() &gt; 0" type="Boolean"/>
 
         <set field="passwordNode" from="ec.ecfi.confXmlRoot.first('user-facade').first('password')"/>
         <set field="minLength" from="passwordNode.attribute('min-length')" default-value="8" type="Integer"/>
@@ -193,60 +124,8 @@ along with this software (see the LICENSE.md file). If not, see
         <set field="minOthers" from="passwordNode.attribute('min-others')" default-value="1" type="Integer"/>
     </actions>
     <widgets>
-        <!-- NOTE: this screen is not under the apps screen, but uses similar header/footer/etc -->
-        <container id="content" style="Login"><container style="inner"><container style="container-fluid">
-            <section-iterate name="headerSavedMessages" list="ec.web?.savedMessages" entry="message"><widgets>
-                <render-mode><text type="html"><![CDATA[<div class="alert alert-success fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>]]></text></render-mode>
-                <label text="${message}" type="h4"/>
-                <render-mode><text type="html"><![CDATA[</div>]]></text></render-mode>
-            </widgets></section-iterate>
-            <section-iterate name="headerSavedErrors" list="ec.web?.savedErrors" entry="errorMessage"><widgets>
-                <render-mode><text type="html"><![CDATA[<div class="alert alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>]]></text></render-mode>
-                <label text="${errorMessage}" type="h4"/>
-                <render-mode><text type="html"><![CDATA[</div>]]></text></render-mode>
-            </widgets></section-iterate>
-            <section-iterate name="headerSavedValidationErrors" list="ec.web?.savedValidationErrors" entry="validationError"><widgets>
-                <!-- TODO: put these by fields instead of in header -->
-                <render-mode><text type="html"><![CDATA[<div class="alert alert-danger fade in" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>]]></text></render-mode>
-                <label text="${validationError.message} (for field ${validationError.field})" type="h4"/>
-                <render-mode><text type="html"><![CDATA[</div>]]></text></render-mode>
-            </widgets></section-iterate>
-
-            <section name="NeedsSetupSection" condition="ec.entity.find('moqui.security.UserAccount').disableAuthz().count() > 1"><widgets>
-                <!-- primary scenario, main login screen -->
-                <render-mode><text type="html" template="true" location="component://webroot/screen/webroot/Login.ftl"/></render-mode>
-            </widgets><fail-widgets>
-                <!-- if there are no user accounts, other than the _NA_ UserAccount which is in seed data, show form to create admin account -->
-                <render-mode><text type="html"><![CDATA[
-    <div class="text-center">
-        <h3>欢迎使用您的新系统</h3>
-        <form method="post" action="${sri.buildUrl("createInitialAdminAccount").url}" class="form-signin" id="InitialAdminForm">
-            <p class="text-muted text-center">没有用户帐户，通过创建初始管理员帐户开始</p>
-            <!-- JWT authentication - no session token needed -->
-            <input type="text" name="username" value="${(ec.getWeb().getErrorParameters().get("username"))!""}" placeholder="用户名" required="required" class="form-control top">
-            <input type="password" name="newPassword" placeholder="新密码" required="required" class="form-control middle">
-            <input type="password" name="newPasswordVerify" placeholder="新密码验证" required="required" class="form-control middle">
-            <input type="text" name="userFullName" value="${(ec.getWeb().getErrorParameters().get("userFullName"))!""}" placeholder="用户全名" required="required" class="form-control middle">
-            <input type="text" name="emailAddress" value="${(ec.getWeb().getErrorParameters().get("emailAddress"))!""}" placeholder="电子邮件地址" required="required" class="form-control bottom">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">创建初始管理员帐户</button>
-        </form>
-    </div>
-                ]]></text></render-mode>
-            </fail-widgets></section>
-
-            <!-- TODO: very convenient for dev/testing and generally safe but adds some overhead in production, consider removing for large instances -->
-            <section name="TestLoginSection">
-                <condition><expression>ec.entity.find('moqui.security.UserAccount').condition('userId', 'EX_JOHN_DOE')
-                    .condition('currentPassword', '16ac58bbfa332c1c55bd98b53e60720bfa90d394').disableAuthz().count()</expression></condition>
-                <widgets><render-mode><text type="html"><![CDATA[
-                <form method="post" action="${sri.buildUrl("login").url}" id="TestLoginLink">
-                    <input type="hidden" name="username" value="john.doe">
-                    <input type="hidden" name="password" value="moqui">
-                    <button class="btn btn-sm btn-primary" type="submit" id="TestLoginLink_button">Test Login (John Doe)</button>
-                </form>
-                <script>$("#TestLoginLink_button").focus();</script>
-                ]]></text></render-mode></widgets>
-            </section>
-        </container></container></container>
+        <render-mode>
+            <text type="html" template="true" location="component://webroot/screen/webroot/Login.ftl"/>
+        </render-mode>
     </widgets>
 </screen>

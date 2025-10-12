@@ -31,11 +31,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         // For marketplace Chat, pre-load the styles and LiveChat script
         if (isMarketplaceChat) {
-            // Add the Chat.xml styles directly (using correct paths from apps)
-            html_stylesheets.add('/libs/twitter-bootstrap/css/bootstrap.min.css')
-            html_stylesheets.add('/css/webroot-layout.css')
-            html_stylesheets.add('/css/webroot-theme.css')
-            // Add marketplace chat specific styles
+            // Add marketplace chat specific styles without Bootstrap dependencies
             html_stylesheets.add('/css/marketplace-chat.css')
 
             // Add LiveChat and marketplace chat scripts to footer

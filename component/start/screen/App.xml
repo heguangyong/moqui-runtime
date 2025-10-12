@@ -14,20 +14,9 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
-        require-authentication="false" screen-theme-type-enum-id="STT_ERROR" default-menu-include="false">
-        <pre-actions><script><![CDATA[
-        html_stylesheets.add('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons')
-        html_stylesheets.add('/libs/quasar/quasar.min.css')
-        html_stylesheets.add('/css/WebrootVue.qvt.css')
+        include-child-content="true" require-authentication="false" menu-image="fa fa-flash" menu-image-type="icon">
 
-        html_scripts.add('/libs/vue/vue.min.js')
-        html_scripts.add('/libs/quasar/quasar.umd.min.js')
-        html_scripts.add('/js/MoquiLib.js')
-    ]]></script></pre-actions>
     <widgets>
-        <container style="container-fluid">
-            <subscreens-active/>
-        </container>
+        <label text="Hello World!" style="font-size: 24px; font-weight: bold; color: #00f; margin: 20px;"/>
     </widgets>
 </screen>
-

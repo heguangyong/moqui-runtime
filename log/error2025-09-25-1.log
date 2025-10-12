@@ -1,0 +1,43 @@
+--- 2025-09-25 00:34:59.646 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 00:42:02.963 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 09:18:40.516 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 09:21:35.174 [ qtp67730604-24] ERROR             org.moqui.impl.screen.ScreenRenderImpl [] []
+ Error rendering screen [ElFinder.xml]
+org.moqui.BaseArtifactException: Could not find definition for screen location ElFinder.xml
+	at org.moqui.impl.screen.ScreenFacadeImpl.makeScreenDefinition(ScreenFacadeImpl.groovy:201) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenFacadeImpl.getScreenDefinition(ScreenFacadeImpl.groovy:157) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenRenderImpl.renderIncludeScreen(ScreenRenderImpl.groovy:1263) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[?:?]
+	at jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[?:?]
+	at jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[?:?]
+	at org.moqui.impl.screen.ScreenWidgetRenderFtl.render(ScreenWidgetRenderFtl.groovy:32) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenWidgets.render(ScreenWidgets.groovy:38) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenSection.renderSingle(ScreenSection.groovy:159) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenSection.render(ScreenSection.groovy:132) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenDefinition.render(ScreenDefinition.groovy:686) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenRenderImpl.doActualRender(ScreenRenderImpl.groovy:926) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenRenderImpl.internalRender(ScreenRenderImpl.groovy:710) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.screen.ScreenRenderImpl.render(ScreenRenderImpl.groovy:170) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at org.moqui.impl.webapp.MoquiServlet.service(MoquiServlet.groovy:118) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:750) ~[moqui_temp15664585122683420252WEB-INF_lib_javax.servlet-api-4.0.1.jar.:4.0.1]
+	at org.moqui.impl.webapp.ElasticRequestLogFilter.doFilter(ElasticRequestLogFilter.groovy:96) ~[moqui_temp4587609627638598665WEB-INF_lib_moqui-framework-3.1.0-rc2.jar.:3.1.0-rc2]
+	at java.lang.Thread.run(Thread.java:834) [?:?]
+--- 2025-09-25 13:22:22.488 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 13:28:04.301 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 13:31:52.526 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 13:40:57.850 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 14:05:54.576 [           main] ERROR      org.moqui.impl.webapp.ElasticRequestLogFilter [] []
+ In ElasticRequestLogFilter init could not find ElasticClient with name logger or default, not starting
+--- 2025-09-25 14:06:41.889 [tp1865219266-25] ERROR           org.moqui.impl.context.MessageFacadeImpl [] []
+ {serviceNamePretty=Minio Services Get Bucket, form=null, field=userId, fieldPretty=User ID, serviceName=minio.MinioServices.get#Bucket, formPretty=, message=Field cannot be empty}
+--- 2025-09-25 14:15:29.798 [tp1865219266-44] ERROR           org.moqui.impl.context.MessageFacadeImpl [] []
+ {serviceNamePretty=Minio Services Get Bucket, form=null, field=userId, fieldPretty=User ID, serviceName=minio.MinioServices.get#Bucket, formPretty=, message=Field cannot be empty}
+--- 2025-09-25 16:34:18.410 [tp1865219266-20] ERROR           org.moqui.impl.context.MessageFacadeImpl [] []
+ {serviceNamePretty=Minio Services Get Bucket, form=null, field=userId, fieldPretty=User ID, serviceName=minio.MinioServices.get#Bucket, formPretty=, message=Field cannot be empty}
