@@ -48,6 +48,8 @@
     <!-- JWT Algorithm Settings -->
     <default-property name="moqui.jwt.algorithm" value="HS256"/>
     <default-property name="moqui.jwt.key.rotation.enabled" value="false"/>
+    <!-- Disable legacy session-token requirement in favor of JWT-only auth -->
+    <default-property name="webapp_require_session_token" value="false"/>
 
     <cache-list warm-on-start="false">
         <!-- Development Mode - expires artifact cache entries; don't use these for production, load testing, etc -->

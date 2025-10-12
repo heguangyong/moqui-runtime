@@ -139,6 +139,10 @@ moqui.setJwtToken = function(accessToken, refreshToken, rememberMe) {
 };
 
 moqui.removeJwtToken = function() {
+    if (window.jwtAuth && typeof window.jwtAuth.clearTokens === 'function') {
+        window.jwtAuth.clearTokens();
+    }
+
     // 清除所有存储位置的JWT token
     localStorage.removeItem('jwt_access_token');
     localStorage.removeItem('jwt_refresh_token');

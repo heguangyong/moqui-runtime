@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 <!-- No copyright or license for configuration file, details here are not considered a creative work. -->
 
 <!-- NOTE: for default settings, examples, and comments see the MoquiDefaultConf.xml file at
@@ -42,6 +42,9 @@
     <default-property name="moqui.jwt.secure.headers.enabled" value="${MOQUI_JWT_SECURE_HEADERS:true}"/>
     <default-property name="moqui.jwt.cors.enabled" value="${MOQUI_JWT_CORS:false}"/>
 
+    <!-- Disable legacy session-token requirement in favor of JWT-only auth -->
+    <default-property name="webapp_require_session_token" value="false"/>
+
     <server-stats stats-skip-condition="pathInfo?.startsWith('/rpc') || pathInfo?.startsWith('/rest') || pathInfo?.startsWith('/status')"/>
 
     <!-- NOTE: using the environment variable is relatively secure in a container environment, but for more security set it here instead -->
@@ -49,3 +52,4 @@
         <!-- add datasource elements here to configure databases -->
     </entity-facade>
 </moqui-conf>
+
