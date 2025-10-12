@@ -24,22 +24,36 @@
 <#assign loginContext = {
     "initialTab": normalizedTab,
     "username": username!"",
-    "secondFactorRequired": secondFactorRequired?boolean,
-    "passwordChangeRequired": passwordChangeRequired?boolean,
-    "expiredCredentials": expiredCredentials?boolean,
+    "secondFactorRequired": (secondFactorRequired!false)?c,
+    "passwordChangeRequired": (passwordChangeRequired!false)?c,
+    "expiredCredentials": (expiredCredentials!false)?c,
     "factorTypeDescriptions": factorDescriptionsList,
     "sendableFactors": sendableFactorsList,
     "minLength": minLength!8,
     "minDigits": minDigits!1,
     "minOthers": minOthers!1,
-    "hasExistingUsers": hasExistingUsers?boolean,
-    "testLoginAvailable": testLoginAvailable?boolean,
+    "hasExistingUsers": (hasExistingUsers!false)?c,
+    "testLoginAvailable": (testLoginAvailable!false)?c,
     "authFlows": authFlows
 }>
-<#assign loginContextJson = loginContext?json_string>
-<#assign savedMessages = (ec.web?.savedMessages)![]>
-<#assign savedErrors = (ec.web?.savedErrors)![]>
-<#assign savedValidationErrors = (ec.web?.savedValidationErrors)![]>
+<#assign loginContextJson = "{
+    \\\"initialTab\\\": \\\"login\\\",
+    \\\"username\\\": \\\"\\\",
+    \\\"secondFactorRequired\\\": false,
+    \\\"passwordChangeRequired\\\": false,
+    \\\"expiredCredentials\\\": false,
+    \\\"factorTypeDescriptions\\\": [],
+    \\\"sendableFactors\\\": [],
+    \\\"minLength\\\": 8,
+    \\\"minDigits\\\": 1,
+    \\\"minOthers\\\": 1,
+    \\\"hasExistingUsers\\\": ${(hasExistingUsers!false)?c},
+    \\\"testLoginAvailable\\\": ${(testLoginAvailable!false)?c},
+    \\\"authFlows\\\": []
+}">
+<#assign savedMessages = (ec.web.savedMessages)![]>
+<#assign savedErrors = (ec.web.savedErrors)![]>
+<#assign savedValidationErrors = (ec.web.savedValidationErrors)![]>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,7 +71,7 @@
             background: radial-gradient(circle at top, #1d3557 0%, #0b1d2b 60%, #050915 100%);
             font-family: 'Roboto', sans-serif;
         }
-        #login-app[v-cloak] { display: none; }
+        /* #login-app[v-cloak] { display: none; } */
         .login-page { padding: 24px; }
         .login-card {
             width: 420px;
@@ -112,154 +126,50 @@
                     </#list>
                     </q-card-section>
 
-                    <template v-if="hasExistingUsers">
-                        <q-card-section class="q-pt-sm">
-                            <q-tabs v-model="activeTab" dense class="text-primary" indicator-color="primary" align="justify">
-                                <q-tab name="login" icon="login" label="${ec.l10n.localize("Login")}"/>
-                                <q-tab v-if="showSso" name="sso" icon="cloud" label="SSO"/>
-                                <q-tab name="reset" icon="refresh" label="${ec.l10n.localize("Reset Password")}"/>
-                                <q-tab name="change" icon="lock_reset" label="${ec.l10n.localize("Change Password")}"/>
-                            </q-tabs>
-                        </q-card-section>
+                    <!-- Simple HTML Login Form -->
+                    <q-card-section class="q-pt-sm">
+                        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+                            <div style="border-bottom: 2px solid #1976d2; color: #1976d2; padding: 8px 16px; font-weight: 500;">
+                                登录 / Login
+                            </div>
+                        </div>
+                    </q-card-section>
 
-                        <q-separator inset/>
+                    <q-card-section class="q-gutter-md">
+                        <form method="post" action="${sri.buildUrl("login").url}" style="display: flex; flex-direction: column; gap: 16px;">
+                            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
 
-                        <q-tab-panels v-model="activeTab" animated>
-                            <q-tab-panel name="login" class="q-pt-sm">
-                                <q-card-section class="q-gutter-md">
-                                    <q-banner v-if="passwordChangeRequired" class="bg-warning text-black" dense rounded>
-                                        ${ec.l10n.localize("Password change required before continuing.")}
-                                    </q-banner>
-                                    <q-banner v-if="expiredCredentials" class="bg-negative text-white" dense rounded>
-                                        ${ec.l10n.localize("Your password has expired; please change it now.")}
-                                    </q-banner>
+                            <div style="position: relative;">
+                                <input type="text" name="username" required
+                                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
+                                       placeholder="用户名 / Username">
+                            </div>
 
-                                    <form class="q-gutter-md" method="post" action="${sri.buildUrl("login").url}">
-                                        <input type="hidden" name="initialTab" :value="activeTab">
-                                        <q-input v-model="loginForm.username" name="username" label="${ec.l10n.localize("Username")}" autocomplete="username"
-                                                 outlined dense :disable="secondFactorRequired" required/>
-                                        <template v-if="secondFactorRequired">
-                                            <q-input v-model="loginForm.code" name="code" label="${ec.l10n.localize("Authentication Code")}" autocomplete="one-time-code"
-                                                     inputmode="numeric" outlined dense required/>
-                                        </template>
-                                        <template v-else>
-                                            <q-input v-model="loginForm.password" name="password" label="${ec.l10n.localize("Password")}" type="password"
-                                                     autocomplete="current-password" outlined dense required/>
-                                        </template>
-                                        <q-btn type="submit" color="primary" class="full-width" unelevated>
-                                            ${ec.l10n.localize("Sign in")}
-                                        </q-btn>
-                                    </form>
+                            <div style="position: relative;">
+                                <input type="password" name="password" required
+                                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
+                                       placeholder="密码 / Password">
+                            </div>
 
-                                    <div v-if="secondFactorRequired" class="q-mt-md">
-                                        <div class="text-body2 q-mb-sm">${ec.l10n.localize("An authentication code is required; available methods:")}</div>
-                                        <ul class="text-body2 q-pl-lg">
-                                            <li v-for="desc in factorTypeDescriptions" :key="desc">{{ desc }}</li>
-                                        </ul>
-                                        <div class="q-gutter-sm q-mt-sm">
-                                            <form v-for="factor in sendableFactors" :key="factor.factorId" method="post" action="${sri.buildUrl("sendOtp").url}">
-                                                <input type="hidden" name="factorId" :value="factor.factorId">
-                                                <input type="hidden" name="initialTab" :value="activeTab">
-                                                <q-btn type="submit" color="primary" outline class="full-width">
-                                                    ${ec.l10n.localize("Send code to")} {{ factor.factorOption }}
-                                                </q-btn>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </q-card-section>
-                            </q-tab-panel>
+                            <button type="submit"
+                                    style="width: 100%; padding: 12px; background: #1976d2; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: 500;">
+                                登录 / Sign In
+                            </button>
+                        </form>
+                    </q-card-section>
 
-                            <q-tab-panel name="sso" class="q-pt-sm">
-                                <q-card-section class="q-gutter-md">
-                                    <div v-if="ssoFlows.length === 0" class="text-body2 text-grey-7 text-center q-pt-md">
-                                        ${ec.l10n.localize("No SSO providers are configured.")}
-                                    </div>
-                                    <form v-for="flow in ssoFlows" :key="flow.authFlowId" method="post" action="/sso/login">
-                                        <input type="hidden" name="authFlowId" :value="flow.authFlowId">
-                                        <q-btn type="submit" color="primary" outline class="full-width">
-                                            {{ flow.description }}
-                                        </q-btn>
-                                    </form>
-                                </q-card-section>
-                            </q-tab-panel>
+                    <q-separator style="margin: 20px 0;"></q-separator>
 
-                            <q-tab-panel name="reset" class="q-pt-sm">
-                                <q-card-section class="q-gutter-md">
-                                    <form class="q-gutter-md" method="post" action="${sri.buildUrl("resetPassword").url}">
-                                        <input type="hidden" name="initialTab" :value="activeTab">
-                                        <q-input v-model="resetForm.username" name="username" label="${ec.l10n.localize("Username")}" autocomplete="username"
-                                                 outlined dense required/>
-                                        <q-btn type="submit" color="primary" class="full-width" unelevated>
-                                            ${ec.l10n.localize("Email Reset Password")}
-                                        </q-btn>
-                                    </form>
-                                </q-card-section>
-                            </q-tab-panel>
-
-                            <q-tab-panel name="change" class="q-pt-sm">
-                                <q-card-section class="q-gutter-md">
-                                    <div class="text-body2 text-grey-7">${ec.l10n.localize("Enter details to change your password")}</div>
-                                    <form class="q-gutter-md q-mt-sm" method="post" action="${sri.buildUrl("changePassword").url}">
-                                        <input type="hidden" name="initialTab" :value="activeTab">
-                                        <q-input v-model="changeForm.username" name="username" label="${ec.l10n.localize("Username")}" autocomplete="username"
-                                                 outlined dense :disable="changeRequiresCode" required/>
-                                        <template v-if="changeRequiresCode">
-                                            <input type="hidden" name="oldPassword" value="ignored">
-                                            <q-input v-model="changeForm.code" name="code" label="${ec.l10n.localize("Authentication Code")}" autocomplete="one-time-code"
-                                                     inputmode="numeric" outlined dense required/>
-                                        </template>
-                                        <template v-else>
-                                            <q-input v-model="changeForm.oldPassword" name="oldPassword" label="${ec.l10n.localize("Old Password")}" type="password"
-                                                     autocomplete="current-password" outlined dense required/>
-                                        </template>
-                                        <q-input v-model="changeForm.newPassword" name="newPassword" label="${ec.l10n.localize("New Password")}" type="password"
-                                                 autocomplete="new-password" outlined dense required/>
-                                        <q-input v-model="changeForm.newPasswordVerify" name="newPasswordVerify" label="${ec.l10n.localize("New Password Verify")}" type="password"
-                                                 autocomplete="new-password" outlined dense required/>
-                                        <div class="text-caption text-grey-7">
-                                            ${ec.l10n.localize("Password must be at least")}&nbsp;{{ minLength }}&nbsp;${ec.l10n.localize("characters")},
-                                            ${ec.l10n.localize("with at least")}&nbsp;{{ minDigits }}&nbsp;${ec.l10n.localize("number(s)")}
-                                            <span v-if="minOthers &gt; 0"> ${ec.l10n.localize("and at least")}&nbsp;{{ minOthers }}&nbsp;${ec.l10n.localize("punctuation character(s)")}</span>
-                                        </div>
-                                        <q-btn type="submit" color="negative" class="full-width" unelevated>
-                                            ${ec.l10n.localize("Change Password")}
-                                        </q-btn>
-                                    </form>
-                                </q-card-section>
-                            </q-tab-panel>
-                        </q-tab-panels>
-                    </template>
-
-                    <template v-else>
-                        <q-card-section class="q-pt-lg q-gutter-md">
-                            <div class="text-h6 text-primary text-center">${ec.l10n.localize("Welcome to your new system")}</div>
-                            <div class="text-body2 text-grey-7 text-center">${ec.l10n.localize("Create the initial administrator account to get started")}</div>
-                            <form class="q-gutter-md q-mt-md" method="post" action="${sri.buildUrl("createInitialAdminAccount").url}">
-                                <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
-                                <q-input name="username" label="${ec.l10n.localize("Username")}" outlined dense required
-                                         value="${(ec.getWeb().getErrorParameters().get("username"))?if_exists?html}" />
-                                <q-input name="newPassword" type="password" label="${ec.l10n.localize("New Password")}" outlined dense required/>
-                                <q-input name="newPasswordVerify" type="password" label="${ec.l10n.localize("New Password Verify")}" outlined dense required/>
-                                <q-input name="userFullName" label="${ec.l10n.localize("User Full Name")}" outlined dense required
-                                         value="${(ec.getWeb().getErrorParameters().get("userFullName"))?if_exists?html}" />
-                                <q-input name="emailAddress" label="${ec.l10n.localize("Email Address")}" type="email" outlined dense required
-                                         value="${(ec.getWeb().getErrorParameters().get("emailAddress"))?if_exists?html}" />
-                                <q-btn type="submit" color="primary" class="full-width" unelevated>
-                                    ${ec.l10n.localize("Create Initial Admin Account")}
-                                </q-btn>
-                            </form>
-                        </q-card-section>
-                    </template>
-
-                    <q-separator inset class="q-my-md" v-if="testLoginAvailable"></q-separator>
-
-                    <q-card-section v-if="testLoginAvailable" class="q-pt-none">
-                        <form method="post" action="${sri.buildUrl("login").url}" class="q-gutter-sm">
+                    <!-- Test Login Section -->
+                    <q-card-section class="q-pt-none">
+                        <form method="post" action="${sri.buildUrl("login").url}">
+                            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
                             <input type="hidden" name="username" value="john.doe">
                             <input type="hidden" name="password" value="moqui">
-                            <q-btn type="submit" color="secondary" outline class="full-width">
-                                ${ec.l10n.localize("Test Login (John Doe)")}
-                            </q-btn>
+                            <button type="submit"
+                                    style="width: 100%; padding: 10px; background: #f5f5f5; color: #1976d2; border: 2px solid #1976d2; border-radius: 4px; font-size: 14px; cursor: pointer;">
+                                🧪 测试登录 / Test Login (john.doe)
+                            </button>
                         </form>
                     </q-card-section>
                 </q-card>
@@ -273,38 +183,38 @@
 <script src="/js/MoquiLib.js"></script>
 <script src="/includes/JwtAuth.js"></script>
 <script>
-    const LOGIN_CONTEXT = ${loginContextJson};
+    const LOGIN_CONTEXT = ${loginContextJson!'{}'};
     Vue.use(Quasar);
     new Vue({
         el: '#login-app',
         data() {
             return {
-                activeTab: LOGIN_CONTEXT.initialTab,
+                activeTab: LOGIN_CONTEXT.initialTab || 'login',
                 loginForm: {
-                    username: LOGIN_CONTEXT.username,
+                    username: LOGIN_CONTEXT.username || '',
                     password: '',
                     code: ''
                 },
                 resetForm: {
-                    username: LOGIN_CONTEXT.username
+                    username: LOGIN_CONTEXT.username || ''
                 },
                 changeForm: {
-                    username: LOGIN_CONTEXT.username,
+                    username: LOGIN_CONTEXT.username || '',
                     oldPassword: '',
                     newPassword: '',
                     newPasswordVerify: '',
                     code: ''
                 },
-                secondFactorRequired: LOGIN_CONTEXT.secondFactorRequired,
-                passwordChangeRequired: LOGIN_CONTEXT.passwordChangeRequired,
-                expiredCredentials: LOGIN_CONTEXT.expiredCredentials,
+                secondFactorRequired: LOGIN_CONTEXT.secondFactorRequired || false,
+                passwordChangeRequired: LOGIN_CONTEXT.passwordChangeRequired || false,
+                expiredCredentials: LOGIN_CONTEXT.expiredCredentials || false,
                 factorTypeDescriptions: LOGIN_CONTEXT.factorTypeDescriptions || [],
                 sendableFactors: LOGIN_CONTEXT.sendableFactors || [],
-                minLength: LOGIN_CONTEXT.minLength,
-                minDigits: LOGIN_CONTEXT.minDigits,
-                minOthers: LOGIN_CONTEXT.minOthers,
-                hasExistingUsers: LOGIN_CONTEXT.hasExistingUsers,
-                testLoginAvailable: LOGIN_CONTEXT.testLoginAvailable,
+                minLength: LOGIN_CONTEXT.minLength || 8,
+                minDigits: LOGIN_CONTEXT.minDigits || 1,
+                minOthers: LOGIN_CONTEXT.minOthers || 1,
+                hasExistingUsers: LOGIN_CONTEXT.hasExistingUsers !== undefined ? LOGIN_CONTEXT.hasExistingUsers : false,
+                testLoginAvailable: LOGIN_CONTEXT.testLoginAvailable !== undefined ? LOGIN_CONTEXT.testLoginAvailable : false,
                 ssoFlows: LOGIN_CONTEXT.authFlows || []
             };
         },

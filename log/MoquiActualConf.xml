@@ -10,7 +10,7 @@
     <default-property name="webapp_allow_origins" value="*"/>
     <default-property name="webapp_handle_cors" value="true"/>
     <default-property name="webapp_status_ips" value="127.0.0.1"/>
-    <default-property name="webapp_require_session_token" value="false"/>
+    <default-property name="webapp_require_session_token" value="true"/>
     <default-property name="webapp_upload_executable_allow" value="false"/>
     <default-property name="webapp_client_ip_header" value=""/>
     <default-property name="entity_ds_db_conf" value="h2"/>
@@ -221,8 +221,7 @@
             <subscreens-item name="hmadmin" menu-title="HiveMind Admin" menu-index="8" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
             <subscreens-item name="example" menu-title="Example" menu-index="97" location="component://example/screen/ExampleApp.xml"/>
             <subscreens-item name="mcp" menu-title="AI Marketing Assistant" menu-index="98" location="component://moqui-mcp/screen/McpDialogScreen.xml"/>
-            <subscreens-item name="minio" menu-title="����洢" menu-index="10" menu-include="true" location="component://moqui-minio/screen/MinioApp.xml"/>
-            <subscreens-item name="start" menu-title="start" menu-index="97" location="component://start/screen/App.xml"/>
+            <subscreens-item name="minio" menu-title="对象存储" menu-index="10" menu-include="true" location="component://moqui-minio/screen/MinioApp.xml"/>
         </screen>
         <screen location="component://webroot/screen/webroot.xml">
             <subscreens-item name="ssstatic" menu-include="false" location="component://SimpleScreens/screen/ssstatic.xml"/>
@@ -434,37 +433,37 @@
     <default-property name="mantle_content_root" value=""/>
     <default-property name="mantle_content_large_root" value=""/>
     <default-property name="marketplace.matching.min.score" value="0.6">
-        <description><![CDATA[��Сƥ�������ֵ��0-1��]]></description></default-property>
+        <description><![CDATA[最小匹配分数阈值（0-1）]]></description></default-property>
     <default-property name="marketplace.matching.max.results" value="10">
-        <description><![CDATA[���ƥ��������]]></description></default-property>
+        <description><![CDATA[最大匹配结果数量]]></description></default-property>
     <default-property name="marketplace.geo.max.distance" value="5.0">
-        <description><![CDATA[������;��루���]]></description></default-property>
+        <description><![CDATA[最大配送距离（公里）]]></description></default-property>
     <default-property name="marketplace.listing.expire.hours" value="48">
-        <description><![CDATA[������ϢĬ����Ч�ڣ�Сʱ��]]></description></default-property>
+        <description><![CDATA[供需信息默认有效期（小时）]]></description></default-property>
     <default-property name="marketplace.notification.channel" value="ROCKETCHAT">
-        <description><![CDATA[֪ͨ������ROCKETCHAT, SMS, EMAIL]]></description></default-property>
+        <description><![CDATA[通知渠道：ROCKETCHAT, SMS, EMAIL]]></description></default-property>
     <default-property name="marketplace.ai.provider" value="CLAUDE">
-        <description><![CDATA[AI�ṩ�̣�CLAUDE, OLLAMA, GPT]]></description></default-property>
+        <description><![CDATA[AI提供商：CLAUDE, OLLAMA, GPT]]></description></default-property>
     <default-property name="marketplace.ai.model" value="claude-3-5-sonnet-20241022">
-        <description><![CDATA[AIģ������]]></description></default-property>
+        <description><![CDATA[AI模型名称]]></description></default-property>
     <default-property name="marketplace.ai.enable.match.reason" value="true">
-        <description><![CDATA[�Ƿ�ʹ��AI����ƥ������]]></description></default-property>
+        <description><![CDATA[是否使用AI生成匹配理由]]></description></default-property>
     <default-property name="marketplace.ai.enable.tag.extraction" value="true">
-        <description><![CDATA[�Ƿ�ʹ��AI��ȡ��ǩ]]></description></default-property>
+        <description><![CDATA[是否使用AI提取标签]]></description></default-property>
     <default-property name="rocketchat.server.url" value="http://localhost:4000">
-        <description><![CDATA[Rocket.Chat��������ַ]]></description></default-property>
+        <description><![CDATA[Rocket.Chat服务器地址]]></description></default-property>
     <default-property name="rocketchat.bot.username" value="marketplace-bot">
-        <description><![CDATA[Rocket.Chat Bot�û���]]></description></default-property>
+        <description><![CDATA[Rocket.Chat Bot用户名]]></description></default-property>
     <default-property name="rocketchat.bot.password" value="">
-        <description><![CDATA[Rocket.Chat Bot����]]></description></default-property>
+        <description><![CDATA[Rocket.Chat Bot密码]]></description></default-property>
     <default-property name="rocketchat.webhook.token" value="">
         <description><![CDATA[Rocket.Chat Webhook Token]]></description></default-property>
     <default-property name="mcp.server.host" value="localhost">
-        <description><![CDATA[MCP Server������ַ]]></description></default-property>
+        <description><![CDATA[MCP Server主机地址]]></description></default-property>
     <default-property name="mcp.server.port" value="3001">
-        <description><![CDATA[MCP Server�˿�]]></description></default-property>
+        <description><![CDATA[MCP Server端口]]></description></default-property>
     <default-property name="mcp.server.enable" value="true">
-        <description><![CDATA[�Ƿ�����MCP Server]]></description></default-property>
+        <description><![CDATA[是否启用MCP Server]]></description></default-property>
     <default-property name="minio.endpoint" value="http://localhost:9000"/>
     <default-property name="minio.accessKey" value="admin"/>
     <default-property name="minio.secretKey" value="admin123"/>
