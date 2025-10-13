@@ -1,71 +1,64 @@
 
-# downloaded lib, generated, etc files
-/base-component/webroot/build
-/base-component/webroot/screen/webroot/libs
-/base-component/webroot/screen/webroot/js/*.min.js
-/base-component/webroot/screen/webroot/qz-tray
+# Log files
+*.log
+log/*.log
+log/*.log.*
 
-# runtime generated files
-/db/derby/moqui/
-/db/derby/derby.log
-/db/h2/
-/db/orientdb/databases/
-/db/snapshot/
-/elasticsearch*/
-/opensearch*/
-/jackrabbit/jackrabbit/
-/sessions/
-/tmp/
-/txlog/
+# Database files
+db/
 
-# common runtime added files
-/classes/*.pem
-/lib/*.jar
-
-# jackrabbit standalone jar file
-/jackrabbit/jackrabbit-standalone-*.jar
-
-# IntelliJ IDEA files
-.idea/
-out/
-*.ipr
-*.iws
-*.iml
-
-# Eclipse files (and some general ones also used by Eclipse)
-.metadata
-.gradle
-bin/
+# Temporary files
 tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
+temp/
 
-# NetBeans files
-nbproject/private/
-nbbuild/
-.nb-gradle/
-# allow dist, some JS libs in webroot/assets use it: dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
+# IDE files
+.idea/
+*.iml
+.vscode/
 
-# OSX auto files
+# OS files
 .DS_Store
-.AppleDouble
-.LSOverride
-._*
-
-# Windows auto files
 Thumbs.db
-ehthumbs.db
-Desktop.ini
 
-# Linux auto files
-*~
-/base-component/webroot/screen/webroot/js/select2/select2.min.js
-/base-component/webroot/screen/webroot/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js
+# Application specific
+elasticsearch/data/
+
+
+# Log files
+*.log
+log/*.log
+log/*.log.*
+
+# Database files  
+db/
+
+# Temporary files
+tmp/
+temp/
+sessions/
+txlog/
+
+# Node modules
+node_modules/
+
+# Build artifacts
+*.min.js
+*.min.css
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Elasticsearch data
+elasticsearch*/
+
+# Application specific
+base-component/webroot/screen/webroot/js/*.min.js
+base-component/webroot/screen/webroot/js/*.bak
+base-component/webroot/screen/webroot/libs/
+
