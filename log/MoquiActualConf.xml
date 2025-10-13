@@ -10,7 +10,7 @@
     <default-property name="webapp_allow_origins" value="*"/>
     <default-property name="webapp_handle_cors" value="true"/>
     <default-property name="webapp_status_ips" value="127.0.0.1"/>
-    <default-property name="webapp_require_session_token" value="true"/>
+    <default-property name="webapp_require_session_token" value="false"/>
     <default-property name="webapp_upload_executable_allow" value="false"/>
     <default-property name="webapp_client_ip_header" value=""/>
     <default-property name="entity_ds_db_conf" value="h2"/>
@@ -222,6 +222,7 @@
             <subscreens-item name="example" menu-title="Example" menu-index="97" location="component://example/screen/ExampleApp.xml"/>
             <subscreens-item name="mcp" menu-title="AI Marketing Assistant" menu-index="98" location="component://moqui-mcp/screen/McpDialogScreen.xml"/>
             <subscreens-item name="minio" menu-title="对象存储" menu-index="10" menu-include="true" location="component://moqui-minio/screen/MinioApp.xml"/>
+            <subscreens-item name="start" menu-title="start" menu-index="97" location="component://start/screen/App.xml"/>
         </screen>
         <screen location="component://webroot/screen/webroot.xml">
             <subscreens-item name="ssstatic" menu-include="false" location="component://SimpleScreens/screen/ssstatic.xml"/>

@@ -13,6 +13,10 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <div id="apps-root"><#-- NOTE: webrootVue component attaches here, uses this and below for template -->
     <input type="hidden" id="confMoquiSessionToken" value="${ec.web.sessionToken}">
+    <#-- JWT Parallel Support: Add JWT token for API clients while preserving session token -->
+    <#assign jwtAccessToken = ec.web.request.getCookie('jwt_access_token')>
+    <input type="hidden" id="confJwtAccessToken" value="${jwtAccessToken?.getValue()!''}">
+    <input type="hidden" id="confAuthMode" value="hybrid">
     <input type="hidden" id="confAppHost" value="${ec.web.getHostName(true)}">
     <input type="hidden" id="confAppRootPath" value="${ec.web.servletContext.contextPath}">
     <input type="hidden" id="confBasePath" value="${ec.web.servletContext.contextPath}/apps">

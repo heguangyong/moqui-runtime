@@ -1,15 +1,35 @@
-## Moqui Runtime
+# Moqui Runtime
 
 [![license](http://img.shields.io/badge/license-CC0%201.0%20Universal-blue.svg)](https://github.com/moqui/moqui-runtime/blob/master/LICENSE.md)
 [![release](http://img.shields.io/github/release/moqui/moqui-runtime.svg)](https://github.com/moqui/moqui-runtime/releases)
-[![commits since release](http://img.shields.io/github/commits-since/moqui/moqui-runtime/v3.0.0.svg)](https://github.com/moqui/moqui-runtime/commits/master)
 
-[![Discourse Forum](https://img.shields.io/badge/moqui%20forum-discourse-blue.svg)](https://forum.moqui.org)
-[![Google Group](https://img.shields.io/badge/google%20group-moqui-blue.svg)](https://groups.google.com/d/forum/moqui)
-[![LinkedIn Group](https://img.shields.io/badge/linked%20in%20group-moqui-blue.svg)](https://www.linkedin.com/groups/4640689)
-[![Gitter Chat at https://gitter.im/moqui/moqui-framework](https://badges.gitter.im/moqui/moqui-framework.svg)](https://gitter.im/moqui/moqui-framework?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Stack Overflow](https://img.shields.io/badge/stack%20overflow-moqui-blue.svg)](http://stackoverflow.com/questions/tagged/moqui)
+Moqui Framework的默认运行时目录。运行时目录是Moqui Framework运行所必需的。
 
-The default runtime directory for Moqui Framework. A runtime directory is required for Moqui Framework to run.
+**📖 完整开发指导**: [Moqui Framework 实战指导书](../docs/moqui-framework-guide.md)
 
-This is automatically installed by Gradle get component, load, and run tasks based on configuration in addons.xml in the moqui directory.
+## 🚀 主要特性
+
+- **Vue 3.x + Quasar 2.x**: 已完成前端技术栈现代化升级
+- **JWT企业级认证**: 完整的企业级认证系统
+- **Chrome MCP调试**: 突破性的动态页面验证解决方案
+- **企业级组件**: Marketplace智能撮合、MinIO对象存储等
+
+## 📚 文档导航
+
+- **[📖 实战指导书](../docs/moqui-framework-guide.md)** - 综合性开发指南 (推荐)
+- **[🔧 开发文档导航](../docs/README.md)** - 专项技术文档
+- **[🧩 组件开发案例](component/)** - 企业级组件实战
+
+## 🛠️ 快速开始
+
+```bash
+# 编译运行
+./gradlew run
+
+# 访问应用
+open http://localhost:8080
+
+# 默认账户: john.doe / moqui
+```
+
+---

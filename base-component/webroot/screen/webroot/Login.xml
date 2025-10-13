@@ -26,6 +26,29 @@ along with this software (see the LICENSE.md file). If not, see
             </then><else>
                 <!-- no pre-auth, try logging in (pre-auth if 2nd factor required) -->
                 <set field="loggedIn" from="ec.user.loginUser(username, password)"/>
+                <!-- JWT Parallel Support: Generate JWT token for successful login while preserving session -->
+                <if condition="loggedIn &amp;&amp; ec.user.userId">
+                    <!-- Temporarily disabled JWT generation to focus on Vue3+Quasar2 migration
+                    <service-call name="org.moqui.jwt.generate#AccessToken"
+                                  in-map="[userId:ec.user.userId]" out-map="jwtResult" ignore-error="true"/>
+                    <if condition="jwtResult?.accessToken">
+                        <script>
+                            // Set JWT token in response header and cookie for API clients
+                            ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
+                            ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
+                            if (jwtResult.refreshToken) {
+                                ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
+                            }
+                            // Set JWT cookie for browser compatibility (parallel to session)
+                            javax.servlet.http.Cookie jwtCookie = new javax.servlet.http.Cookie('jwt_access_token', jwtResult.accessToken)
+                            jwtCookie.setPath('/')
+                            jwtCookie.setMaxAge(jwtResult.expiresIn ?: 3600)
+                            jwtCookie.setHttpOnly(true)
+                            ec.web.response.addCookie(jwtCookie)
+                        </script>
+                    </if>
+                    -->
+                </if>
             </else></if>
 
             <if condition="ec.web.sessionAttributes.moquiAuthcFactorRequired">
@@ -34,6 +57,27 @@ along with this software (see the LICENSE.md file). If not, see
                             in-map="[code:code]" out-map="validateOut"/>
                     <if condition="validateOut.verified"><then>
                         <script>ec.user.internalLoginUser(validateOut.username)</script>
+                        <!-- JWT Parallel Support: Generate JWT token while preserving session functionality -->
+                        <!-- Temporarily disabled JWT generation to focus on Vue3+Quasar2 migration
+                        <service-call name="org.moqui.jwt.generate#AccessToken"
+                                      in-map="[userId:validateOut.username]" out-map="jwtResult" ignore-error="true"/>
+                        <if condition="jwtResult?.accessToken">
+                            <script>
+                                // Set JWT token in response header and cookie for API clients
+                                ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
+                                ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
+                                if (jwtResult.refreshToken) {
+                                    ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
+                                }
+                                // Set JWT cookie for browser compatibility (parallel to session)
+                                javax.servlet.http.Cookie jwtCookie = new javax.servlet.http.Cookie('jwt_access_token', jwtResult.accessToken)
+                                jwtCookie.setPath('/')
+                                jwtCookie.setMaxAge(jwtResult.expiresIn ?: 3600)
+                                jwtCookie.setHttpOnly(true)
+                                ec.web.response.addCookie(jwtCookie)
+                            </script>
+                        </if>
+                        -->
                         <return/>
                     </then><else>
                         <message error="true" public="true">Authentication code is not valid</message>
@@ -47,7 +91,21 @@ along with this software (see the LICENSE.md file). If not, see
         <error-response url="."/>
     </transition>
     <transition name="logout">
-        <actions><script>ec.user.logoutUser()</script></actions>
+        <actions><script>
+            // Traditional session logout (preserved)
+            ec.user.logoutUser()
+
+            // JWT Parallel Support: Clear JWT cookies while preserving session logout
+            try {
+                javax.servlet.http.Cookie jwtCookie = new javax.servlet.http.Cookie('jwt_access_token', '')
+                jwtCookie.setPath('/')
+                jwtCookie.setMaxAge(0)
+                jwtCookie.setHttpOnly(true)
+                ec.web.response.addCookie(jwtCookie)
+            } catch (Exception e) {
+                // Ignore errors in JWT cleanup
+            }
+        </script></actions>
         <default-response url="/"/>
         <error-response url="."/>
     </transition>
@@ -71,7 +129,31 @@ along with this software (see the LICENSE.md file). If not, see
         <actions>
             <!-- password change success, login the user -->
             <if condition="updateSuccessful">
-                <set field="loginSuccess" from="ec.user.internalLoginUser(username)"/></if>
+                <set field="loginSuccess" from="ec.user.internalLoginUser(username)"/>
+                <!-- JWT Parallel Support: Generate JWT token after successful password change while preserving session -->
+                <if condition="loginSuccess &amp;&amp; ec.user.userId">
+                    <!-- Temporarily disabled JWT generation to focus on Vue3+Quasar2 migration
+                    <service-call name="org.moqui.jwt.generate#AccessToken"
+                                  in-map="[userId:ec.user.userId]" out-map="jwtResult" ignore-error="true"/>
+                    <if condition="jwtResult?.accessToken">
+                        <script>
+                            // Set JWT token in response header and cookie for API clients
+                            ec.web.response.setHeader('Authorization', 'Bearer ' + jwtResult.accessToken)
+                            ec.web.response.setHeader('X-Access-Token', jwtResult.accessToken)
+                            if (jwtResult.refreshToken) {
+                                ec.web.response.setHeader('X-Refresh-Token', jwtResult.refreshToken)
+                            }
+                            // Set JWT cookie for browser compatibility (parallel to session)
+                            javax.servlet.http.Cookie jwtCookie = new javax.servlet.http.Cookie('jwt_access_token', jwtResult.accessToken)
+                            jwtCookie.setPath('/')
+                            jwtCookie.setMaxAge(jwtResult.expiresIn ?: 3600)
+                            jwtCookie.setHttpOnly(true)
+                            ec.web.response.addCookie(jwtCookie)
+                        </script>
+                    </if>
+                    -->
+                </if>
+            </if>
         </actions>
         <conditional-response type="screen-last"><condition><expression>updateSuccessful</expression></condition></conditional-response>
         <default-response url="." parameter-map="[initialTab:'#change']"/>

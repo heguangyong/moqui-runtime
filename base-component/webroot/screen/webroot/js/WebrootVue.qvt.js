@@ -2237,6 +2237,50 @@ if (typeof Quasar !== 'undefined') {
         config: window.quasarConfig || {}
     });
     console.error("=== Quasar successfully initialized ===");
+
+    // CRITICAL FIX: Patch QBtn immediately to fix 'to' attribute clicks
+    if (Quasar.QBtn) {
+        console.log("🔧 Applying immediate QBtn 'to' attribute click fix...");
+
+        // Store original render function
+        var originalQBtnRender = Quasar.QBtn.render;
+
+        // Patch the QBtn to handle clicks on elements with 'to' attribute
+        Quasar.QBtn.beforeCreate = function() {
+            // Ensure click handler is set up
+            this.$options.methods = this.$options.methods || {};
+            var originalOnClick = this.$options.methods.onClick;
+
+            this.$options.methods.onClick = function(e) {
+                console.log("🖱️ QBtn clicked, checking for 'to' attribute...");
+
+                // Check if this button has a 'to' attribute
+                if (this.to && !this.disabled && !this.loading) {
+                    console.log("🖱️ QBtn with 'to' attribute clicked:", this.to);
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    // Navigate using moqui's navigation system
+                    if (window.moqui && window.moqui.webrootVue) {
+                        console.log("✅ Using moqui.webrootVue.setUrl for navigation");
+                        window.moqui.webrootVue.setUrl(this.to);
+                    } else {
+                        console.log("⚠️ moqui.webrootVue not available, using window.location");
+                        window.location.href = this.to;
+                    }
+                    return;
+                }
+
+                // Call original onClick if exists
+                if (originalOnClick) {
+                    originalOnClick.call(this, e);
+                }
+            };
+        };
+
+        console.log("✅ QBtn 'to' attribute click fix applied");
+    }
+
 } else {
     console.error("=== ERROR: Quasar library not found! ===");
     console.error("This will cause icons to display as text instead of proper icons.");
@@ -2466,8 +2510,20 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
                     }
                 }});
 
-                // set the window URL
-                window.history.pushState(null, this.ScreenTitle, url);
+                // set the window URL - CRITICAL FIX: Validate URL before pushState
+                if (url && url.length > 0 && url !== 'http:' && url.indexOf('http:') !== 0) {
+                    try {
+                        window.history.pushState(null, this.ScreenTitle, url);
+                    } catch (e) {
+                        console.warn("Failed to set URL via pushState:", url, e);
+                        // Fallback: at least update the hash
+                        if (url.startsWith('/')) {
+                            window.location.hash = url;
+                        }
+                    }
+                } else {
+                    console.warn("Invalid URL for pushState:", url);
+                }
                 // notify url listeners
                 this.urlListeners.forEach(function(callback) { callback(url, this) }, this);
                 // scroll to top
@@ -2594,12 +2650,20 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
         },
         getLinkPath: function(path) {
             if (moqui.isPlainObject(path)) path = moqui.makeHref(path);
-            if (this.appRootPath && this.appRootPath.length && path.indexOf(this.appRootPath) !== 0) path = this.appRootPath + path;
+
+            // CRITICAL FIX: Add null checks for Vue 3.x compatibility during render phase
+            var appRootPath = this.appRootPath || '';
+            var linkBasePath = this.linkBasePath || '';
+
+            if (appRootPath && appRootPath.length && path.indexOf(appRootPath) !== 0) path = appRootPath + path;
             var pathList = path.split('/');
             // element 0 in array after split is empty string from leading '/'
-            var wrapperIdx = this.appRootPath.split('/').length;
+            var wrapperIdx = appRootPath.split('/').length;
             // appRootPath is '/moqui/v1' or '/moqui'. wrapper means 'qapps'
-            pathList[wrapperIdx] = this.linkBasePath.split('/').slice(-1);
+            // CRITICAL FIX: Ensure we get string, not array
+            if (linkBasePath && linkBasePath.length > 0) {
+                pathList[wrapperIdx] = linkBasePath.split('/').slice(-1)[0]; // Get last segment as string
+            }
             path = pathList.join("/");
             return path;
         },
@@ -2917,6 +2981,54 @@ $.ajaxSetup({
 
 } catch (e) {
     console.error("=== ERROR creating Vue instance ===", e);
+
+    // CRITICAL: Create a minimal fallback Vue instance to prevent navigation breaks
+    // This ensures moqui.webrootVue exists even if main instance creation fails
+    console.warn("Creating emergency fallback Vue instance for navigation stability...");
+
+    try {
+        // Create a minimal Vue instance to maintain navigation functionality
+        moqui.webrootVue = {
+            // Essential navigation properties
+            basePath: "", linkBasePath: "", currentPathList: [], extraPathList: [], currentParameters: {},
+            activeSubscreens: [], navMenuList: [], navHistoryList: [], loading: 0,
+            leftOpen: false, jwtToken: moqui.getJwtToken() || "",
+
+            // Essential navigation methods to prevent errors
+            setUrl: function(url, bodyParameters, onComplete) {
+                console.log("Fallback setUrl called:", url);
+                // Basic fallback - redirect to URL
+                if (url && url !== window.location.pathname) {
+                    window.location.href = url;
+                }
+            },
+
+            getLinkPath: function(url) {
+                return url;
+            },
+
+            toggleLeftOpen: function() {
+                console.log("Fallback toggleLeftOpen called");
+                // Basic fallback behavior
+                this.leftOpen = !this.leftOpen;
+            },
+
+            // Mark as fallback instance
+            isFallback: true
+        };
+
+        console.warn("Emergency fallback Vue instance created to maintain navigation");
+    } catch (fallbackError) {
+        console.error("Failed to create even fallback Vue instance:", fallbackError);
+        // Create absolute minimal object to prevent undefined errors
+        moqui.webrootVue = {
+            setUrl: function() {},
+            getLinkPath: function(url) { return url; },
+            toggleLeftOpen: function() {},
+            isFallback: true,
+            isMinimal: true
+        };
+    }
 }
 window.addEventListener('popstate', function() { moqui.webrootVue.setUrl(window.location.pathname + window.location.search); });
 
@@ -2935,12 +3047,75 @@ moqui.webrootRouter = {
             hash:location.hash||"", query:location.query||"", params: {}, fullPath:path, matched:[] };
         return { location:location, route:route, href:moqui.makeHref(location), normalizedTo:location, resolved:route }
     },
-    replace: function(location, onComplete, onAbort) { moqui.webrootVue.setUrl(location, null, onComplete); },
-    push: function(location, onComplete, onAbort) { moqui.webrootVue.setUrl(location, null, onComplete); }
+    replace: function(location, onComplete, onAbort) {
+        console.log("Router replace called:", location);
+        if (moqui.webrootVue) {
+            moqui.webrootVue.setUrl(location, null, onComplete);
+        }
+    },
+    push: function(location, onComplete, onAbort) {
+        console.log("Router push called:", location);
+        if (moqui.webrootVue) {
+            moqui.webrootVue.setUrl(location, null, onComplete);
+        }
+    }
 }
+
+// CRITICAL FIX: Ensure router methods are available on Vue prototype
 Object.defineProperty(Vue.prototype, '$router', {
     get: function get() { return moqui.webrootRouter; }
 });
 Object.defineProperty(Vue.prototype, '$route', {
-    get: function get() { return moqui.webrootVue.getRoute(); }
+    get: function get() { return moqui.webrootVue ? moqui.webrootVue.getRoute() : {}; }
 });
+
+// CRITICAL FIX: Ensure Vue instance and click handlers work regardless of template mode
+setTimeout(function() {
+    console.log("=== Vue实例和点击处理验证 ===");
+
+    // Check if Vue instance exists and is working
+    if (moqui && moqui.webrootVue) {
+        console.log("✅ moqui.webrootVue exists:", typeof moqui.webrootVue);
+        console.log("✅ toggleLeftOpen method:", typeof moqui.webrootVue.toggleLeftOpen);
+
+        // Test if Vue is properly bound to DOM
+        var menuButtons = document.querySelectorAll("[onclick*=\"toggleLeftOpen\"], [v-on\:click*=\"toggleLeftOpen\"], [@click*=\"toggleLeftOpen\"]");
+        console.log("Found", menuButtons.length, "menu toggle buttons");
+
+        // Fix HTML mode links if they are not working
+        var appLinks = document.querySelectorAll("a.app-list-link");
+        console.log("Found", appLinks.length, "app list links");
+
+        if (appLinks.length > 0) {
+            console.log("🔧 Adding click handlers to HTML app links...");
+            appLinks.forEach(function(link, index) {
+                link.addEventListener("click", function(e) {
+                    console.log("🖱️ App link clicked:", link.href);
+                    // Let the normal navigation happen unless there are issues
+                    if (moqui.webrootVue && moqui.webrootVue.setUrl && link.href.includes("/apps/")) {
+                        e.preventDefault();
+                        // Convert /apps/ to correct path and use moqui navigation
+                        var path = link.pathname + link.search;
+                        console.log("Using moqui navigation for:", path);
+                        moqui.webrootVue.setUrl(path);
+                    }
+                });
+            });
+            console.log("✅ App link click handlers added");
+        }
+
+        // Ensure toggleLeftOpen is globally accessible for HTML @click handlers
+        if (!window.toggleLeftOpen) {
+            window.toggleLeftOpen = function() {
+                console.log("🖱️ Global toggleLeftOpen called");
+                if (moqui.webrootVue && moqui.webrootVue.toggleLeftOpen) {
+                    moqui.webrootVue.toggleLeftOpen();
+                }
+            };
+            console.log("✅ Global toggleLeftOpen function created");
+        }
+
+    } else {
+        console.log("❌ moqui.webrootVue not found - Vue instance failed to initialize");
+    }
+}, 1000);

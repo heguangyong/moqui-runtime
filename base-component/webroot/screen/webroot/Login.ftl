@@ -62,7 +62,7 @@
     <title>${ec.l10n.localize("Sign In")}</title>
     <link rel="apple-touch-icon" href="/MoquiLogo100.png"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons">
-    <link rel="stylesheet" href="/libs/quasar/quasar.min.css">
+    <link rel="stylesheet" href="/libs/quasar2/quasar.min.css">
     <link rel="stylesheet" href="/css/WebrootVue.qvt.css">
     <style>
         body.login-body {
@@ -178,8 +178,8 @@
     </q-layout>
 </div>
 
-<script src="/libs/vue/vue.min.js"></script>
-<script src="/libs/quasar/quasar.umd.min.js"></script>
+<script src="/libs/vue3/vue.min.js"></script>
+<script src="/libs/quasar2/quasar.umd.min.js"></script>
 <script src="/js/MoquiLib.js"></script>
 <script src="/includes/JwtAuth.js"></script>
 <script>

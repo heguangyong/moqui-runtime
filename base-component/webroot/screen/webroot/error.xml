@@ -17,11 +17,11 @@ along with this software (see the LICENSE.md file). If not, see
         require-authentication="false" screen-theme-type-enum-id="STT_ERROR" default-menu-include="false">
         <pre-actions><script><![CDATA[
         html_stylesheets.add('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons')
-        html_stylesheets.add('/libs/quasar/quasar.min.css')
+        html_stylesheets.add('/libs/quasar2/quasar.min.css')
         html_stylesheets.add('/css/WebrootVue.qvt.css')
 
-        html_scripts.add('/libs/vue/vue.min.js')
-        html_scripts.add('/libs/quasar/quasar.umd.min.js')
+        html_scripts.add('/libs/vue3/vue.min.js')
+        html_scripts.add('/libs/quasar2/quasar.umd.min.js')
         html_scripts.add('/js/MoquiLib.js')
     ]]></script></pre-actions>
     <widgets>

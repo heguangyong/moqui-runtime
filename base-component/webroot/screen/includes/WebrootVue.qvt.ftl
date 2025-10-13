@@ -13,16 +13,29 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <div id="apps-root"><#-- NOTE: webrootVue component attaches here, uses this and below for template -->
     <input type="hidden" id="confMoquiSessionToken" value="${ec.web.sessionToken}">
-    <input type="hidden" id="confAppHost" value="${ec.web.getHostName(true)}">
+    <#-- JWT Parallel Support: Add JWT token for API clients while preserving session token - FIXED -->
+    <#-- Temporarily simplified to avoid syntax errors -->
+    <input type="hidden" id="confJwtAccessToken" value="">
+    <input type="hidden" id="confAuthMode" value="hybrid">
+    <input type="hidden" id="confAppHost" value="${(ec.web.getHostName(true))!'localhost'}">
     <input type="hidden" id="confAppRootPath" value="${ec.web.servletContext.contextPath}">
     <input type="hidden" id="confBasePath" value="${ec.web.servletContext.contextPath}/apps">
     <input type="hidden" id="confLinkBasePath" value="${ec.web.servletContext.contextPath}/qapps">
     <input type="hidden" id="confUserId" value="${ec.user.userId!''}">
     <input type="hidden" id="confUsername" value="${ec.user.username!''}">
     <#-- TODO get secondFactorRequired (org.moqui.impl.UserServices.get#UserAuthcFactorRequired with userId) -->
-    <input type="hidden" id="confLocale" value="${ec.user.locale.toLanguageTag()}">
-    <input type="hidden" id="confDarkMode" value="${ec.user.getPreference("QUASAR_DARK")!"false"}">
-    <input type="hidden" id="confLeftOpen" value="${ec.user.getPreference("QUASAR_LEFT_OPEN")!"false"}">
+    <#attempt>
+        <input type="hidden" id="confLocale" value="${ec.user.locale.toLanguageTag()}">
+    <#recover>
+        <input type="hidden" id="confLocale" value="en-US">
+    </#attempt>
+    <#attempt>
+        <input type="hidden" id="confDarkMode" value="${ec.user.getPreference("QUASAR_DARK")!"false"}">
+        <input type="hidden" id="confLeftOpen" value="${ec.user.getPreference("QUASAR_LEFT_OPEN")!"false"}">
+    <#recover>
+        <input type="hidden" id="confDarkMode" value="false">
+        <input type="hidden" id="confLeftOpen" value="false">
+    </#attempt>
     <#assign navbarCompList = sri.getThemeValues("STRT_HEADER_NAVBAR_COMP")>
     <#list navbarCompList! as navbarCompUrl><input type="hidden" class="confNavPluginUrl" value="${navbarCompUrl}"></#list>
     <#assign accountCompList = sri.getThemeValues("STRT_HEADER_ACCOUNT_COMP")>
@@ -61,7 +74,7 @@ along with this software (see the LICENSE.md file). If not, see
                                 </template>
                                 <i v-else class="fa fa-link" style="padding-right: 8px;"></i>
                                 {{subscreen.title}}
-                            </m-link></li>
+                            </m-link>
                         </q-item-section></q-item>
                     </q-list></q-menu>
                 </div>

@@ -81,7 +81,35 @@
         $("body").toggleClass("bg-dark");
         $("body").toggleClass("bg-light");
         var currentStyle = $("body").hasClass("bg-dark") ? "bg-dark" : "bg-light";
-        $.ajax({ type:'POST', url:'${sri.buildUrl("/qapps/setPreference").url}', data:{ 'moquiSessionToken': '${ec.web.sessionToken}','preferenceKey': 'OUTER_STYLE', 'preferenceValue': currentStyle }, dataType:'json' });
+        // JWT Parallel Support: Enhanced AJAX call with hybrid authentication
+        var requestData = {
+            'moquiSessionToken': '${ec.web.sessionToken}',
+            'preferenceKey': 'OUTER_STYLE',
+            'preferenceValue': currentStyle
+        };
+
+        // Add JWT token if available (from cookie)
+        var jwtToken = getCookie('jwt_access_token');
+        var headers = {};
+        if (jwtToken) {
+            headers['Authorization'] = 'Bearer ' + jwtToken;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '${sri.buildUrl("/qapps/setPreference").url}',
+            data: requestData,
+            headers: headers,
+            dataType: 'json'
+        });
+
+        // Helper function to get cookie value
+        function getCookie(name) {
+            var value = "; " + document.cookie;
+            var parts = value.split("; " + name + "=");
+            if (parts.length == 2) return parts.pop().split(";").shift();
+            return null;
+        }
     }
 </script>
 
