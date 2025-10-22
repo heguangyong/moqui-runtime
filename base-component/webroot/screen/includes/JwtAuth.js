@@ -4,7 +4,7 @@
  */
 class JwtAuthManager {
     constructor() {
-        this.tokenKey = 'jwt_token';
+        this.tokenKey = 'jwt_access_token';
         this.refreshTokenKey = 'jwt_refresh_token';
         this.baseUrl = window.location.origin;
         this.apiPrefix = '/rest/s1/moqui/auth';
@@ -51,11 +51,17 @@ class JwtAuthManager {
         const storage = rememberMe ? localStorage : sessionStorage;
 
         if (accessToken) {
+            if (typeof accessToken === 'string' && accessToken.startsWith('Bearer ')) {
+                accessToken = accessToken.substring(7).trim();
+            }
             storage.setItem(this.tokenKey, accessToken);
             this.token = accessToken;
         }
 
         if (refreshToken) {
+            if (typeof refreshToken === 'string' && refreshToken.startsWith('Bearer ')) {
+                refreshToken = refreshToken.substring(7).trim();
+            }
             storage.setItem(this.refreshTokenKey, refreshToken);
             this.refreshToken = refreshToken;
         }
@@ -238,8 +244,39 @@ class JwtAuthManager {
         if (!this.token) return;
 
         try {
-            // Decode JWT to get expiration
-            const payload = JSON.parse(atob(this.token.split('.')[1]));
+            // Decode JWT to get expiration (support base64url encoding)
+            let rawToken = this.token;
+            if (typeof rawToken !== 'string') {
+                console.warn('Skip JWT auto-refresh: token is not a string', rawToken);
+                return;
+            }
+            rawToken = rawToken.trim();
+            if (rawToken.startsWith('Bearer ')) {
+                rawToken = rawToken.substring(7).trim();
+            }
+            if (!rawToken.length) {
+                console.warn('Skip JWT auto-refresh: empty token');
+                return;
+            }
+
+            const parts = rawToken.split('.');
+            if (!parts || parts.length < 2) {
+                console.warn('Skip JWT auto-refresh: invalid JWT format', rawToken);
+                return;
+            }
+            const segment = parts[1];
+            if (!segment || segment === 'undefined' || segment === 'null') {
+                console.warn('Skip JWT auto-refresh: missing payload segment', rawToken);
+                return;
+            }
+            const base64 = segment.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(segment.length / 4) * 4, '=');
+            const decoded = atob(base64);
+            if (!decoded) throw new Error('Payload decode failed');
+            const payload = JSON.parse(decoded);
+            if (!payload || typeof payload.exp !== 'number') {
+                console.warn('Skip JWT auto-refresh: payload missing exp', payload);
+                return;
+            }
             const exp = payload.exp * 1000; // Convert to milliseconds
             const now = Date.now();
             const timeUntilExpiry = exp - now;

@@ -136,8 +136,7 @@
                     </q-card-section>
 
                     <q-card-section class="q-gutter-md">
-                        <form method="post" action="${sri.buildUrl("login").url}" style="display: flex; flex-direction: column; gap: 16px;">
-                            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
+                        <form id="jwt-login-form-page" autocomplete="off" style="display: flex; flex-direction: column; gap: 16px;">
 
                             <div style="position: relative;">
                                 <input type="text" name="username" required
@@ -151,25 +150,16 @@
                                        placeholder="密码 / Password">
                             </div>
 
+                            <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#555;">
+                                <input type="checkbox" name="rememberMe" value="Y">
+                                ${ec.l10n.localize("Remember Me")}
+                            </label>
+
                             <button type="submit"
                                     style="width: 100%; padding: 12px; background: #1976d2; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: 500;">
                                 登录 / Sign In
                             </button>
-                        </form>
-                    </q-card-section>
-
-                    <q-separator style="margin: 20px 0;"></q-separator>
-
-                    <!-- Test Login Section -->
-                    <q-card-section class="q-pt-none">
-                        <form method="post" action="${sri.buildUrl("login").url}">
-                            <input type="hidden" name="moquiSessionToken" value="${ec.web.sessionToken}">
-                            <input type="hidden" name="username" value="john.doe">
-                            <input type="hidden" name="password" value="moqui">
-                            <button type="submit"
-                                    style="width: 100%; padding: 10px; background: #f5f5f5; color: #1976d2; border: 2px solid #1976d2; border-radius: 4px; font-size: 14px; cursor: pointer;">
-                                🧪 测试登录 / Test Login (john.doe)
-                            </button>
+                            <div id="jwt-login-error" style="color:#c62828; font-size:13px; min-height:18px;"></div>
                         </form>
                     </q-card-section>
                 </q-card>
@@ -184,9 +174,7 @@
 <script src="/includes/JwtAuth.js"></script>
 <script>
     const LOGIN_CONTEXT = ${loginContextJson!'{}'};
-    Vue.use(Quasar);
-    new Vue({
-        el: '#login-app',
+    const loginApp = Vue.createApp({
         data() {
             return {
                 activeTab: LOGIN_CONTEXT.initialTab || 'login',
@@ -234,6 +222,51 @@
         mounted() {
             window.location.hash = '#' + this.activeTab;
         }
+    });
+    loginApp.use(Quasar);
+    const loginVm = loginApp.mount('#login-app');
+    window.loginApp = loginApp;
+    window.loginVm = loginVm;
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var loginForm = document.getElementById('jwt-login-form-page');
+        if (!loginForm || !window.jwtAuth) { return; }
+
+        loginForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            var errorDiv = document.getElementById('jwt-login-error');
+            if (errorDiv) errorDiv.textContent = '';
+
+            var formData = new FormData(loginForm);
+            var username = (formData.get('username') || '').trim();
+            var password = formData.get('password') || '';
+            var remember = !!formData.get('rememberMe');
+
+            if (!username || !password) {
+                if (errorDiv) errorDiv.textContent = '${ec.l10n.localize("Username and password are required")}'.trim();
+                return;
+            }
+
+            try {
+                var result = await window.jwtAuth.login(username, password, 'DEMO_MERCHANT', remember);
+                if (result && result.success) {
+                    window.location.href = '/qapps/AppList';
+                    return;
+                }
+
+                if (result && result.data && result.data.secondFactorRequired) {
+                    window.location.href = '/Login?initialTab=#login';
+                    return;
+                }
+
+                var message = (result && (result.message || (result.data && result.data.message))) || '${ec.l10n.localize("Login failed")}'.trim();
+                if (errorDiv) errorDiv.textContent = message;
+            } catch (loginError) {
+                console.error('JWT login error', loginError);
+                if (errorDiv) errorDiv.textContent = '${ec.l10n.localize("Network error during login")}'.trim();
+            }
+        });
     });
 </script>
 </body>

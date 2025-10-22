@@ -89,7 +89,7 @@
         };
 
         // Add JWT token if available (from cookie)
-        var jwtToken = getCookie('jwt_access_token');
+        var jwtToken = localStorage.getItem('jwt_access_token') || getCookie('jwt_token');
         var headers = {};
         if (jwtToken) {
             headers['Authorization'] = 'Bearer ' + jwtToken;

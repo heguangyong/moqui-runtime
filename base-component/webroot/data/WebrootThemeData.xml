@@ -16,16 +16,14 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- Default Theme (note that DEFAULT ScreenTheme record defined in ScreenEntities.xml) -->
 
     <!-- Core resources for the default theme now align with the Quasar-based UI -->
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="1" resourceTypeEnumId="STRT_STYLESHEET" resourceValue=""/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="2" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/libs/font-awesome/css/font-awesome.min.css"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="3" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="4" resourceTypeEnumId="STRT_STYLESHEET"
-            resourceValue="/libs/quasar/quasar.min.css"/>
+            resourceValue="/libs/quasar2/quasar.min.css"/>
 
     <!-- Add external theme(s) here  -->
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="10" resourceTypeEnumId="STRT_STYLESHEET" resourceValue=""/>
 
     <!-- Webroot layout overrides for Quasar-based UI -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="20" resourceTypeEnumId="STRT_STYLESHEET"
@@ -39,10 +37,10 @@ along with this software (see the LICENSE.md file). If not, see
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="52" resourceTypeEnumId="STRT_SCRIPT"
             resourceValue="/libs/moment.js/moment-with-locales.min.js"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="53" resourceTypeEnumId="STRT_SCRIPT"
-            resourceValue="/libs/vue/vue.min.js"/>
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="54" resourceTypeEnumId="STRT_SCRIPT"
-            resourceValue="/libs/quasar/quasar.umd.min.js"/>
+            resourceValue="/libs/vue3/vue.min.js"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="55" resourceTypeEnumId="STRT_SCRIPT"
+            resourceValue="/libs/quasar2/quasar.umd.min.js"/>
+    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT" sequenceNum="56" resourceTypeEnumId="STRT_SCRIPT"
             resourceValue="/js/WebrootVue.qvt.js"/>
 
     <!-- Logo, icon, body class -->

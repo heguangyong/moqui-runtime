@@ -51,6 +51,14 @@
     <!-- Disable legacy session-token requirement in favor of JWT-only auth -->
     <default-property name="webapp_require_session_token" value="false"/>
 
+    <!-- Enable JWT authentication for web apps -->
+    <default-property name="moqui.jwt.webapp.auth.enabled" value="true"/>
+
+    <!-- 第二阶段：纯JWT认证模式 - 完全符合用户"只能用jwt这套东西"要求 -->
+    <default-property name="moqui.session.auth.disabled" value="true"/>
+    <default-property name="moqui.webapp.auth.mode" value="jwt_only"/>
+    <default-property name="moqui.jwt.force.mode" value="true"/>
+
     <cache-list warm-on-start="false">
         <!-- Development Mode - expires artifact cache entries; don't use these for production, load testing, etc -->
         <cache name="entity.definition" expire-time-idle="30"/>
@@ -99,7 +107,7 @@
 
             <!-- Development Mode: More permissive CSP to allow JavaScript execution and font loading -->
             <response-header type="screen-render" name="Content-Security-Policy"
-                           value="frame-ancestors 'none'; form-action 'self'; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:;"/>
+                           value="frame-ancestors 'none'; form-action 'self'; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://cdnjs.cloudflare.com;"/>
 
             <servlet name="H2Console" class="org.h2.server.web.WebServlet" load-on-startup="1">
                 <!-- <init-param name="webAllowOthers" value=""/><init-param name="trace" value=""/> -->

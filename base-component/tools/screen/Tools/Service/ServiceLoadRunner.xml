@@ -481,7 +481,7 @@ along with this software (see the LICENSE.md file). If not, see
                     }
                 }
             </script>
-        ]]></text><text type="html,vuet"><![CDATA[
+        ]]></text><text type="html"><![CDATA[
             <p><strong>Only supported in the 'qvt' render mode, go to the same URL under /qapps (instead of /apps or /vapps)</strong></p>
         ]]></text></render-mode>
     </widgets>

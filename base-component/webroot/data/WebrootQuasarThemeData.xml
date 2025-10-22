@@ -22,8 +22,7 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- Default Theme (note that DEFAULT ScreenTheme record defined in ScreenEntities.xml) -->
 
     <!-- Required CSS files for layout/widgets/etc used in XML Screen/Form template macros -->
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="1" resourceTypeEnumId="STRT_STYLESHEET" resourceValue=""/>
-    <!-- NOTE: using FA 4.7.0 with 'fa' class, for FA 5+ must change all to 'fas' class -->
+        <!-- NOTE: using FA 4.7.0 with 'fa' class, for FA 5+ must change all to 'fas' class -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="2" resourceTypeEnumId="STRT_STYLESHEET"
             resourceValue="/libs/font-awesome/css/font-awesome.min.css"/>
     <!-- FUTURE consider using material icons instead of font-awesome - ISSUE: there are many XML Screen files with 'fa-' references
@@ -34,7 +33,6 @@ along with this software (see the LICENSE.md file). If not, see
             resourceValue="/libs/quasar2/quasar.min.css"/>
 
     <!-- Add external theme(s) here  -->
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="10" resourceTypeEnumId="STRT_STYLESHEET" resourceValue=""/>
 
     <!-- Quasar layout and theme, loaded last to override -->
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="20" resourceTypeEnumId="STRT_STYLESHEET"
@@ -49,8 +47,6 @@ along with this software (see the LICENSE.md file). If not, see
             resourceValue="/libs/moment.js/moment-with-locales.min.js"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="4" resourceTypeEnumId="STRT_SCRIPT"
             resourceValue="/libs/vue3/vue.min.js"/>
-    <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="4.5" resourceTypeEnumId="STRT_SCRIPT"
-            resourceValue="/js/Vue3CompatibilityAdapter.js"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="5" resourceTypeEnumId="STRT_SCRIPT"
             resourceValue="/libs/quasar2/quasar.umd.min.js"/>
     <moqui.screen.ScreenThemeResource screenThemeId="DEFAULT_QUASAR" sequenceNum="6" resourceTypeEnumId="STRT_SCRIPT"

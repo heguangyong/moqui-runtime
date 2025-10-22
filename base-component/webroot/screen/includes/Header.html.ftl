@@ -12,11 +12,15 @@
 <#-- Style Sheets -->
 <#list sri.getThemeValues("STRT_STYLESHEET") as styleSheetLocation>
     <#assign hrefUrl = sri.buildUrl(styleSheetLocation).url>
-    <link href="${hrefUrl}<#if !styleSheetLocation?starts_with("http") && !hrefUrl?contains("?")>?v=${ec.web.getResourceDistinctValue()}</#if>" rel="stylesheet" type="text/css">
+    <#if hrefUrl?has_content && hrefUrl != '#'>
+        <link href="${hrefUrl}<#if !styleSheetLocation?starts_with("http") && !hrefUrl?contains("?")>?v=${ec.web.getResourceDistinctValue()}</#if>" rel="stylesheet" type="text/css">
+    </#if>
 </#list>
 <#list html_stylesheets?if_exists as styleSheetLocation>
     <#assign hrefUrl = sri.buildUrl(styleSheetLocation).url>
-    <link href="${hrefUrl}<#if !styleSheetLocation?starts_with("http") && !hrefUrl?contains("?")>?v=${ec.web.getResourceDistinctValue()}</#if>" rel="stylesheet" type="text/css">
+    <#if hrefUrl?has_content && hrefUrl != '#'>
+        <link href="${hrefUrl}<#if !styleSheetLocation?starts_with("http") && !hrefUrl?contains("?")>?v=${ec.web.getResourceDistinctValue()}</#if>" rel="stylesheet" type="text/css">
+    </#if>
 </#list>
 <#-- JavaScript -->
 <#list html_scripts?if_exists as scriptLocation>

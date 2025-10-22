@@ -37,7 +37,7 @@ along with this software (see the LICENSE.md file). If not, see
             <!-- <link url="ArtifactHitSummaryStats.pdf" text="Get as PDF"/> -->
             <link url="ArtifactHitSummaryStats.xml" text="Get as XML"/>
         </container>
-        <!-- not yet, not fully implemented but simple test case: server-static="vuet" -->
+        <!-- not yet, not fully implemented but simple test case: server-static="qvt" -->
         <form-list name="ArtifactHitSummaryList" list="artifactHitReportList" skip-form="true"
                    show-csv-button="true" show-xlsx-button="true" show-text-button="true" show-pdf-button="true"
                    header-dialog="true" saved-finds="true" select-columns="true">

@@ -111,12 +111,12 @@ if (window.qz && window.moqui && moqui.webrootVue) {
             setPrinter: function(printerName) {
                 this.currentPrinter = printerName;
                 $.ajax({ type:'POST', url:(this.$root.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
-                    data:{ moquiSessionToken:this.$root.moquiSessionToken, preferenceKey:'qz.printer.main.active', preferenceValue:printerName } });
+                    data:{ preferenceKey:'qz.printer.main.active', preferenceValue:printerName }, headers: moqui.getAuthHeaders() });
             },
             setLabelPrinter: function(printerName) {
                 this.currentLabelPrinter = printerName;
                 $.ajax({ type:'POST', url:(this.$root.appRootPath + '/qapps/setPreference'), error:moqui.handleAjaxError,
-                    data:{ moquiSessionToken:this.$root.moquiSessionToken, preferenceKey:'qz.printer.label.active', preferenceValue:printerName } });
+                    data:{ preferenceKey:'qz.printer.label.active', preferenceValue:printerName }, headers: moqui.getAuthHeaders() });
             },
             handleConnectionError: function(err) {
                 this.connectionState = "Error"; this.connectionClass = 'text-danger';

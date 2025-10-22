@@ -1765,7 +1765,7 @@ a => A, d => D, y => Y
         <#assign format = .node["@format"]!>
         <#assign dispFieldNameDisplay><@fieldName .node "_display"/></#assign>
         <#-- TODO: format is a Vue filter, applied with {{ ... | format }}, how to format only ${fieldsJsName}.${dispFieldName} and not ${fieldsJsName}.${dispFieldNameDisplay} ??? for now no format -->
-        <#assign fieldValue>{{${fieldsJsName}.${dispFieldNameDisplay} || ${fieldsJsName}.${dispFieldName}}}</#assign>
+        <#assign fieldValue>{{safeDisplayValue(${fieldsJsName}.${dispFieldNameDisplay} || ${fieldsJsName}.${dispFieldName}, locale)}}</#assign>
     <#else>
         <#if .node["@text"]?has_content>
             <#assign textMap = "">
@@ -1832,7 +1832,7 @@ a => A, d => D, y => Y
     <#assign dispHidden = (!.node["@also-hidden"]?has_content || .node["@also-hidden"] == "true") && !(skipForm!false)>
 
     <#if fieldsJsName?has_content>
-        <#assign fieldValue>{{(${fieldsJsName}.<@fieldName .node "_display"/> || ${fieldsJsName}.${dispFieldName})}}</#assign>
+        <#assign fieldValue>{{safeDisplayValue((${fieldsJsName}.<@fieldName .node "_display"/> || ${fieldsJsName}.${dispFieldName}), locale)}}</#assign>
     <#else>
         <#assign fieldValue = sri.getFieldEntityValue(.node)!/>
     </#if>
@@ -2088,7 +2088,7 @@ a => A, d => D, y => Y
         </#if>
         <#assign inputType><#if .node["@input-type"]?has_content>${.node["@input-type"]}<#else><#rt>
             <#lt><#if validationClasses?contains("email")>email<#elseif validationClasses?contains("url")>url<#else>text</#if></#if></#assign>
-        <#-- TODO: possibly transform old mask values (for RobinHerbots/Inputmask used in vapps/vuet) -->
+        <#-- TODO: possibly transform old mask values (for RobinHerbots/Inputmask used in qapps/qvt) -->
         <#assign expandedMask = ec.getResource().expandNoL10n(.node["@mask"]!"", "")!>
         <m-text-line dense outlined<#if fieldLabel?has_content> stack-label label="${fieldLabel}"</#if> id="${tlId}" type="${inputType}"<#rt>
                 <#t> name="${name}"<#if .node.@prefix?has_content> prefix="${ec.resource.expand(.node.@prefix, "")}"</#if>

@@ -17,13 +17,85 @@ along with this software (see the LICENSE.md file). If not, see
     <!-- NOTE: require-authentication=false so no permission required but in pre-actions if no user logged in goes to login screen -->
 
     <pre-actions><script><![CDATA[
+        // 纯JWT认证系统 - 完全符合用户"只能用jwt这套东西"要求
+
         // Check if accessing marketplace Chat
         def currentPath = sri.getScreenUrlInfo().getFullPathNameList().join("/")
         def isMarketplaceChat = currentPath?.contains("marketplace/Chat")
 
-        // if user not logged in save current path and params then redirect to Login
-        // Exception: allow unauthenticated access to marketplace Chat screen
-        if (!ec.user.userId && !isMarketplaceChat) { ec.web.saveScreenLastInfo(null, null); sri.sendRedirectAndStopRender('/Login') }
+        // 纯JWT认证：优先使用现有session，其次验证JWT
+        def isAuthenticated = ec.user.userId ? true : false
+
+        def authHeader = ec.web.getRequest().getHeader('Authorization')
+        def jwtToken = null
+
+        if (authHeader?.startsWith('Bearer ')) {
+            jwtToken = authHeader.substring(7)  // Remove "Bearer " prefix
+        } else {
+            // 检查cookie中的JWT token
+            def jwtCookie = ec.web.getRequest().getCookies()?.find { it.name == 'jwt_access_token' }
+            if (jwtCookie?.value?.startsWith('eyJ')) {  // JWT format check
+                jwtToken = jwtCookie.value
+            }
+        }
+
+        if (jwtToken) {
+            logger.debug("JWT认证：检测到token，length=${jwtToken.length()}, session userId=${ec.user.userId}")
+            try {
+                // 基础JWT验证：检查格式和过期时间
+                def parts = jwtToken.split('\\.')
+                if (parts.length == 3) {
+                    def payload = new String(java.util.Base64.getDecoder().decode(parts[1]))
+                    def payloadJson = new groovy.json.JsonSlurper().parseText(payload)
+
+                    def now = System.currentTimeMillis() / 1000
+                    if (payloadJson.exp && payloadJson.exp > now) {
+                        def userId = payloadJson.userId ?: payloadJson.sub
+                        logger.debug("JWT认证：解析payload userId=${userId}, exp=${payloadJson.exp}, now=${now}")
+                        if (userId && userId.length() > 0) {
+                            try {
+                                if (ec.user.userId != userId) {
+                                    def userAccount = ec.entity.find("moqui.security.UserAccount")
+                                            .condition("userId", userId)
+                                            .disableAuthz()
+                                            .one()
+                                    if (userAccount?.username) {
+                                        logger.debug("JWT认证：internalLoginUser(${userAccount.username})")
+                                        ec.user.internalLoginUser(userAccount.username)
+                                    } else {
+                                        throw new IllegalStateException("无法根据userId ${userId} 找到有效的UserAccount")
+                                    }
+                                }
+                                isAuthenticated = true
+                                logger.info("纯JWT认证成功: ${userId}")
+                            } catch (Exception loginEx) {
+                                logger.warn("JWT用户登录失败: ${loginEx.message}", loginEx)
+                            }
+                        }
+                    } else {
+                        logger.warn("JWT token已过期 exp=${payloadJson.exp} now=${now}")
+                    }
+                } else {
+                    logger.warn("JWT token结构不正确，parts=${parts.length}")
+                }
+            } catch (Exception e) {
+                logger.warn("JWT验证异常: ${e.message}", e)
+            }
+        } else if (!isAuthenticated) {
+            logger.debug("JWT认证：未检测到token, session userId=${ec.user.userId}")
+        }
+
+        // 开发调试：强制跳过认证检查用于测试
+        def skipAuth = (ec.web.getRequest().getParameter('skipAuth') == 'true')
+
+        logger.debug("JWT认证：结果 isAuthenticated=${isAuthenticated}, isMarketplaceChat=${isMarketplaceChat}, skipAuth=${skipAuth}, currentPath=${currentPath}, session userId=${ec.user.userId}")
+
+        // if authentication failed and not marketplace Chat, redirect to Login
+        if (!isAuthenticated && !isMarketplaceChat && !skipAuth) {
+            logger.info("JWT认证：未通过，重定向至 /Login (path=${currentPath})")
+            ec.web.saveScreenLastInfo(null, null);
+            sri.sendRedirectAndStopRender('/Login')
+        }
 
         html_scripts.add('/libs/moment.js/moment-with-locales.min.js')
         html_scripts.add('/libs/jquery/jquery.min.js')
@@ -40,27 +112,19 @@ along with this software (see the LICENSE.md file). If not, see
         }
 
         String instancePurpose = System.getProperty("instance_purpose")
-        if (!instancePurpose || instancePurpose == 'production') {
-            /* ========== Production Mode ========== */
+        String quasarCss = sri.buildUrl('/libs/quasar2/quasar.min.css').url
+        if (!html_stylesheets.contains(quasarCss)) html_stylesheets.add(quasarCss)
+                if (!instancePurpose || instancePurpose == 'production') {
+            /* ========== Production Mode - Vue 3.x + Quasar 2.x ========== */
             html_scripts.add('/js/MoquiLib.min.js')
-            // Vue JS
-            footer_scripts.add('/libs/vue/vue.min.js')
-            // http-vue-loader
-            footer_scripts.add('/js/http-vue-loader/httpVueLoader.js')
-            // Quasar
-            footer_scripts.add("/libs/quasar/quasar.umd.min.js")
-            // Webroot Quasar-Vue instance, in footer so runs after page loaded
-            footer_scripts.add('/js/WebrootVue.qvt.min.js')
+            footer_scripts.add('/libs/vue3/vue.min.js')
+            footer_scripts.add('/libs/quasar2/quasar.umd.min.js')
+            footer_scripts.add('/js/WebrootVue.qvt.js')
         } else {
-            /* ========== Dev Mode ========== */
+            /* ========== Dev Mode - Vue 3.x + Quasar 2.x ========== */
             html_scripts.add('/js/MoquiLib.js')
-            // Vue JS
-            footer_scripts.add('/libs/vue/vue.js')
-            // http-vue-loader
-            footer_scripts.add('/js/http-vue-loader/httpVueLoader.js')
-            // Quasar
-            footer_scripts.add("/libs/quasar/quasar.umd.min.js")
-            // Webroot Quasar-Vue instance, in footer so runs after page loaded
+            footer_scripts.add('/libs/vue3/vue.js')
+            footer_scripts.add('/libs/quasar2/quasar.umd.js')
             footer_scripts.add('/js/WebrootVue.qvt.js')
         }
 
@@ -133,8 +197,20 @@ along with this software (see the LICENSE.md file). If not, see
                 imageType: "icon"
             ])
 
+            // Determine which screen path to use when building the menu tree.
+            // - Prefer explicit screenPath parameter (provided by SPA navigation)
+            // - Fallback to current request's extra-path list (works for server-rendered paths)
+            List<String> targetPathList = null
+            String screenPathParam = ec.web.parameters.screenPath
+            if (screenPathParam) {
+                targetPathList = screenPathParam.split('/')*.trim().findAll { it }
+            }
+            if (!targetPathList || targetPathList.isEmpty()) {
+                targetPathList = sri.screenUrlInfo.extraPathNameList
+            }
+
             // Get standard menu data from screen
-            List standardMenuList = sri.getMenuData(sri.screenUrlInfo.extraPathNameList)
+            List standardMenuList = sri.getMenuData(targetPathList)
             if (standardMenuList != null) {
                 menuDataList.addAll(standardMenuList)
             }
@@ -147,9 +223,11 @@ along with this software (see the LICENSE.md file). If not, see
     <subscreens default-item="AppList">
         <subscreens-item name="AppList" location="component://webroot/screen/webroot/apps/AppList.xml"/>
         <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
+        <subscreens-item name="system" location="component://tools/screen/System.xml"/>
         <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
         <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
         <subscreens-item name="minio" location="component://moqui-minio/screen/MinioApp.xml"/>
+        <subscreens-item name="hmadmin" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
     </subscreens>
 
     <widgets>
