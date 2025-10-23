@@ -660,21 +660,19 @@ function normalizeMenuTree(entries, locale) {
             primaryTitle = segments.length ? segments[segments.length - 1] : entry.path;
         }
         entry.title = primaryTitle || '';
-
-        if (Array.isArray(entry.subscreens)) {
-            entry.subscreens.forEach(function(sub) {
-                if (!sub || typeof sub !== 'object') return;
-                var subTitle = selectLocalizedString(sub.title, locale);
-                if (!subTitle && typeof sub.path === 'string') {
-                    var subSegments = sub.path.split('/').filter(Boolean);
-                    subTitle = subSegments.length ? subSegments[subSegments.length - 1] : sub.path;
-                }
-                sub.title = subTitle || '';
-                if (Array.isArray(sub.subscreens) && sub.subscreens.length) {
-                    normalizeMenuTree(sub.subscreens, locale);
-                }
-            });
-        }
+        var subscreens = Array.isArray(entry.subscreens) ? entry.subscreens : [];
+        subscreens.forEach(function(sub) {
+            if (!sub || typeof sub !== 'object') return;
+            var subTitle = selectLocalizedString(sub.title, locale);
+            if (!subTitle && typeof sub.path === 'string') {
+                var subSegments = sub.path.split('/').filter(Boolean);
+                subTitle = subSegments.length ? subSegments[subSegments.length - 1] : sub.path;
+            }
+            sub.title = subTitle || '';
+            if (Array.isArray(sub.subscreens) && sub.subscreens.length) {
+                normalizeMenuTree(sub.subscreens, locale);
+            }
+        });
 
         if (Array.isArray(entry.screenDocList)) {
             entry.screenDocList.forEach(function(doc) {
@@ -684,10 +682,8 @@ function normalizeMenuTree(entries, locale) {
                 doc.title = docTitle || '';
             });
         }
-
-        if (Array.isArray(entry.children)) {
-            normalizeMenuTree(entry.children, locale);
-        }
+        // Do not merge or rewrite entry.children or entry.menuItems here.
+        // Keep original server-provided structure to preserve menu levels.
     });
     return entries;
 }
@@ -1114,6 +1110,8 @@ registerComponent('m-dialog', {
             if (!el) { return null; }
             var controller = {
                 active:false,
+                prevX:0,
+                prevY:0,
                 cleanup:function() {
                     controller.active = false;
                     document.removeEventListener('mousemove', controller.move);
@@ -1121,7 +1119,7 @@ registerComponent('m-dialog', {
                 },
                 move:function(e) {
                     if (!controller.active) { return; }
-                    vm.handleDragMovement(e);
+                    vm.handleDragMovement(e, controller);
                 },
                 up:function() {
                     controller.cleanup();
@@ -1132,19 +1130,43 @@ registerComponent('m-dialog', {
                         document.addEventListener('mousemove', controller.move, { passive:false });
                         document.addEventListener('mouseup', controller.up, { passive:true });
                     }
+                    // Ensure the card has a position context so left/top adjustments take effect
+                    var targetEl = vm.$refs.dialogCard && vm.$refs.dialogCard.$el ? vm.$refs.dialogCard.$el : null;
+                    if (targetEl) {
+                        var compPos = window.getComputedStyle(targetEl).position;
+                        if (compPos !== 'relative' && compPos !== 'fixed' && compPos !== 'absolute') {
+                            targetEl.style.position = 'relative';
+                            if (!targetEl.style.left) targetEl.style.left = '0px';
+                            if (!targetEl.style.top) targetEl.style.top = '0px';
+                        }
+                    }
+                    // Track last pointer location for robust delta calculation
+                    if (event && typeof event.clientX === 'number' && typeof event.clientY === 'number') {
+                        controller.prevX = event.clientX;
+                        controller.prevY = event.clientY;
+                    }
                     if (event && typeof event.preventDefault === 'function') { event.preventDefault(); }
                 }
             };
             return controller;
         },
-        handleDragMovement: function(e) {
+        handleDragMovement: function(e, controller) {
             var targetEl = this.$refs.dialogCard && this.$refs.dialogCard.$el ? this.$refs.dialogCard.$el : null;
             if (!targetEl) { return; }
             var originalStyles = window.getComputedStyle(targetEl);
             var originalLeft = parseInt(originalStyles.left, 10) || 0;
             var originalTop = parseInt(originalStyles.top, 10) || 0;
-            var newLeft = originalLeft + e.movementX;
-            var newTop = originalTop + e.movementY;
+            var dx = (typeof e.movementX === 'number' ? e.movementX : 0);
+            var dy = (typeof e.movementY === 'number' ? e.movementY : 0);
+            if ((!dx && !dy) && controller && typeof e.clientX === 'number' && typeof e.clientY === 'number') {
+                // Fallback for browsers/events where movementX/Y are 0 or undefined
+                dx = e.clientX - controller.prevX;
+                dy = e.clientY - controller.prevY;
+                controller.prevX = e.clientX;
+                controller.prevY = e.clientY;
+            }
+            var newLeft = originalLeft + dx;
+            var newTop = originalTop + dy;
 
             var windowWidth = window.innerWidth / 2; var windowHeight = window.innerHeight / 2;
             var elWidth = targetEl.offsetWidth / 2; var elHeight = targetEl.offsetHeight / 2;
@@ -2947,8 +2969,11 @@ registerComponent('m-menu-nav-item', {
         goPath: function goPath(path) { this.$root.setUrl(path); }
     },
     computed: {
-        navMenuItem: function() { return this.$root.navMenuList[this.menuIndex]; },
-        navMenuLength: function() { return this.$root.navMenuList.length; }
+        navMenuItem: function() {
+            var list = this.$root && this.$root.navMenuList ? this.$root.navMenuList : [];
+            return list && list.length > this.menuIndex ? list[this.menuIndex] : null;
+        },
+        navMenuLength: function() { return (this.$root && this.$root.navMenuList) ? this.$root.navMenuList.length : 0; }
     }
 });
 registerComponent('m-menu-subscreen-item', {
@@ -2960,17 +2985,25 @@ registerComponent('m-menu-subscreen-item', {
         '<template v-slot:header><m-menu-item-content :menu-item="subscreen"></m-menu-item-content></template>' +
     '</q-expansion-item>',
     methods: { go: function go() { this.$root.setUrl(this.subscreen.pathWithParams); } },
-    computed: { subscreen: function() { return this.$root.navMenuList[this.menuIndex].subscreens[this.subscreenIndex]; } }
+    computed: { subscreen: function() {
+        var list = this.$root && this.$root.navMenuList ? this.$root.navMenuList : [];
+        var parent = list && list.length > this.menuIndex ? list[this.menuIndex] : null;
+        var subs = parent && parent.subscreens ? parent.subscreens : [];
+        return subs && subs.length > this.subscreenIndex ? subs[this.subscreenIndex] : {};
+    } }
 });
+
+// Recursive tree renderer for deeper menu levels
 registerComponent('m-menu-item-content', {
     name: "mMenuItemContent",
     props: { menuItem:Object, active:Boolean },
     template:
-    '<div class="q-item__section column q-item__section--main justify-center"><div class="q-item__label">' +
+    // Guard rendering until menuItem exists
+    '<div v-if="menuItem" class="q-item__section column q-item__section--main justify-center"><div class="q-item__label">' +
         '<i v-if="menuItem.image && menuItem.imageType === \'icon\'" :class="menuItem.image" style="padding-right: 8px;"></i>' +
         /* TODO: images don't line up vertically, padding-top and margin-top do nothing, very annoying layout stuff, for another time... */
         '<span v-else-if="menuItem.image" style="padding-right:8px;"><img :src="menuItem.image" :alt="menuItem.title" height="14" class="invertible"></span>' +
-        '<span :class="{\'text-primary\':active}">{{menuItem.title}}</span>' +
+        '<span :class="{\'text-primary\':active}">{{menuItem ? (menuItem.title || menuItem.name || menuItem.path || menuItem.url) : ""}}</span>' +
     '</div></div>'
 });
 

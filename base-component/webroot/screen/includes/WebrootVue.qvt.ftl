@@ -70,7 +70,7 @@ along with this software (see the LICENSE.md file). If not, see
             <q-toolbar class="q-gutter-sm items-center" style="font-size:15px;">
                 <q-btn dense flat icon="menu" @click="toggleLeftOpen()"></q-btn>
 
-                <div class="row items-center no-wrap q-gutter-md">
+                <div class="row items-center no-wrap q-gutter-md q-ml-md">
                     <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
                     <#if headerLogoList?has_content>
                         <m-link href="/qapps/AppList" class="row items-center no-wrap q-ml-sm">
@@ -97,17 +97,56 @@ along with this software (see the LICENSE.md file). If not, see
                                 <#assign resolvedHeaderTitle = ec.resource.expand(resolvedHeaderTitle, "")>
                             </#if>
                         <#else>
-                            <#assign resolvedHeaderTitle = rawHeaderTitle?string>
+                        <#assign resolvedHeaderTitle = rawHeaderTitle?string>
                         </#if>
                     </#if>
-                    <q-toolbar-title class="ellipsis">
-                        <#if resolvedHeaderTitle?has_content>
-                            ${resolvedHeaderTitle}
-                        <#else>
-                                                 {{ navMenuList.length > 0 ? navMenuList[navMenuList.length - 1].title : '${ec.l10n.localize("Applications")}' }}
-                        </#if>
-                    </q-toolbar-title>
+                    <#if resolvedHeaderTitle?has_content>
+                        <q-toolbar-title class="ellipsis">${resolvedHeaderTitle}</q-toolbar-title>
+                    </#if>
                 </div>
+                <template v-for="(navMenuItem, menuIndex) in navMenuList">
+                    <template v-if="menuIndex < (navMenuList.length - 1)">
+                        <m-link v-if="navMenuItem.hasTabMenu"
+                                :href="getNavHref(menuIndex)"
+                                class="gt-xs q-mx-sm text-weight-medium">
+                            {{ navMenuItem.title }}
+                        </m-link>
+                        <div v-else-if="navMenuItem.subscreens && navMenuItem.subscreens.length"
+                             class="gt-xs q-mx-sm text-weight-medium cursor-pointer">
+                            {{ navMenuItem.title }}
+                            <q-menu anchor="bottom left" self="top left">
+                                <q-list dense style="min-width:200px">
+                                    <q-item v-for="subscreen in navMenuItem.subscreens"
+                                            :key="subscreen.name"
+                                            :class="{'bg-primary text-white':subscreen.active}"
+                                            clickable v-close-popup>
+                                        <q-item-section>
+                                            <m-link :href="subscreen.pathWithParams">
+                                                <span v-if="subscreen.image" class="q-pr-sm">
+                                                    <i v-if="subscreen.imageType === 'icon'" :class="subscreen.image"></i>
+                                                    <img v-else :src="subscreen.image" :alt="subscreen.title" width="18" class="invertible">
+                                                </span>
+                                                <i v-else class="fa fa-link q-pr-sm"></i>
+                                                {{ subscreen.title }}
+                                            </m-link>
+                                        </q-item-section>
+                                    </q-item>
+                                </q-list>
+                            </q-menu>
+                        </div>
+                        <m-link v-else
+                                :href="getNavHref(menuIndex)"
+                                class="gt-xs q-mx-sm text-weight-medium">
+                            {{ navMenuItem.title }}
+                        </m-link>
+                        <q-icon size="1.25em" name="chevron_right" color="grey" class="gt-xs"></q-icon>
+                    </template>
+                </template>
+                <m-link v-if="navMenuList.length > 0"
+                        :href="getNavHref(navMenuList.length - 1)"
+                        class="gt-xs q-mx-sm text-weight-bold">
+                    {{ navMenuList[navMenuList.length - 1].title }}
+                </m-link>
 
                 <q-space></q-space>
 
@@ -170,7 +209,19 @@ along with this software (see the LICENSE.md file). If not, see
 
         <q-drawer v-model="leftOpen" side="left" bordered><#-- no 'overlay', for those who want to keep it open better to compress main area -->
             <q-btn dense flat icon="menu" @click="toggleLeftOpen()" class="lt-sm"></q-btn>
-            <q-list dense padding><m-menu-nav-item :menu-index="0"></m-menu-nav-item></q-list>
+            <q-list dense padding>
+                <template v-if="navMenuList && navMenuList.length">
+                    <m-menu-nav-item :menu-index="0"></m-menu-nav-item>
+                </template>
+                <template v-else>
+                    <q-item>
+                        <q-item-section>
+                            <q-skeleton type="text" style="width: 140px"></q-skeleton>
+                            <q-skeleton type="text" style="width: 120px"></q-skeleton>
+                        </q-item-section>
+                    </q-item>
+                </template>
+            </q-list>
         </q-drawer>
 
         <q-page-container class="q-ma-sm"><q-page>
