@@ -36,21 +36,6 @@
     "testLoginAvailable": (testLoginAvailable!false)?c,
     "authFlows": authFlows
 }>
-<#assign loginContextJson = "{
-    \\\"initialTab\\\": \\\"login\\\",
-    \\\"username\\\": \\\"\\\",
-    \\\"secondFactorRequired\\\": false,
-    \\\"passwordChangeRequired\\\": false,
-    \\\"expiredCredentials\\\": false,
-    \\\"factorTypeDescriptions\\\": [],
-    \\\"sendableFactors\\\": [],
-    \\\"minLength\\\": 8,
-    \\\"minDigits\\\": 1,
-    \\\"minOthers\\\": 1,
-    \\\"hasExistingUsers\\\": ${(hasExistingUsers!false)?c},
-    \\\"testLoginAvailable\\\": ${(testLoginAvailable!false)?c},
-    \\\"authFlows\\\": []
-}">
 <#assign savedMessages = (ec.web.savedMessages)![]>
 <#assign savedErrors = (ec.web.savedErrors)![]>
 <#assign savedValidationErrors = (ec.web.savedValidationErrors)![]>
@@ -96,6 +81,37 @@
         }
         .full-width { width: 100%; }
         .text-muted { color: #9e9e9e; }
+        .login-form-section {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .action-btn {
+            width: 100%;
+            padding: 12px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .action-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .link-muted {
+            font-size: 13px;
+            color: #555;
+        }
     </style>
 </head>
 <body class="login-body">
@@ -126,41 +142,112 @@
                     </#list>
                     </q-card-section>
 
-                    <!-- Simple HTML Login Form -->
-                    <q-card-section class="q-pt-sm">
-                        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
-                            <div style="border-bottom: 2px solid #1976d2; color: #1976d2; padding: 8px 16px; font-weight: 500;">
-                                登录 / Login
-                            </div>
-                        </div>
-                    </q-card-section>
+                    <q-card-section class="q-pt-none">
+                        <q-tabs v-model="activeTab" dense class="text-primary" align="justify">
+                            <q-tab name="login" label="${ec.l10n.localize("Login")}"></q-tab>
+                            <q-tab v-if="showSso" name="sso" label="${ec.l10n.localize("SSO")}"></q-tab>
+                            <q-tab name="reset" label="${ec.l10n.localize("Reset Password")}"></q-tab>
+                            <q-tab name="change" label="${ec.l10n.localize("Change Password")}"></q-tab>
+                        </q-tabs>
+                        <q-separator class="q-my-sm"></q-separator>
+                        <q-tab-panels v-model="activeTab" animated swipeable>
+                            <q-tab-panel name="login">
+                                <div class="text-primary text-center q-mb-md" style="font-weight:500;">
+                                    ${ec.l10n.localize("Login")}
+                                </div>
+                                <form id="jwt-login-form-page" autocomplete="off" class="login-form-section">
+                                    <input type="hidden" name="initialTab" value="login" class="initial-tab">
+                                    <input id="login_form_username" class="login-input" type="text" name="username" required
+                                           placeholder="${ec.l10n.localize("Username")}" value="${(username!'')?html}">
+                                    <input id="login_form_password" class="login-input" type="password" name="password" required
+                                           placeholder="${ec.l10n.localize("Password")}">
+                                    <label class="link-muted" style="display:flex;align-items:center;gap:8px;">
+                                        <input type="checkbox" name="rememberMe" value="Y">
+                                        ${ec.l10n.localize("Remember Me")}
+                                    </label>
+                                    <button type="submit" class="action-btn">
+                                        ${ec.l10n.localize("Sign In")}
+                                    </button>
+                                    <div id="jwt-login-error" style="color:#c62828; font-size:13px; min-height:18px;"></div>
+                                </form>
+                            </q-tab-panel>
 
-                    <q-card-section class="q-gutter-md">
-                        <form id="jwt-login-form-page" autocomplete="off" style="display: flex; flex-direction: column; gap: 16px;">
+                            <q-tab-panel v-if="showSso" name="sso">
+                                <div class="column q-gutter-sm">
+                                    <#list authFlows as flow>
+                                        <form method="post" action="/sso/login" class="login-form-section" style="gap:8px;">
+                                            <input type="hidden" name="authFlowId" value="${flow.authFlowId?html}">
+                                            <input type="hidden" name="initialTab" value="sso" class="initial-tab">
+                                            <button class="action-btn" type="submit">${flow.description?html}</button>
+                                        </form>
+                                    </#list>
+                                </div>
+                            </q-tab-panel>
 
-                            <div style="position: relative;">
-                                <input type="text" name="username" required
-                                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
-                                       placeholder="用户名 / Username">
-                            </div>
+                            <q-tab-panel name="reset">
+                                <form method="post" action="${sri.buildUrl("resetPassword").url}" class="login-form-section" id="reset_form">
+                                    <input type="hidden" name="initialTab" value="reset" class="initial-tab">
+                                    <p class="text-muted" style="margin:0;">
+                                        ${ec.l10n.localize("Enter your username to receive a password reset link.")}
+                                    </p>
+                                    <input id="reset_form_username" class="login-input" type="text" name="username" required
+                                           value="${(username!'')?html}"
+                                           placeholder="${ec.l10n.localize("Username")}">
+                                    <button class="action-btn" type="submit">${ec.l10n.localize("Reset Password")}</button>
+                                </form>
+                            </q-tab-panel>
 
-                            <div style="position: relative;">
-                                <input type="password" name="password" required
-                                       style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;"
-                                       placeholder="密码 / Password">
-                            </div>
-
-                            <label style="display:flex; align-items:center; gap:8px; font-size: 13px; color:#555;">
-                                <input type="checkbox" name="rememberMe" value="Y">
-                                ${ec.l10n.localize("Remember Me")}
-                            </label>
-
-                            <button type="submit"
-                                    style="width: 100%; padding: 12px; background: #1976d2; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; font-weight: 500;">
-                                登录 / Sign In
-                            </button>
-                            <div id="jwt-login-error" style="color:#c62828; font-size:13px; min-height:18px;"></div>
-                        </form>
+                            <q-tab-panel name="change">
+                                <form method="post" action="${sri.buildUrl("changePassword").url}" class="login-form-section" id="change_form">
+                                    <input type="hidden" name="initialTab" value="change" class="initial-tab">
+                                    <input id="change_form_username" class="login-input" type="text" name="username"
+                                           value="${(username!'')?html}"
+                                           placeholder="${ec.l10n.localize("Username")}"
+                                           <#if secondFactorRequired>readonly</#if> required>
+                                    <#if !secondFactorRequired>
+                                        <input class="login-input" type="password" name="oldPassword"
+                                               placeholder="${ec.l10n.localize("Current Password")}" required>
+                                    </#if>
+                                    <input class="login-input" type="password" name="newPassword"
+                                           placeholder="${ec.l10n.localize("New Password")} (min ${minLength} ${ec.l10n.localize("characters")})" required>
+                                    <input class="login-input" type="password" name="newPasswordVerify"
+                                           placeholder="${ec.l10n.localize("Verify Password")}" required>
+                                    <#if secondFactorRequired>
+                                        <input id="change_form_code" class="login-input" type="text" name="code"
+                                               placeholder="${ec.l10n.localize("Authentication Code")}" required>
+                                    </#if>
+                                    <button class="action-btn" type="submit">${ec.l10n.localize("Change Password")}</button>
+                                </form>
+                                <#if secondFactorRequired && sendableFactors?has_content>
+                                    <div class="q-mt-md">
+                                        <div class="text-muted" style="margin-bottom:8px;">
+                                            ${ec.l10n.localize("Send authentication code to")}:
+                                        </div>
+                                        <#list sendableFactors as sendableFactor>
+                                            <form method="post" action="${sri.buildUrl("sendOtp").url}" class="login-form-section" style="gap:8px;">
+                                                <input type="hidden" name="factorId" value="${sendableFactor.factorId?html}">
+                                                <input type="hidden" name="initialTab" value="change" class="initial-tab">
+                                                <button class="action-btn" type="submit">
+                                                    ${ec.l10n.localize("Send code to")} ${sendableFactor.factorOption?html}
+                                                </button>
+                                            </form>
+                                        </#list>
+                                    </div>
+                                </#if>
+                                <#if (ec.web.sessionAttributes.get("moquiPreAuthcUsername"))?has_content>
+                                    <form method="post" action="${sri.buildUrl("removePreAuth").url}" class="login-form-section" style="gap:8px;">
+                                        <input type="hidden" name="initialTab" value="change" class="initial-tab">
+                                        <button class="action-btn" type="submit">${ec.l10n.localize("Change User")}</button>
+                                    </form>
+                                </#if>
+                                <#if passwordChangeRequired?? && passwordChangeRequired>
+                                    <div class="text-negative q-mt-md">${ec.l10n.localize("Password change required")}.</div>
+                                </#if>
+                                <#if expiredCredentials?? && expiredCredentials>
+                                    <div class="text-negative q-mt-xs">${ec.l10n.localize("Your password has expired")}.</div>
+                                </#if>
+                            </q-tab-panel>
+                        </q-tab-panels>
                     </q-card-section>
                 </q-card>
             </q-page>
@@ -173,11 +260,40 @@
 <script src="/js/MoquiLib.js"></script>
 <script src="/includes/JwtAuth.js"></script>
 <script>
-    const LOGIN_CONTEXT = ${loginContextJson!'{}'};
+    const LOGIN_CONTEXT = {
+        initialTab: "${normalizedTab?js_string}",
+        username: "${(username!'')?js_string}",
+        secondFactorRequired: ${(secondFactorRequired!false)?c},
+        passwordChangeRequired: ${(passwordChangeRequired!false)?c},
+        expiredCredentials: ${(expiredCredentials!false)?c},
+        factorTypeDescriptions: [
+            <#list factorDescriptionsList as desc>"${desc?js_string}"<#if desc_has_next>,</#if></#list>
+        ],
+        sendableFactors: [
+            <#list sendableFactorsList as factor>{ "factorId": "${factor.factorId?js_string}", "factorOption": "${factor.factorOption?js_string}" }<#if factor_has_next>,</#if></#list>
+        ],
+        minLength: ${minLength!8},
+        minDigits: ${minDigits!1},
+        minOthers: ${minOthers!1},
+        hasExistingUsers: ${(hasExistingUsers!false)?c},
+        testLoginAvailable: ${(testLoginAvailable!false)?c},
+        authFlows: [
+            <#list authFlows as flow>{ "authFlowId": "${flow.authFlowId?js_string}", "description": "${(flow.description!flow.authFlowId)?js_string}" }<#if flow_has_next>,</#if></#list>
+        ],
+        allowedTabs: [<#list allowedTabs as tab>"${tab?js_string}"<#if tab_has_next>,</#if></#list>]
+    };
     const loginApp = Vue.createApp({
         data() {
+            var allowed = Array.isArray(LOGIN_CONTEXT.allowedTabs) && LOGIN_CONTEXT.allowedTabs.length ? LOGIN_CONTEXT.allowedTabs : ['login', 'reset', 'change'];
+            var hashTab = window.location.hash ? window.location.hash.substring(1) : '';
+            if (allowed.indexOf(hashTab) === -1) {
+                hashTab = LOGIN_CONTEXT.initialTab || 'login';
+            }
+            if (allowed.indexOf(hashTab) === -1) {
+                hashTab = 'login';
+            }
             return {
-                activeTab: LOGIN_CONTEXT.initialTab || 'login',
+                activeTab: hashTab,
                 loginForm: {
                     username: LOGIN_CONTEXT.username || '',
                     password: '',
@@ -203,7 +319,8 @@
                 minOthers: LOGIN_CONTEXT.minOthers || 1,
                 hasExistingUsers: LOGIN_CONTEXT.hasExistingUsers !== undefined ? LOGIN_CONTEXT.hasExistingUsers : false,
                 testLoginAvailable: LOGIN_CONTEXT.testLoginAvailable !== undefined ? LOGIN_CONTEXT.testLoginAvailable : false,
-                ssoFlows: LOGIN_CONTEXT.authFlows || []
+                ssoFlows: LOGIN_CONTEXT.authFlows || [],
+                allowedTabs: allowed
             };
         },
         computed: {
@@ -217,10 +334,34 @@
         watch: {
             activeTab(val) {
                 window.location.hash = '#' + val;
+                this.updateInitialTabHiddenFields();
+                this.focusActiveField();
+            }
+        },
+        methods: {
+            updateInitialTabHiddenFields() {
+                var inputs = document.querySelectorAll('.initial-tab');
+                inputs.forEach((input) => { input.value = this.activeTab; });
+            },
+            focusActiveField() {
+                var targetId = null;
+                if (this.activeTab === 'login') {
+                    targetId = 'login_form_username';
+                } else if (this.activeTab === 'reset') {
+                    targetId = 'reset_form_username';
+                } else if (this.activeTab === 'change') {
+                    targetId = this.secondFactorRequired ? 'change_form_code' : 'change_form_username';
+                }
+                if (targetId) {
+                    var el = document.getElementById(targetId);
+                    if (el) el.focus();
+                }
             }
         },
         mounted() {
             window.location.hash = '#' + this.activeTab;
+            this.updateInitialTabHiddenFields();
+            this.focusActiveField();
         }
     });
     loginApp.use(Quasar);
