@@ -2943,21 +2943,21 @@ registerComponent('m-menu-nav-item', {
     name: "mMenuNavItem",
     props: { menuIndex:Number },
     template:
-    '<q-expansion-item v-if="navMenuItem && navMenuItem.subscreens && navMenuItem.subscreens.length" :value="true" :content-inset-level="0.3"' +
-            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="go">' +
+    '<q-expansion-item v-if="navMenuItem && navMenuItem.subscreens && navMenuItem.subscreens.length" :model-value="navExpanded" :value="navExpanded" :content-inset-level="0.3"' +
+            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="handleExpansionInput" @update:model-value="handleExpansionInput">' +
         '<template v-slot:header><m-menu-item-content :menu-item="navMenuItem" active></m-menu-item-content></template>' +
         '<template v-slot:default><m-menu-subscreen-item v-for="(subscreen, ssIndex) in navMenuItem.subscreens" :key="subscreen.name" :menu-index="menuIndex" :subscreen-index="ssIndex"></m-menu-subscreen-item></template>' +
     '</q-expansion-item>' +
-    '<q-expansion-item v-else-if="navMenuItem && navMenuItem.savedFinds && navMenuItem.savedFinds.length" :value="true" :content-inset-level="0.3"' +
-            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="go">' +
+    '<q-expansion-item v-else-if="navMenuItem && navMenuItem.savedFinds && navMenuItem.savedFinds.length" :model-value="navExpanded" :value="navExpanded" :content-inset-level="0.3"' +
+            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="handleExpansionInput" @update:model-value="handleExpansionInput">' +
         '<template v-slot:header><m-menu-item-content :menu-item="navMenuItem" active></m-menu-item-content></template>' +
         '<template v-slot:default><q-expansion-item v-for="(savedFind, ssIndex) in navMenuItem.savedFinds" :key="savedFind.name"' +
                 ' :value="false" switch-toggle-side dense dense-toggle expand-icon="chevron_right" :to="savedFind.pathWithParams" @input="goPath(savedFind.pathWithParams)">' +
             '<template v-slot:header><m-menu-item-content :menu-item="savedFind" :active="savedFind.active"/></template>' +
         '</q-expansion-item></template>' +
     '</q-expansion-item>' +
-    '<q-expansion-item v-else-if="menuIndex < (navMenuLength - 1)" :value="true" :content-inset-level="0.3"' +
-            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="go">' +
+    '<q-expansion-item v-else-if="menuIndex < (navMenuLength - 1)" :model-value="navExpanded" :value="navExpanded" :content-inset-level="0.3"' +
+            ' switch-toggle-side dense dense-toggle expanded-icon="arrow_drop_down" :to="navMenuItem.pathWithParams" @input="handleExpansionInput" @update:model-value="handleExpansionInput">' +
         '<template v-slot:header><m-menu-item-content :menu-item="navMenuItem" active></m-menu-item-content></template>' +
         '<template v-slot:default><m-menu-nav-item :menu-index="menuIndex + 1"></m-menu-nav-item></template>' +
     '</q-expansion-item>' +
@@ -2966,14 +2966,59 @@ registerComponent('m-menu-nav-item', {
     '</q-expansion-item>',
     methods: {
         go: function go() { this.$root.setUrl(this.navMenuItem.pathWithParams); },
-        goPath: function goPath(path) { this.$root.setUrl(path); }
+        goPath: function goPath(path) { this.$root.setUrl(path); },
+        handleExpansionInput: function handleExpansionInput(newValue) {
+            this.navExpanded = !!newValue;
+            this.go();
+        }
     },
     computed: {
         navMenuItem: function() {
             var list = this.$root && this.$root.navMenuList ? this.$root.navMenuList : [];
             return list && list.length > this.menuIndex ? list[this.menuIndex] : null;
         },
-        navMenuLength: function() { return (this.$root && this.$root.navMenuList) ? this.$root.navMenuList.length : 0; }
+        navMenuLength: function() { return (this.$root && this.$root.navMenuList) ? this.$root.navMenuList.length : 0; },
+        expansionKey: function() {
+            var item = this.navMenuItem;
+            if (!item) return 'nav-' + this.menuIndex;
+            return item.pathWithParams || item.path || item.url || ('nav-' + this.menuIndex);
+        },
+        navExpanded: {
+            get: function() {
+                var root = this.$root;
+                if (!root) return false;
+                var state = root.menuExpansionState || {};
+                var key = this.expansionKey;
+                if (key && Object.prototype.hasOwnProperty.call(state, key)) {
+                    return !!state[key];
+                }
+                if (this.menuIndex < (this.navMenuLength - 1)) {
+                    return true;
+                }
+                var item = this.navMenuItem;
+                if (!item) return false;
+                if (item.active) return true;
+                if (Array.isArray(item.subscreens)) {
+                    for (var i = 0; i < item.subscreens.length; i++) {
+                        if (item.subscreens[i] && item.subscreens[i].active) return true;
+                    }
+                }
+                if (Array.isArray(item.savedFinds)) {
+                    for (var j = 0; j < item.savedFinds.length; j++) {
+                        if (item.savedFinds[j] && item.savedFinds[j].active) return true;
+                    }
+                }
+                return false;
+            },
+            set: function(newVal) {
+                var root = this.$root;
+                if (!root || !this.expansionKey) return;
+                if (!root.menuExpansionState || typeof root.menuExpansionState !== 'object') {
+                    root.menuExpansionState = {};
+                }
+                root.menuExpansionState[this.expansionKey] = !!newVal;
+            }
+        }
     }
 });
 registerComponent('m-menu-subscreen-item', {
@@ -3033,7 +3078,8 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
             jwtToken: moqui.getJwtToken() || "", appHost:"", appRootPath:"", userId:"", username:"", locale:"en",
             reLoginShow:false, reLoginPassword:null, reLoginMfaData:null, reLoginOtp:null,
             notificationClient:null, qzVue:null, leftOpen:false, moqui:moqui, legacyAppLinkObserver:null,
-            pluginLoadHistory:[], pluginLoadFailures:[], pluginsEnsureAttempted:false
+            pluginLoadHistory:[], pluginLoadFailures:[], pluginsEnsureAttempted:false,
+            menuExpansionState:{}
         };
     },
     methods: {
@@ -3539,6 +3585,24 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
             path = pathList.join("/");
             return path;
         },
+        getMenuExpansionKey: function(navItem, fallbackIndex) {
+            if (!navItem) {
+                return (typeof fallbackIndex === 'number') ? ('nav-' + fallbackIndex) : null;
+            }
+            return navItem.pathWithParams || navItem.path || navItem.url ||
+                ((typeof fallbackIndex === 'number') ? ('nav-' + fallbackIndex) : null);
+        },
+        syncNavMenuExpansion: function() {
+            var navList = Array.isArray(this.navMenuList) ? this.navMenuList : [];
+            if (!navList.length) return;
+            if (!this.menuExpansionState || typeof this.menuExpansionState !== 'object') {
+                this.menuExpansionState = {};
+            }
+            for (var i = 0; i < navList.length - 1; i++) {
+                var key = this.getMenuExpansionKey(navList[i], i);
+                if (key) this.menuExpansionState[key] = true;
+            }
+        },
         getQuasarColor: function(bootstrapColor) { return moqui.getQuasarColor(bootstrapColor); },
         // Re-Login Functions
         getCsrfToken: function(jqXHR) {
@@ -3819,6 +3883,7 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
             console.info('nav updated fullPath ' + JSON.stringify(fullPathList) + ' currentPathList ' + JSON.stringify(this.currentPathList) + ' cur.path ' + cur.path + ' basePathSize ' + basePathSize);
             this.currentPathList = fullPathList;
             this.reloadSubscreens();
+            this.syncNavMenuExpansion();
 
             // update history and document.title
             var parentTitle = par ? safeDisplayValue(par.title, locale) : '';
