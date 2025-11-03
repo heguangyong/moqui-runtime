@@ -222,12 +222,14 @@ along with this software (see the LICENSE.md file). If not, see
 
     <subscreens default-item="AppList">
         <subscreens-item name="AppList" location="component://webroot/screen/webroot/apps/AppList.xml"/>
-        <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
-        <subscreens-item name="system" location="component://tools/screen/System.xml"/>
-        <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
-        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
-        <subscreens-item name="minio" location="component://moqui-minio/screen/MinioApp.xml"/>
-        <subscreens-item name="hmadmin" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
+        <subscreens-item name="tools" menu-title="工具" location="component://tools/screen/Tools.xml"/>
+        <subscreens-item name="system" menu-title="系统" location="component://tools/screen/System.xml"/>
+        <subscreens-item name="simple" menu-title="Simple Screens" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
+        <subscreens-item name="marketplace" menu-title="智能供需平台" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="minio" menu-title="对象存储" location="component://moqui-minio/screen/MinioApp.xml"/>
+        <subscreens-item name="hmadmin" menu-title="Hive Mind Admin" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
+        <subscreens-item name="popc" menu-title="电商ERP" menu-image="fa fa-shopping-cart" location="component://PopCommerce/screen/PopCommerceAdmin.xml"/>
+        <subscreens-item name="marble" menu-title="Marble ERP" menu-image="fa fa-cogs" location="component://MarbleERP/screen/marble.xml"/>
     </subscreens>
 
     <widgets>
@@ -239,6 +241,7 @@ along with this software (see the LICENSE.md file). If not, see
 
         <!-- Always render subscreens - either the selected path or the default AppList -->
         <section name="SubscreenSection">
+            <condition><expression>!ec.web.parameters.vue</expression></condition>
             <widgets>
                 <render-mode><text template="true">${sri.renderSubscreen()}</text></render-mode>
             </widgets>

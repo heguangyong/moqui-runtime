@@ -14,51 +14,60 @@ along with this software (see the LICENSE.md file). If not, see
 -->
 <screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd"
-        require-authentication="true" default-menu-include="false" menu-include="false" default-menu-title="App List">
+        require-authentication="false" default-menu-include="false" default-menu-title="应用列表">
 
     <actions>
         <set field="appsLocation" from="sri.getRootScreenDef().getSubscreensItem('apps').location"/>
         <set field="currentScreenDef" from="sri.sfi.getScreenDefinition(appsLocation)"/>
+        <script><![CDATA[
+            appCardList = []
+            def subscreens = currentScreenDef?.getMenuSubscreensItems()
+            if (subscreens) {
+                subscreens.each { subsItem ->
+                    def screenDef = sri.sfi.getScreenDefinition(subsItem.location)
+                    String screenPath = "/apps/${subsItem.name}"
+                    def urlInstance = sri.buildUrl(screenPath)
+                    if (screenDef && !screenDef.getParameterMap() && urlInstance?.isPermitted()) {
+                        String title = ec.resource.expand(subsItem.menuTitle, "")
+                        String icon = urlInstance.sui.menuImage ?: "fa fa-link"
+                        String iconType = urlInstance.sui.menuImageType ?: "icon"
+                        appCardList.add([
+                                title   : title,
+                                icon    : icon,
+                                iconType: iconType,
+                                path    : urlInstance.path,
+                                url     : urlInstance.url
+                        ])
+                    }
+                }
+            }
+        ]]></script>
     </actions>
-    <widgets>
-        <container style="text-center">
-            <render-mode>
-                <text type="qvt"><![CDATA[
-                    <div class="text-h5 q-mb-md text-center">${ec.l10n.localize("Choose an Application")}</div>
-                ]]></text>
-            </render-mode>
 
-            <section-iterate name="ScreenNestedSection" list="currentScreenDef.getMenuSubscreensItems()" entry="currentSubscreensItem">
-                <actions>
-                    <set field="currentScreenDef" from="sri.sfi.getScreenDefinition(currentSubscreensItem.location)"/>
-                    <set field="currentScreenPath" value="/apps/${currentSubscreensItem.name}"/>
-                    <set field="currentUrlInstance" from="sri.buildUrl(currentScreenPath)"/>
-                </actions>
-                <widgets>
-                    <section name="ScreenItemRender">
-                        <condition><expression>currentScreenDef != null &amp;&amp;
-                            !currentScreenDef.getParameterMap() &amp;&amp; currentUrlInstance?.isPermitted()</expression></condition>
-                        <widgets>
-                            <render-mode><text type="qvt"><![CDATA[
-                                <div class="q-my-sm"><q-btn outline no-caps to="${currentUrlInstance.path}" style="min-width:250px">
-                                    <#if currentUrlInstance.sui.menuImage?has_content>
-                                        <#if currentUrlInstance.sui.menuImageType == "icon">
-                                            <i class="${currentUrlInstance.sui.menuImage}" style="padding-right: 8px;"></i>
-                                        <#elseif currentUrlInstance.sui.menuImageType == "url-plain">
-                                            <img src="${currentUrlInstance.sui.menuImage}" width="18" style="padding-right: 4px;"/>
-                                        <#else>
-                                            <img src="${sri.buildUrl(currentUrlInstance.sui.menuImage).url}" height="18" style="padding-right: 4px;"/>
-                                        </#if>
-                                    <#else>
-                                        <i class="fa fa-link" style="padding-right: 8px;"></i>
-                                    </#if>
-                                    ${ec.resource.expand(currentSubscreensItem.menuTitle, "")}
-                                </q-btn></div>
-                            ]]></text></render-mode>
-                        </widgets>
-                    </section>
-                </widgets>
-            </section-iterate>
-        </container>
+    <widgets>
+        <render-mode>
+            <text type="html"/>
+            <text type="vuet"/>
+            <text type="qvt"><![CDATA[
+                <div class="column items-center q-pa-xl q-gutter-md app-launcher-page">
+                    <div class="text-h5 text-weight-medium">应用列表</div>
+                    <#list appCardList as appCard>
+                        <q-btn outline no-caps to="${appCard.path}" style="min-width:250px">
+                            <#if appCard.iconType == "icon">
+                                <i class="${appCard.icon}" style="padding-right:8px;"></i>
+                            <#elseif appCard.iconType == "url-plain">
+                                <img src="${appCard.icon}" width="18" style="padding-right:4px;"/>
+                            <#else>
+                                <img src="${sri.buildUrl(appCard.icon).url}" height="18" style="padding-right:4px;"/>
+                            </#if>
+                            ${appCard.title}
+                        </q-btn>
+                    </#list>
+                    <#if !appCardList?has_content>
+                        <div class="text-grey-6 q-mt-lg">暂无可用应用。</div>
+                    </#if>
+                </div>
+            ]]></text>
+        </render-mode>
     </widgets>
 </screen>

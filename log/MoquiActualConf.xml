@@ -218,12 +218,16 @@
             <subscreens-item name="my" menu-title="My Account" menu-index="90" location="component://SimpleScreens/screen/MyAccount.xml"/>
             <subscreens-item name="hm" menu-title="HiveMind PM" menu-index="7" location="component://HiveMind/screen/HiveMindRoot.xml"/>
             <subscreens-item name="hmadmin" menu-title="HiveMind Admin" menu-index="8" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
+            <subscreens-item name="marble" menu-title="制造ERP" menu-index="6" location="component://MarbleERP/screen/marble.xml"/>
+            <subscreens-item name="PopcAdmin" menu-title="电商ERP" menu-index="9" location="component://PopCommerce/screen/PopCommerceAdmin.xml"/>
+            <subscreens-item name="hhwh" menu-title="手持仓库" menu-index="20" location="component://SimpleScreens/screen/BasicHandheld/Warehouse.xml"/>
             <subscreens-item name="mcp" menu-title="AI Marketing Assistant" menu-index="98" location="component://moqui-mcp/screen/McpDialogScreen.xml"/>
             <subscreens-item name="minio" menu-title="对象存储" menu-index="10" menu-include="true" location="component://moqui-minio/screen/MinioApp.xml"/>
         </screen>
         <screen location="component://webroot/screen/webroot.xml">
             <subscreens-item name="ssstatic" menu-include="false" location="component://SimpleScreens/screen/ssstatic.xml"/>
             <subscreens-item name="hmstatic" menu-include="false" location="component://HiveMind/screen/hmstatic.xml"/>
+            <subscreens-item name="popc" menu-title="POP Commerce" menu-include="false" location="component://PopCommerce/screen/PopCommerceRoot.xml"/>
             <subscreens-item name="mcp" location="component://moqui-mcp/screen/McpSite/McpSite.xml"/>
             <subscreens-item name="mcp-includes" location="component://moqui-mcp/screen/includes.xml"/>
         </screen>
@@ -429,38 +433,28 @@
     </component-list>
     <default-property name="mantle_content_root" value=""/>
     <default-property name="mantle_content_large_root" value=""/>
-    <default-property name="marketplace.matching.min.score" value="0.6">
-        <description><![CDATA[最小匹配分数阈值（0-1）]]></description></default-property>
-    <default-property name="marketplace.matching.max.results" value="10">
-        <description><![CDATA[最大匹配结果数量]]></description></default-property>
-    <default-property name="marketplace.geo.max.distance" value="5.0">
-        <description><![CDATA[最大配送距离（公里）]]></description></default-property>
-    <default-property name="marketplace.listing.expire.hours" value="48">
-        <description><![CDATA[供需信息默认有效期（小时）]]></description></default-property>
-    <default-property name="marketplace.notification.channel" value="ROCKETCHAT">
-        <description><![CDATA[通知渠道：ROCKETCHAT, SMS, EMAIL]]></description></default-property>
-    <default-property name="marketplace.ai.provider" value="CLAUDE">
-        <description><![CDATA[AI提供商：CLAUDE, OLLAMA, GPT]]></description></default-property>
-    <default-property name="marketplace.ai.model" value="claude-3-5-sonnet-20241022">
-        <description><![CDATA[AI模型名称]]></description></default-property>
-    <default-property name="marketplace.ai.enable.match.reason" value="true">
-        <description><![CDATA[是否使用AI生成匹配理由]]></description></default-property>
-    <default-property name="marketplace.ai.enable.tag.extraction" value="true">
-        <description><![CDATA[是否使用AI提取标签]]></description></default-property>
-    <default-property name="rocketchat.server.url" value="http://localhost:4000">
-        <description><![CDATA[Rocket.Chat服务器地址]]></description></default-property>
-    <default-property name="rocketchat.bot.username" value="marketplace-bot">
-        <description><![CDATA[Rocket.Chat Bot用户名]]></description></default-property>
-    <default-property name="rocketchat.bot.password" value="">
-        <description><![CDATA[Rocket.Chat Bot密码]]></description></default-property>
-    <default-property name="rocketchat.webhook.token" value="">
-        <description><![CDATA[Rocket.Chat Webhook Token]]></description></default-property>
-    <default-property name="mcp.server.host" value="localhost">
-        <description><![CDATA[MCP Server主机地址]]></description></default-property>
-    <default-property name="mcp.server.port" value="3001">
-        <description><![CDATA[MCP Server端口]]></description></default-property>
-    <default-property name="mcp.server.enable" value="true">
-        <description><![CDATA[是否启用MCP Server]]></description></default-property>
+    <default-property name="marketplace.matching.min.score" value="0.6"/>
+    <default-property name="marketplace.matching.max.results" value="10"/>
+    <default-property name="marketplace.geo.max.distance" value="5.0"/>
+    <default-property name="marketplace.listing.expire.hours" value="48"/>
+    <default-property name="marketplace.notification.channel" value="ROCKETCHAT"/>
+    <default-property name="marketplace.ai.provider" value="ZHIPU"/>
+    <default-property name="marketplace.ai.model" value="glm-4-plus"/>
+    <default-property name="marketplace.ai.api.base" value="https://open.bigmodel.cn/api/paas/v4"/>
+    <default-property name="marketplace.ai.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
+    <default-property name="marketplace.ai.enable.match.reason" value="true"/>
+    <default-property name="marketplace.ai.enable.tag.extraction" value="true"/>
+    <default-property name="rocketchat.server.url" value="http://localhost:4000"/>
+    <default-property name="rocketchat.bot.username" value="marketplace-bot"/>
+    <default-property name="rocketchat.bot.password" value=""/>
+    <default-property name="rocketchat.webhook.token" value=""/>
+    <default-property name="mcp.server.host" value="localhost"/>
+    <default-property name="mcp.server.port" value="3001"/>
+    <default-property name="mcp.server.enable" value="true"/>
+    <default-property name="mcp.telegram.bot.username" value="UpServceBot"/>
+    <default-property name="mcp.telegram.bot.token" value="6889801043:AAF5wdoc4tybZEqCXtO5229tOErnK_ZUzMA"/>
+    <default-property name="mcp.telegram.api.base" value="https://api.telegram.org"/>
+    <default-property name="mcp.telegram.webhook.secret" value=""/>
     <default-property name="minio.endpoint" value="http://localhost:9000"/>
     <default-property name="minio.accessKey" value="admin"/>
     <default-property name="minio.secretKey" value="admin123"/>
@@ -487,4 +481,9 @@
     <default-property name="moqui.session.auth.disabled" value="true"/>
     <default-property name="moqui.webapp.auth.mode" value="jwt_only"/>
     <default-property name="moqui.jwt.force.mode" value="true"/>
+    <default-property name="marketplace.ai.timeout.seconds" value="30"/>
+    <default-property name="zhipu.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
+    <default-property name="speech.primary.provider" value="zhipu"/>
+    <default-property name="image.recognition.primary.provider" value="zhipu"/>
+    <default-property name="image.recognition.zhipu.model" value="glm-4v-plus"/>
 </moqui-conf>

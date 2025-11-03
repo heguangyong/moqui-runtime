@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- No copyright or license for configuration file, details here are not considered a creative work. -->
-
 <!-- NOTE: for default settings, examples, and comments see the MoquiDefaultConf.xml file at
     https://github.com/moqui/moqui-framework/blob/master/framework/src/main/resources/MoquiDefaultConf.xml -->
 <moqui-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-3.xsd">
-
     <default-property name="instance_purpose" value="dev"/>
     <default-property name="webapp_allow_origins" value="*"/>
     <default-property name="entity_empty_db_load" value="all"/>
     <default-property name="entity_lock_track" value="true"/>
     <!-- Disable Elasticsearch by setting elasticsearch_url to empty -->
     <default-property name="elasticsearch_url" value=""/>
-
     <!-- minimal overrides for testing on local mysql8:
     <default-property name="entity_ds_db_conf" value="mysql8"/>
     <default-property name="entity_ds_user" value="root"/>
@@ -22,70 +19,56 @@
     <default-property name="entity_ds_user" value="moqui"/>
     <default-property name="entity_ds_password" value="moqui"/>
     -->
-
     <!-- JWT Configuration for Development Environment -->
     <default-property name="moqui.jwt.secret" value="dev_jwt_secret_key_for_development_only_change_in_production_12345"/>
     <default-property name="moqui.jwt.issuer" value="moqui-dev"/>
     <default-property name="moqui.jwt.audience" value="moqui-app"/>
-
     <!-- JWT Token Expiration Settings (Development - Longer for easier testing) -->
     <default-property name="moqui.jwt.access.expire.minutes" value="120"/>  <!-- 2 hours -->
     <default-property name="moqui.jwt.refresh.expire.days" value="7"/>      <!-- 7 days -->
-
     <!-- JWT Security Settings (Development - More permissive for testing) -->
     <default-property name="moqui.jwt.ip.validation.enabled" value="false"/>
     <default-property name="moqui.jwt.single.session.enabled" value="false"/>
     <default-property name="moqui.jwt.refresh.rotation.enabled" value="false"/>
-
     <!-- JWT Rate Limiting (Development - No limits) -->
     <default-property name="moqui.jwt.rate.limit.enabled" value="false"/>
     <default-property name="moqui.jwt.rate.limit.requests.per.minute" value="0"/>
-
     <!-- JWT Logging (Development - Minimal logging) -->
     <default-property name="moqui.jwt.audit.enabled" value="true"/>
     <default-property name="moqui.jwt.debug.logging" value="false"/>
-
     <!-- JWT Algorithm Settings -->
     <default-property name="moqui.jwt.algorithm" value="HS256"/>
     <default-property name="moqui.jwt.key.rotation.enabled" value="false"/>
     <!-- Disable legacy session-token requirement in favor of JWT-only auth -->
     <default-property name="webapp_require_session_token" value="false"/>
-
     <!-- Enable JWT authentication for web apps -->
     <default-property name="moqui.jwt.webapp.auth.enabled" value="true"/>
-
     <!-- 第二阶段：纯JWT认证模式 - 完全符合用户"只能用jwt这套东西"要求 -->
     <default-property name="moqui.session.auth.disabled" value="true"/>
     <default-property name="moqui.webapp.auth.mode" value="jwt_only"/>
     <default-property name="moqui.jwt.force.mode" value="true"/>
-
     <cache-list warm-on-start="false">
         <!-- Development Mode - expires artifact cache entries; don't use these for production, load testing, etc -->
         <cache name="entity.definition" expire-time-idle="30"/>
         <!-- longer timeout since this basically looks through all files to check for new or moved entity defs -->
         <cache name="entity.location" expire-time-live="300"/>
         <cache name="entity.data.feed.info" expire-time-idle="30"/>
-
         <cache name="service.location" expire-time-idle="10"/>
         <cache name="service.rest.api" expire-time-idle="10"/>
         <cache name="kie.component.releaseId" expire-time-idle="10"/>
-
         <cache name="screen.location" expire-time-idle="10"/>
         <cache name="screen.url" expire-time-idle="10"/>
         <cache name="screen.template.mode" expire-time-idle="10"/>
         <cache name="screen.template.location" expire-time-idle="10"/>
         <cache name="screen.find.path" expire-time-idle="30"/>
-
         <cache name="resource.xml-actions.location" expire-time-idle="5"/>
         <cache name="resource.groovy.location" expire-time-idle="5"/>
-
         <cache name="resource.ftl.location" expire-time-idle="5"/>
         <cache name="resource.gstring.location" expire-time-idle="5"/>
         <cache name="resource.wiki.location" expire-time-idle="5"/>
         <cache name="resource.markdown.location" expire-time-idle="5"/>
         <cache name="resource.text.location" expire-time-idle="5"/>
         <cache name="resource.reference.location" expire-time-idle="5"/>
-
         <cache name="l10n.message" expire-time-idle="600"/>
     </cache-list>
     
@@ -98,17 +81,14 @@
         <artifact-stats type="AT_SERVICE" persist-bin="true" persist-hit="true"/>
         <artifact-stats type="AT_ENTITY" persist-bin="true"/>
     </server-stats>
-
     <webapp-list>
         <webapp name="webroot">
             <!-- Marketplace Root Screen Integration -->
             <root-screen location="component://moqui-marketplace/screen/marketplace.xml"
                          path="/marketplace"/>
-
             <!-- Development Mode: More permissive CSP to allow JavaScript execution and font loading -->
             <response-header type="screen-render" name="Content-Security-Policy"
                            value="frame-ancestors 'none'; form-action 'self'; default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://cdnjs.cloudflare.com;"/>
-
             <servlet name="H2Console" class="org.h2.server.web.WebServlet" load-on-startup="1">
                 <!-- <init-param name="webAllowOthers" value=""/><init-param name="trace" value=""/> -->
                 <url-pattern>/h2/*</url-pattern>
@@ -121,23 +101,47 @@
         <artifact-execution type="AT_XML_SCREEN_TRANS" tarpit-enabled="false"/>
         <artifact-execution type="AT_SERVICE" tarpit-enabled="false"/>
     </artifact-execution-facade>
-
     <screen-facade boundary-comments="true">
         <!-- The default conf file has a macro location defined for html already, but this is an example of how to
             refer to a file to override the default macros. -->
         <screen-text-output type="html" mime-type="text/html" macro-template-location="template/screen-macro/ScreenHtmlMacros.ftl"/>
     </screen-facade>
-
     <rest-api-list>
         <rest-api name="s1" display-name="System Services API v1" version="1.0.0" require-authentication="anonymous-view">
             <resource name="moqui" location="classpath://rest-api/moqui.rest.xml"/>
             <resource name="mcp" location="component://moqui-mcp/service/mcp.rest.xml"/>
         </rest-api>
     </rest-api-list>
-
     <entity-facade query-stats="true">
         <!-- add datasource elements here to configure databases -->
     </entity-facade>
+    <!-- 主配置：智谱AI GLM-4 (主要AI提供商 - 已验证可用) -->
+    <default-property name="marketplace.ai.provider" value="ZHIPU"/>
+    <default-property name="marketplace.ai.model" value="glm-4-plus"/>
+    <default-property name="marketplace.ai.api.base" value="https://open.bigmodel.cn/api/paas/v4"/>
+    <default-property name="marketplace.ai.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
+    <default-property name="marketplace.ai.timeout.seconds" value="30"/>
+
+    <!-- 备用配置：Claude代理API (当前不可用，留作备用) -->
+    <!--
+    <default-property name="marketplace.ai.provider" value="CLAUDE"/>
+    <default-property name="marketplace.ai.model" value="claude-3-5-sonnet-20241022"/>
+    <default-property name="marketplace.ai.api.base" value="https://q.quuvv.cn"/>
+    <default-property name="marketplace.ai.api.key" value="sk-l7qtU4hsKDd4VibSl36kiYI1PNBIYR3hE7nGLIuEak4cvLEL"/>
+    <default-property name="marketplace.ai.backup.tokens" value="sk-l7qtU4hsKDd4VibSl36kiYI1PNBIYR3hE7nGLIuEak4cvLEL,sk-XJPmxt29Y5YRqF1TaG6rTxsfzVvG6d8iPTVjpcICmgDhPMcN,sk-cisF40yEr1OjrLb1LmqR5yByfvh9k5mVc5wiVGrS11gDaeN9,sk-RP0c00rwf7Jw1zyuGATW6J2Q4p7btUjgps5sOWn6QIAD0rYS,sk-EmGDgO2eLJpiAWEG8ozHGjALxorl4QnECcTvxVH5OnAhwnxw"/>
+    <default-property name="marketplace.ai.timeout.seconds" value="30"/>
+    -->
+
+    <!-- 语音转文字API配置 - 使用智普清言替代OpenAI -->
+    <default-property name="zhipu.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
+    <default-property name="speech.primary.provider" value="zhipu"/>
+
+    <!-- 图像识别API配置 - 使用智普清言替代OpenAI -->
+    <default-property name="image.recognition.primary.provider" value="zhipu"/>
+    <default-property name="image.recognition.zhipu.model" value="glm-4v-plus"/>
+
+    <!-- Telegram Bot配置 -->
+    <default-property name="mcp.telegram.bot.token" value="6889801043:AAF5wdoc4tybZEqCXtO5229tOErnK_ZUzMA"/>
 
     <repository-list>
         <!-- requires 'org.apache.jackrabbit:jackrabbit-jcr-rmi' in the classpath:
@@ -145,3 +149,4 @@
             <init-param name="org.apache.jackrabbit.repository.uri" value="http://localhost:8081/rmi"/></repository> -->
     </repository-list>
 </moqui-conf>
+
