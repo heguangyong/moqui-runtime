@@ -225,7 +225,7 @@ along with this software (see the LICENSE.md file). If not, see
         <subscreens-item name="tools" menu-title="工具" location="component://tools/screen/Tools.xml"/>
         <subscreens-item name="system" menu-title="系统" location="component://tools/screen/System.xml"/>
         <subscreens-item name="simple" menu-title="Simple Screens" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
-        <subscreens-item name="marketplace" menu-title="智能供需平台" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="marketplace" menu-title="智能推荐" location="component://moqui-marketplace/screen/marketplace.xml"/>
         <subscreens-item name="minio" menu-title="对象存储" location="component://moqui-minio/screen/MinioApp.xml"/>
         <subscreens-item name="hmadmin" menu-title="Hive Mind Admin" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
         <subscreens-item name="popc" menu-title="电商ERP" menu-image="fa fa-shopping-cart" location="component://PopCommerce/screen/PopCommerceAdmin.xml"/>

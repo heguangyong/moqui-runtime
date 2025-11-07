@@ -143,10 +143,18 @@
     <!-- Telegram Bot配置 -->
     <default-property name="mcp.telegram.bot.token" value="6889801043:AAF5wdoc4tybZEqCXtO5229tOErnK_ZUzMA"/>
 
+    <!-- HiveMind API配置 -->
+    <default-property name="hivemind.api.baseUrl" value="https://hivemind.example.com/api"/>
+    <default-property name="hivemind.api.token" value="demo-hivemind-token"/>
+    <default-property name="hivemind.api.timeout" value="15"/>
+    <default-property name="hivemind.api.retry.maxAttempts" value="3"/>
+    <default-property name="hivemind.api.retry.backoff.millis" value="2000"/>
+    <default-property name="hivemind.task.templates.location" value="component://moqui-marketplace/config/hivemind-task-templates.json"/>
+    <default-property name="hivemind.monitor.webhook.config" value="component://moqui-marketplace/config/hivemind-monitor-webhook.json"/>
+
     <repository-list>
         <!-- requires 'org.apache.jackrabbit:jackrabbit-jcr-rmi' in the classpath:
         <repository name="main" workspace="default" username="admin" password="admin">
             <init-param name="org.apache.jackrabbit.repository.uri" value="http://localhost:8081/rmi"/></repository> -->
     </repository-list>
 </moqui-conf>
-
