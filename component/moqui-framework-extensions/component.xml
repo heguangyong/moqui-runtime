@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-component-3.xsd"
+           name="moqui-framework-extensions" version="1.0.0">
+
+    <description>Moqui框架增强组件 - 统一REST API响应格式与Swagger集成</description>
+
+    <depends-on name="mantle-usl"/>
+
+    <!-- 提供统一的全局API响应包装服务 -->
+    <service-include location="component://moqui-framework-extensions/service/framework/GlobalApiResponseServices.xml"/>
+    <service-include location="component://moqui-framework-extensions/service/framework/SwaggerApiServices.xml"/>
+    <service-include location="component://moqui-framework-extensions/service/framework/HealthCheckServices.xml"/>
+
+    <!-- 扩展现有的REST API端点 -->
+    <rest-api location="component://moqui-framework-extensions/rest-api/SwaggerExtensions.rest.xml"/>
+
+</component>

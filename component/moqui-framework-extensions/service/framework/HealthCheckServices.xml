@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- ==================== 系统健康检查服务 ==================== -->
+
+    <service verb="get" noun="SystemHealth" authenticate="false" allow-remote="true">
+        <description>获取系统健康状态信息</description>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>系统健康状态响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                Map healthData = [:]
+
+                // 系统基本信息
+                healthData.status = "UP"
+                healthData.timestamp = ec.user.nowTimestamp.time
+                healthData.uptime = ManagementFactory.getRuntimeMXBean().uptime
+                healthData.version = ec.factory.moquiVersion
+
+                // 数据库连接检查
+                try {
+                    ec.entity.find("moqui.basic.Enumeration").condition("enumTypeId", "ENTITY_SYNC_STATUS").limit(1).one()
+                    healthData.database = [status: "UP", message: "数据库连接正常"]
+                } catch (Exception e) {
+                    healthData.database = [status: "DOWN", message: "数据库连接异常: ${e.message}"]
+                    healthData.status = "DOWN"
+                }
+
+                // 内存使用情况
+                def runtime = Runtime.runtime
+                healthData.memory = [
+                    total: runtime.totalMemory(),
+                    free: runtime.freeMemory(),
+                    used: runtime.totalMemory() - runtime.freeMemory(),
+                    max: runtime.maxMemory()
+                ]
+
+                // 磁盘空间检查
+                def tempDir = new File(System.getProperty("java.io.tmpdir"))
+                healthData.disk = [
+                    total: tempDir.totalSpace,
+                    free: tempDir.freeSpace,
+                    used: tempDir.totalSpace - tempDir.freeSpace
+                ]
+
+                // 组件状态
+                healthData.components = [:]
+                healthData.components.marketplace = checkComponentHealth("moqui-marketplace")
+                healthData.components.mcp = checkComponentHealth("moqui-mcp")
+                healthData.components.minio = checkComponentHealth("moqui-minio")
+
+                // 使用全局包装服务
+                Map wrapResult = ec.service.sync().name("framework.GlobalApiResponseServices.wrap#GlobalApiResponse")
+                    .parameters([
+                        data: healthData,
+                        success: healthData.status == "UP",
+                        code: healthData.status == "UP" ? 200 : 503,
+                        message: healthData.status == "UP" ? "系统健康" : "系统异常",
+                        component: "HealthCheck"
+                    ]).call()
+
+                response = wrapResult.response
+            ]]></script>
+        </actions>
+    </service>
+
+    <!-- ==================== API版本信息服务 ==================== -->
+
+    <service verb="get" noun="ApiVersion" authenticate="false" allow-remote="true">
+        <description>获取API版本信息</description>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>API版本信息响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                Map versionData = [:]
+
+                // API版本信息
+                versionData.apiVersion = "2.0"
+                versionData.frameworkVersion = ec.factory.moquiVersion
+                versionData.buildTime = ec.factory.buildInfo ?: "unknown"
+                versionData.gitCommit = ec.getProperty("moqui.git.commit") ?: "unknown"
+
+                // 支持的功能
+                versionData.features = [
+                    "unified_response_format",
+                    "swagger_documentation",
+                    "jwt_authentication",
+                    "multimodal_ai",
+                    "object_storage",
+                    "marketplace_matching"
+                ]
+
+                // 组件版本
+                versionData.components = [:]
+                versionData.components.marketplace = getComponentVersion("moqui-marketplace")
+                versionData.components.mcp = getComponentVersion("moqui-mcp")
+                versionData.components.minio = getComponentVersion("moqui-minio")
+
+                // API端点统计
+                versionData.endpoints = [
+                    entity: "/rest/e1/*",
+                    service: "/rest/s1/*",
+                    openapi: "/rest/s1/swagger-extensions/openapi",
+                    health: "/rest/s1/swagger-extensions/health"
+                ]
+
+                // 使用全局包装服务
+                Map wrapResult = ec.service.sync().name("framework.GlobalApiResponseServices.wrap#GlobalApiResponse")
+                    .parameters([
+                        data: versionData,
+                        success: true,
+                        code: 200,
+                        message: "版本信息获取成功",
+                        component: "VersionInfo"
+                    ]).call()
+
+                response = wrapResult.response
+            ]]></script>
+        </actions>
+    </service>
+
+    <!-- ==================== API指标统计服务 ==================== -->
+
+    <service verb="get" noun="ApiMetrics" authenticate="false" allow-remote="true">
+        <description>获取API使用指标统计</description>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>API指标统计响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                Map metricsData = [:]
+
+                // 基础指标
+                metricsData.timestamp = ec.user.nowTimestamp.time
+
+                // JVM指标
+                def runtime = Runtime.runtime
+                def gc = ManagementFactory.garbageCollectorMXBeans
+                metricsData.jvm = [
+                    memory: [
+                        heap: [
+                            used: runtime.totalMemory() - runtime.freeMemory(),
+                            total: runtime.totalMemory(),
+                            max: runtime.maxMemory()
+                        ]
+                    ],
+                    gc: gc.collect { [name: it.name, collections: it.collectionCount, time: it.collectionTime] },
+                    threads: ManagementFactory.threadMXBean.threadCount,
+                    uptime: ManagementFactory.runtimeMXBean.uptime
+                ]
+
+                // 数据库连接池指标（如果可用）
+                try {
+                    // 这里可以添加连接池统计逻辑
+                    metricsData.database = [
+                        connections: [
+                            active: 0, // 实际实现时从连接池获取
+                            idle: 0,
+                            total: 0
+                        ]
+                    ]
+                } catch (Exception e) {
+                    logger.warn("无法获取数据库连接池指标: ${e.message}")
+                }
+
+                // HTTP请求统计（模拟数据，实际需要从访问日志获取）
+                metricsData.http = [
+                    requests: [
+                        total: 1000, // 总请求数
+                        success: 950, // 成功请求数
+                        error: 50     // 错误请求数
+                    ],
+                    responseTime: [
+                        average: 120,  // 平均响应时间（毫秒）
+                        p95: 250,      // 95分位响应时间
+                        p99: 500       // 99分位响应时间
+                    ]
+                ]
+
+                // 使用全局包装服务
+                Map wrapResult = ec.service.sync().name("framework.GlobalApiResponseServices.wrap#GlobalApiResponse")
+                    .parameters([
+                        data: metricsData,
+                        success: true,
+                        code: 200,
+                        message: "指标统计获取成功",
+                        component: "Metrics"
+                    ]).call()
+
+                response = wrapResult.response
+            ]]></script>
+        </actions>
+    </service>
+
+    <!-- 辅助方法 -->
+    <script><![CDATA[
+        def checkComponentHealth(componentName) {
+            try {
+                // 检查组件是否存在和可用
+                def componentDef = ec.component.getComponent(componentName)
+                if (componentDef) {
+                    return [status: "UP", message: "${componentName} 组件运行正常"]
+                } else {
+                    return [status: "DOWN", message: "${componentName} 组件不存在"]
+                }
+            } catch (Exception e) {
+                return [status: "DOWN", message: "${componentName} 组件异常: ${e.message}"]
+            }
+        }
+
+        def getComponentVersion(componentName) {
+            try {
+                def componentDef = ec.component.getComponent(componentName)
+                return componentDef?.version ?: "unknown"
+            } catch (Exception e) {
+                return "not_found"
+            }
+        }
+    ]]></script>
+
+</services>

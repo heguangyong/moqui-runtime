@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/rest-api-3.xsd"
+          name="swagger-extensions" displayName="Swagger Extensions API" version="2.0.0" require-authentication="anonymous-view">
+
+    <description>增强的 Swagger/OpenAPI 文档生成和API管理</description>
+
+    <!-- OpenAPI/Swagger 文档生成 -->
+    <resource name="openapi">
+        <method type="get">
+            <service name="framework.SwaggerApiServices.generate#SwaggerApiDoc"/>
+        </method>
+
+        <resource name="components">
+            <resource name="{componentName}">
+                <method type="get">
+                    <service name="framework.SwaggerApiServices.generate#SwaggerApiDoc"/>
+                </method>
+            </resource>
+        </resource>
+    </resource>
+
+    <!-- API 健康检查 -->
+    <resource name="health">
+        <method type="get" require-authentication="anonymous-all">
+            <service name="framework.HealthCheckServices.get#SystemHealth"/>
+        </method>
+    </resource>
+
+    <!-- API 版本信息 -->
+    <resource name="version">
+        <method type="get" require-authentication="anonymous-all">
+            <service name="framework.VersionServices.get#ApiVersion"/>
+        </method>
+    </resource>
+
+    <!-- API 指标统计 -->
+    <resource name="metrics">
+        <method type="get">
+            <service name="framework.MetricsServices.get#ApiMetrics"/>
+        </method>
+    </resource>
+
+</resource>

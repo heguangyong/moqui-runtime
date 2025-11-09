@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- ==================== 全局统一REST API响应包装服务 ==================== -->
+
+    <service verb="wrap" noun="GlobalApiResponse" authenticate="false" allow-remote="false">
+        <description>全系统统一REST API响应格式包装服务</description>
+        <in-parameters>
+            <parameter name="data" type="Object" required="false">
+                <description>业务数据对象</description>
+            </parameter>
+            <parameter name="success" type="Boolean" default="true">
+                <description>操作是否成功</description>
+            </parameter>
+            <parameter name="code" type="Integer" default="200">
+                <description>HTTP状态码</description>
+            </parameter>
+            <parameter name="message" type="String" default="操作成功">
+                <description>提示消息</description>
+            </parameter>
+            <parameter name="errors" type="List" required="false">
+                <description>错误信息列表</description>
+            </parameter>
+            <!-- 分页相关参数 -->
+            <parameter name="total" type="Long" required="false">
+                <description>总记录数</description>
+            </parameter>
+            <parameter name="page" type="Integer" required="false">
+                <description>当前页码</description>
+            </parameter>
+            <parameter name="limit" type="Integer" required="false">
+                <description>每页记录数</description>
+            </parameter>
+            <parameter name="pageCount" type="Integer" required="false">
+                <description>总页数</description>
+            </parameter>
+            <!-- 元数据参数 -->
+            <parameter name="requestId" type="String" required="false">
+                <description>请求ID</description>
+            </parameter>
+            <parameter name="version" type="String" default="2.0">
+                <description>API版本</description>
+            </parameter>
+            <parameter name="component" type="String" required="false">
+                <description>组件名称</description>
+            </parameter>
+            <parameter name="traceId" type="String" required="false">
+                <description>分布式追踪ID</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>标准化的REST响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                import groovy.json.JsonOutput
+                import java.util.UUID
+
+                // 生成请求ID（如果没有提供）
+                String actualRequestId = requestId ?: "req_${UUID.randomUUID().toString().replaceAll('-', '').substring(0, 12)}"
+
+                // 生成分布式追踪ID（如果没有提供）
+                String actualTraceId = traceId ?: "trace_${UUID.randomUUID().toString()}"
+
+                // 构建标准响应结构
+                Map standardResponse = [:]
+
+                // 基础响应信息
+                standardResponse.success = success ?: true
+                standardResponse.code = code ?: 200
+                standardResponse.message = message ?: (success ? "操作成功" : "操作失败")
+
+                // 业务数据
+                if (data != null) {
+                    standardResponse.data = data
+                }
+
+                // 错误信息
+                if (errors && !errors.isEmpty()) {
+                    standardResponse.errors = errors
+                    standardResponse.success = false
+                    if (!code || code == 200) {
+                        standardResponse.code = 400
+                    }
+                }
+
+                // 元数据信息
+                Map meta = [:]
+                meta.timestamp = ec.user.nowTimestamp.time
+                meta.requestId = actualRequestId
+                meta.traceId = actualTraceId
+                meta.version = version ?: "2.0"
+                meta.component = component ?: "Moqui-Framework"
+                meta.server = "Moqui-${ec.web.request.serverName}"
+                meta.environment = ec.getProperty('moqui.environment') ?: 'development'
+
+                // 分页信息（如果提供）
+                if (total != null) {
+                    Map pagination = [:]
+                    pagination.total = total
+                    if (page != null) pagination.page = page
+                    if (limit != null) pagination.limit = limit
+                    if (pageCount != null) pagination.pageCount = pageCount
+
+                    // 计算额外的分页信息
+                    if (page != null && limit != null && total != null) {
+                        pagination.hasNext = (page * limit) < total
+                        pagination.hasPrevious = page > 1
+                        pagination.firstItemIndex = ((page - 1) * limit) + 1
+                        pagination.lastItemIndex = Math.min(page * limit, total as int)
+                    }
+
+                    meta.pagination = pagination
+                }
+
+                standardResponse.meta = meta
+
+                // 设置响应
+                response = standardResponse
+
+                // 如果是错误响应，设置HTTP状态码
+                if (!success || (errors && !errors.isEmpty())) {
+                    ec.web.response.setStatus(code ?: 400)
+                }
+
+                // 添加标准化响应头
+                ec.web.response.addHeader("X-API-Version", version ?: "2.0")
+                ec.web.response.addHeader("X-Request-ID", actualRequestId)
+                ec.web.response.addHeader("X-Trace-ID", actualTraceId)
+                if (total != null) {
+                    ec.web.response.addHeader("X-Total-Count", total.toString())
+                }
+            ]]></script>
+        </actions>
+    </service>
+
+    <service verb="wrap" noun="GlobalListResponse" authenticate="false" allow-remote="false">
+        <description>全局统一列表响应包装</description>
+        <in-parameters>
+            <parameter name="items" type="List" required="true">
+                <description>列表数据</description>
+            </parameter>
+            <parameter name="total" type="Long" required="false">
+                <description>总记录数</description>
+            </parameter>
+            <parameter name="page" type="Integer" default="1">
+                <description>当前页码</description>
+            </parameter>
+            <parameter name="limit" type="Integer" default="20">
+                <description>每页记录数</description>
+            </parameter>
+            <parameter name="message" type="String" default="查询成功">
+                <description>提示消息</description>
+            </parameter>
+            <parameter name="component" type="String" required="false">
+                <description>组件名称</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>标准化的列表响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                // 计算分页信息
+                Long actualTotal = total ?: (items ? items.size() : 0)
+                Integer pageCount = limit > 0 ? Math.ceil(actualTotal / limit) as Integer : 1
+
+                // 构建列表数据结构
+                Map listData = [:]
+                listData.items = items ?: []
+                listData.count = items ? items.size() : 0
+
+                // 调用全局包装服务
+                Map wrapResult = ec.service.sync().name("framework.GlobalApiResponseServices.wrap#GlobalApiResponse")
+                    .parameters([
+                        data: listData,
+                        success: true,
+                        code: 200,
+                        message: message,
+                        total: actualTotal,
+                        page: page,
+                        limit: limit,
+                        pageCount: pageCount,
+                        component: component
+                    ]).call()
+
+                response = wrapResult.response
+            ]]></script>
+        </actions>
+    </service>
+
+    <service verb="wrap" noun="GlobalErrorResponse" authenticate="false" allow-remote="false">
+        <description>全局统一错误响应包装</description>
+        <in-parameters>
+            <parameter name="errorMessage" type="String" required="true">
+                <description>错误消息</description>
+            </parameter>
+            <parameter name="errorCode" type="Integer" default="400">
+                <description>错误代码</description>
+            </parameter>
+            <parameter name="errorDetails" type="List" required="false">
+                <description>详细错误信息</description>
+            </parameter>
+            <parameter name="validationErrors" type="Map" required="false">
+                <description>字段验证错误</description>
+            </parameter>
+            <parameter name="component" type="String" required="false">
+                <description>组件名称</description>
+            </parameter>
+            <parameter name="stackTrace" type="String" required="false">
+                <description>堆栈跟踪（开发环境）</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="response" type="Map">
+                <description>标准化的错误响应</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                // 构建错误信息列表
+                List errorList = []
+                errorList.add(errorMessage)
+
+                if (errorDetails) {
+                    errorList.addAll(errorDetails)
+                }
+
+                // 构建错误数据
+                Map errorData = [:]
+                if (validationErrors) {
+                    errorData.validation = validationErrors
+                }
+                if (stackTrace && ec.getProperty('moqui.environment') == 'development') {
+                    errorData.stackTrace = stackTrace
+                }
+                errorData.errorType = getErrorType(errorCode)
+
+                // 调用全局包装服务
+                Map wrapResult = ec.service.sync().name("framework.GlobalApiResponseServices.wrap#GlobalApiResponse")
+                    .parameters([
+                        data: errorData.isEmpty() ? null : errorData,
+                        success: false,
+                        code: errorCode,
+                        message: errorMessage,
+                        errors: errorList,
+                        component: component
+                    ]).call()
+
+                response = wrapResult.response
+
+                // 根据错误类型添加特定的响应头
+                if (errorCode >= 500) {
+                    ec.web.response.addHeader("X-Error-Type", "server_error")
+                } else if (errorCode >= 400) {
+                    ec.web.response.addHeader("X-Error-Type", "client_error")
+                }
+            ]]></script>
+        </actions>
+    </service>
+
+    <!-- 辅助方法：获取错误类型 -->
+    <script><![CDATA[
+        def getErrorType(errorCode) {
+            if (errorCode >= 500) return "server_error"
+            else if (errorCode == 404) return "not_found"
+            else if (errorCode == 403) return "forbidden"
+            else if (errorCode == 401) return "unauthorized"
+            else if (errorCode == 422) return "validation_error"
+            else if (errorCode >= 400) return "client_error"
+            else return "unknown"
+        }
+    ]]></script>
+
+</services>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- ==================== Swagger/OpenAPI 文档生成增强服务 ==================== -->
+
+    <service verb="generate" noun="SwaggerApiDoc" authenticate="false" allow-remote="true">
+        <description>生成增强的 Swagger/OpenAPI 文档，包含统一响应格式</description>
+        <in-parameters>
+            <parameter name="componentName" type="String" required="false">
+                <description>组件名称，为空则生成所有组件的文档</description>
+            </parameter>
+            <parameter name="apiVersion" type="String" default="2.0">
+                <description>API版本</description>
+            </parameter>
+            <parameter name="format" type="String" default="json" allowed-values="json,yaml">
+                <description>输出格式</description>
+            </parameter>
+            <parameter name="includeExamples" type="Boolean" default="true">
+                <description>是否包含示例</description>
+            </parameter>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="swaggerDoc" type="String">
+                <description>生成的 Swagger 文档</description>
+            </parameter>
+        </out-parameters>
+        <actions>
+            <script><![CDATA[
+                import groovy.json.JsonBuilder
+                import groovy.json.JsonOutput
+                import org.yaml.snakeyaml.DumperOptions
+                import org.yaml.snakeyaml.Yaml
+
+                // 构建 Swagger/OpenAPI 3.0 文档结构
+                Map swaggerApiDoc = [:]
+
+                // OpenAPI 基本信息
+                swaggerApiDoc.openapi = "3.0.3"
+
+                // 文档信息
+                swaggerApiDoc.info = [
+                    title: "Moqui Framework REST API",
+                    description: "统一响应格式的 REST API 文档",
+                    version: apiVersion,
+                    termsOfService: "https://www.moqui.org/TermsOfService.html",
+                    contact: [
+                        name: "Moqui API Support",
+                        url: "https://www.moqui.org/",
+                        email: "support@moqui.org"
+                    ],
+                    license: [
+                        name: "CC0 1.0 Universal",
+                        url: "https://creativecommons.org/publicdomain/zero/1.0/"
+                    ]
+                ]
+
+                // 服务器配置
+                swaggerApiDoc.servers = [
+                    [
+                        url: "http://localhost:8080/rest",
+                        description: "本地开发服务器"
+                    ],
+                    [
+                        url: "https://api.moqui.org/rest",
+                        description: "生产服务器"
+                    ]
+                ]
+
+                // 安全方案
+                swaggerApiDoc.components = [
+                    securitySchemes: [
+                        basicAuth: [
+                            type: "http",
+                            scheme: "basic"
+                        ],
+                        jwtAuth: [
+                            type: "http",
+                            scheme: "bearer",
+                            bearerFormat: "JWT"
+                        ],
+                        apiKey: [
+                            type: "apiKey",
+                            in: "header",
+                            name: "api_key"
+                        ]
+                    ],
+                    schemas: generateStandardSchemas(includeExamples)
+                ]
+
+                // 全局安全要求
+                swaggerApiDoc.security = [
+                    [basicAuth: []],
+                    [jwtAuth: []],
+                    [apiKey: []]
+                ]
+
+                // 路径和操作
+                swaggerApiDoc.paths = generateApiPaths(componentName, includeExamples)
+
+                // 标签分组
+                swaggerApiDoc.tags = [
+                    [name: "Entity API", description: "实体 CRUD 操作"],
+                    [name: "Service API", description: "服务调用接口"],
+                    [name: "Marketplace", description: "商业撮合平台"],
+                    [name: "MCP AI", description: "多模态 AI 助手"],
+                    [name: "MinIO", description: "对象存储服务"],
+                    [name: "Authentication", description: "认证和授权"]
+                ]
+
+                // 外部文档
+                swaggerApiDoc.externalDocs = [
+                    description: "Moqui Framework 官方文档",
+                    url: "https://www.moqui.org/docs/"
+                ]
+
+                // 格式化输出
+                if (format == "yaml") {
+                    DumperOptions options = new DumperOptions()
+                    options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK)
+                    options.setPrettyFlow(true)
+                    Yaml yaml = new Yaml(options)
+                    swaggerDoc = yaml.dump(swaggerApiDoc)
+                    ec.web.response.setContentType("application/x-yaml")
+                } else {
+                    swaggerDoc = JsonOutput.prettyPrint(JsonOutput.toJson(swaggerApiDoc))
+                    ec.web.response.setContentType("application/json")
+                }
+
+                // 设置响应头
+                ec.web.response.addHeader("X-Generated-At", ec.user.nowTimestamp.toString())
+                ec.web.response.addHeader("X-API-Version", apiVersion)
+            ]]></script>
+        </actions>
+    </service>
+
+    <!-- 生成标准响应模式的辅助函数在 Groovy 脚本中定义 -->
+
+</services>
