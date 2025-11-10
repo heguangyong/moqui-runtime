@@ -23,13 +23,15 @@ Thumbs.db
 # Application specific
 elasticsearch/data/
 
-
-# Log files
+# Log files and runtime configuration
 *.log
 log/*.log
 log/*.log.*
+log/error.log
+log/moqui.log
+log/MoquiActualConf.xml
 
-# Database files  
+# Database files
 db/
 
 # Temporary files
@@ -41,9 +43,17 @@ txlog/
 # Node modules
 node_modules/
 
-# Build artifacts
+# Build artifacts and compiled files
 *.min.js
 *.min.css
+*.jar
+!gradle-wrapper.jar
+!**/libs/required*.jar
+
+# Component lib directories (compiled JARs)
+component/*/lib/*.jar
+component/moqui-*/lib/*.jar
+component/mantle-*/lib/*.jar
 
 # IDE files
 .idea/
