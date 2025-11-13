@@ -4200,6 +4200,11 @@ moqui.debugLog.log('vue', 'Creating Vue instance with JWT token', {
         });
     }
 
+    // Apply Vue 3 Composition API optimizations before registering components
+    if (typeof window.moqui?.vue3Optimizer !== 'undefined') {
+        window.moqui.vue3Optimizer.optimizeExistingComponents();
+    }
+
     Object.keys(componentRegistry).forEach(function(name) {
         app.component(name, componentRegistry[name]);
     });
