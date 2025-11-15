@@ -186,36 +186,147 @@ along with this software (see the LICENSE.md file). If not, see
 
     <transition name="menuData" read-only="true" begin-transaction="false">
         <actions><script><![CDATA[
-            // Get menu data for qapps navigation, always include homepage link at top
+            // Enhanced menuData transition with Menu Registry Service integration
+            // Phase 2 Implementation: Replace sri.getMenuData() with decoupled menu service
+
             List menuDataList = []
+            boolean useFallback = false
+            String fallbackReason = ""
 
-            // Add "返回主页" (Return to Homepage) link at the top
-            menuDataList.add([
-                title: "返回主页",
-                url: "/qapps/AppList",
-                image: "fa fa-home",
-                imageType: "icon"
-            ])
+            try {
+                // Step 1: Try to get menu data from Menu Registry Service
+                Map registryResult = null
+                try {
+                    registryResult = ec.service.sync().name("get", "MenuData")
+                        .parameters([
+                            categoryId: ec.web.parameters.categoryId,
+                            parentId: ec.web.parameters.parentId,
+                            flatten: true,  // 返回扁平列表用于导航
+                            includePermissions: true
+                        ]).call()
+                } catch (Exception serviceEx) {
+                    ec.logger.warn("Menu Registry Service call failed: ${serviceEx.message}")
+                    // 服务不可用时不抛异常，继续使用fallback
+                }
 
-            // Determine which screen path to use when building the menu tree.
-            // - Prefer explicit screenPath parameter (provided by SPA navigation)
-            // - Fallback to current request's extra-path list (works for server-rendered paths)
-            List<String> targetPathList = null
-            String screenPathParam = ec.web.parameters.screenPath
-            if (screenPathParam) {
-                targetPathList = screenPathParam.split('/')*.trim().findAll { it }
+                // Step 2: Process Menu Registry Service result
+                if (registryResult?.success && registryResult.menuData) {
+                    menuDataList.addAll(registryResult.menuData)
+                    ec.logger.info("Menu loaded from Registry Service successfully (${menuDataList.size()} items)")
+                } else {
+                    // Step 3: Fallback to traditional sri.getMenuData() with error boundary
+                    useFallback = true
+                    fallbackReason = "Registry service unavailable or returned no data"
+
+                    try {
+                        // Enhanced fallback logic with error boundary
+                        def fallbackLogic = evaluate('file:component://webroot/script/menu-fallback-logic.groovy')
+                        if (fallbackLogic) {
+                            Map fallbackResult = fallbackLogic.handleMenuFailure(ec, fallbackReason, "SERVICE_UNAVAILABLE")
+                            if (fallbackResult?.success && fallbackResult.menuDataList) {
+                                menuDataList.addAll(fallbackResult.menuDataList)
+                                ec.logger.info("Menu loaded from fallback mechanism (${menuDataList.size()} items)")
+                            }
+                        } else {
+                            throw new Exception("Fallback logic script not available")
+                        }
+
+                    } catch (Exception fallbackEx) {
+                        // Final fallback: Traditional method with try-catch
+                        fallbackReason = "Both registry service and fallback failed: ${fallbackEx.message}"
+                        ec.logger.warn("Using traditional menu loading: ${fallbackReason}")
+
+                        try {
+                            // Traditional screen-based menu generation (with error boundary)
+                            List<String> targetPathList = null
+                            String screenPathParam = ec.web.parameters.screenPath
+                            if (screenPathParam) {
+                                targetPathList = screenPathParam.split('/')*.trim().findAll { it }
+                            }
+                            if (!targetPathList || targetPathList.isEmpty()) {
+                                targetPathList = sri.screenUrlInfo.extraPathNameList
+                            }
+
+                            List standardMenuList = sri.getMenuData(targetPathList)
+                            if (standardMenuList != null) {
+                                menuDataList.addAll(standardMenuList)
+                                ec.logger.info("Menu loaded from traditional method (${menuDataList.size()} items)")
+                            }
+
+                        } catch (Exception traditionalEx) {
+                            // Ultimate fallback: Emergency menu
+                            ec.logger.error("All menu loading methods failed, using emergency menu: ${traditionalEx.message}")
+                            menuDataList = getEmergencyMenu()
+                            useFallback = true
+                            fallbackReason = "Emergency mode: ${traditionalEx.message}"
+                        }
+                    }
+                }
+
+                // Step 4: Always ensure "返回主页" link is at the top
+                def homeLink = [
+                    title: "返回主页",
+                    url: "/qapps/AppList",
+                    image: "fa fa-home",
+                    imageType: "icon",
+                    priority: 0  // Highest priority
+                ]
+
+                // Remove any existing home links to avoid duplicates
+                menuDataList = menuDataList.findAll { !(it.url == "/qapps/AppList" || it.title == "返回主页") }
+
+                // Add home link at the top
+                menuDataList.add(0, homeLink)
+
+                // Step 5: Add metadata for monitoring and debugging
+                def responseData = [
+                    menuData: menuDataList,
+                    metadata: [
+                        source: useFallback ? "fallback" : "registry",
+                        fallbackReason: fallbackReason,
+                        itemCount: menuDataList.size(),
+                        timestamp: new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                        version: "2.0-decoupled"
+                    ]
+                ]
+
+                // Step 6: Cache successful results for fallback use
+                if (!useFallback && menuDataList.size() > 0) {
+                    try {
+                        ec.cache.put("MenuRegistry", "LastKnownGood", menuDataList, 3600) // 1 hour cache
+                    } catch (Exception cacheEx) {
+                        ec.logger.warn("Failed to cache menu data: ${cacheEx.message}")
+                    }
+                }
+
+                ec.web.sendJsonResponse(responseData)
+
+            } catch (Exception e) {
+                // Critical error handling: Return emergency response
+                ec.logger.error("Critical error in menuData transition: ${e.message}", e)
+
+                def emergencyResponse = [
+                    menuData: getEmergencyMenu(),
+                    metadata: [
+                        source: "emergency",
+                        fallbackReason: "Critical error: ${e.message}",
+                        itemCount: 3,
+                        timestamp: new Date().format("yyyy-MM-dd'T'HH:mm:ss'Z'"),
+                        version: "2.0-emergency"
+                    ]
+                ]
+
+                ec.web.sendJsonResponse(emergencyResponse)
             }
-            if (!targetPathList || targetPathList.isEmpty()) {
-                targetPathList = sri.screenUrlInfo.extraPathNameList
-            }
 
-            // Get standard menu data from screen
-            List standardMenuList = sri.getMenuData(targetPathList)
-            if (standardMenuList != null) {
-                menuDataList.addAll(standardMenuList)
+            // Helper method: Get emergency menu (always available)
+            def getEmergencyMenu() {
+                return [
+                    [title: "返回首页", url: "/qapps/AppList", image: "fa fa-home", imageType: "icon"],
+                    [title: "系统帮助", url: "/qapps/help", image: "fa fa-question-circle", imageType: "icon"],
+                    [title: "安全退出", url: "/Login/logout", image: "fa fa-sign-out-alt", imageType: "icon"]
+                ]
             }
-
-            ec.web.sendJsonResponse(menuDataList)
         ]]></script></actions>
         <default-response type="none" save-parameters="true"/>
     </transition>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 菜单注册表服务 - Phase 1 核心实现 -->
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-3.xsd">
+
+    <!-- 菜单注册表加载服务 -->
+    <service verb="load" noun="MenuRegistry" authenticate="false" allow-remote="true">
+        <description>加载菜单注册表配置，提供独立于页面的菜单数据</description>
+        <in-parameters>
+            <parameter name="registryPath" default-value="component://webroot/config/menu-registry-schema.xml"/>
+            <parameter name="useCache" type="Boolean" default="true"/>
+            <parameter name="locale" default-value="zh_CN"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="menuCategories" type="List"/>
+            <parameter name="success" type="Boolean"/>
+            <parameter name="message"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+            import org.moqui.context.ResourceReference
+            import groovy.xml.XmlSlurper
+            import groovy.xml.slurpersupport.GPathResult
+
+            def menuCategories = []
+            def cacheKey = "MenuRegistry:${registryPath}:${locale}"
+
+            try {
+                // 检查缓存
+                if (useCache) {
+                    def cached = ec.cache.get("MenuRegistry", cacheKey)
+                    if (cached != null) {
+                        menuCategories = cached
+                        success = true
+                        message = "Menu registry loaded from cache"
+                        return
+                    }
+                }
+
+                // 加载菜单注册表文件
+                ResourceReference menuRegRef = ec.resource.getLocationReference(registryPath)
+                if (!menuRegRef.exists()) {
+                    ec.logger.warn("Menu registry file not found: ${registryPath}, falling back to default")
+                    // 提供默认菜单结构
+                    menuCategories = getDefaultMenuStructure()
+                    success = true
+                    message = "Using default menu structure (registry file not found)"
+                    return
+                }
+
+                // 解析XML配置
+                def registryXml = new XmlSlurper().parseText(menuRegRef.getText())
+
+                // 处理菜单类别
+                registryXml.'menu-category'.each { category ->
+                    def categoryData = [
+                        id: category.@id.toString(),
+                        title: getLocalizedText(category.@title.toString(), locale, registryXml),
+                        order: category.@order.toString() as Integer ?: 999,
+                        parent: category.@parent.toString(),
+                        items: []
+                    ]
+
+                    // 处理菜单项
+                    category.'menu-item'.each { item ->
+                        // 检查权限
+                        def permission = item.@permission.toString()
+                        if (permission && !ec.user.hasPermission(permission)) {
+                            return // 跳过无权限的菜单项
+                        }
+
+                        // 检查可见性
+                        def visible = item.@visible.toString()
+                        if (visible == "false") {
+                            return // 跳过隐藏的菜单项
+                        }
+
+                        def itemData = [
+                            id: item.@id.toString(),
+                            title: getLocalizedText(item.@title.toString(), locale, registryXml),
+                            icon: item.@icon.toString(),
+                            url: item.@url.toString(),
+                            order: item.@order.toString() as Integer ?: 999,
+                            component: item.@component.toString(),
+                            description: getLocalizedText(item.@description.toString(), locale, registryXml),
+                            permission: permission
+                        ]
+                        categoryData.items.add(itemData)
+                    }
+
+                    // 按order排序菜单项
+                    categoryData.items = categoryData.items.sort { it.order }
+                    menuCategories.add(categoryData)
+                }
+
+                // 按order排序类别
+                menuCategories = menuCategories.sort { it.order }
+
+                // 缓存结果
+                if (useCache) {
+                    ec.cache.put("MenuRegistry", cacheKey, menuCategories, 300) // 5分钟缓存
+                }
+
+                success = true
+                message = "Menu registry loaded successfully"
+
+            } catch (Exception e) {
+                ec.logger.error("Error loading menu registry: ${e.message}", e)
+
+                // 错误时提供默认菜单
+                menuCategories = getDefaultMenuStructure()
+                success = false
+                message = "Error loading menu registry, using fallback: ${e.message}"
+            }
+
+            // 辅助方法：获取本地化文本
+            def getLocalizedText(text, targetLocale, registryXml) {
+                if (!text || targetLocale == "zh_CN") return text
+
+                def translation = registryXml.i18n.locale.find { it.@code == targetLocale }
+                    ?.translation?.find { it.@key == text }?.@value?.toString()
+
+                return translation ?: text
+            }
+
+            // 辅助方法：获取默认菜单结构
+            def getDefaultMenuStructure() {
+                return [[
+                    id: "main-apps",
+                    title: "主应用菜单",
+                    order: 1,
+                    parent: "",
+                    items: [
+                        [
+                            id: "app-list",
+                            title: "应用列表",
+                            icon: "fa fa-th",
+                            url: "/qapps/AppList",
+                            order: 1,
+                            component: "",
+                            description: "返回主应用列表页面",
+                            permission: ""
+                        ],
+                        [
+                            id: "home-fallback",
+                            title: "返回首页",
+                            icon: "fa fa-home",
+                            url: "/qapps/AppList",
+                            order: 0,
+                            component: "",
+                            description: "安全返回主页",
+                            permission: ""
+                        ]
+                    ]
+                ]]
+            }
+        ]]></script></actions>
+    </service>
+
+    <!-- 菜单数据查询API服务 -->
+    <service verb="get" noun="MenuData" authenticate="false" allow-remote="true">
+        <description>获取菜单数据API，替代sri.getMenuData()调用</description>
+        <in-parameters>
+            <parameter name="categoryId"/>
+            <parameter name="parentId"/>
+            <parameter name="flatten" type="Boolean" default="false"/>
+            <parameter name="includePermissions" type="Boolean" default="true"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="menuData" type="List"/>
+            <parameter name="success" type="Boolean"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+            try {
+                // 加载菜单注册表
+                Map loadResult = ec.service.sync().name("load", "MenuRegistry").call()
+
+                if (!loadResult.success) {
+                    ec.logger.warn("Menu registry loading failed: ${loadResult.message}")
+                }
+
+                List menuCategories = loadResult.menuCategories ?: []
+                List menuData = []
+
+                if (flatten) {
+                    // 平铺模式：返回所有菜单项的扁平列表
+                    menuCategories.each { category ->
+                        if (!categoryId || category.id == categoryId) {
+                            category.items.each { item ->
+                                menuData.add([
+                                    title: item.title,
+                                    url: item.url,
+                                    image: item.icon,
+                                    imageType: "icon",
+                                    component: item.component,
+                                    description: item.description
+                                ])
+                            }
+                        }
+                    }
+                } else {
+                    // 层级模式：保持类别结构
+                    menuCategories.each { category ->
+                        if (!categoryId || category.id == categoryId) {
+                            if (!parentId || category.parent == parentId) {
+                                def categoryData = [
+                                    id: category.id,
+                                    title: category.title,
+                                    type: "category",
+                                    items: []
+                                ]
+
+                                category.items.each { item ->
+                                    categoryData.items.add([
+                                        id: item.id,
+                                        title: item.title,
+                                        url: item.url,
+                                        image: item.icon,
+                                        imageType: "icon",
+                                        component: item.component,
+                                        description: item.description,
+                                        permission: includePermissions ? item.permission : null
+                                    ])
+                                }
+
+                                menuData.add(categoryData)
+                            }
+                        }
+                    }
+                }
+
+                success = true
+
+            } catch (Exception e) {
+                ec.logger.error("Error getting menu data: ${e.message}", e)
+                success = false
+                menuData = []
+            }
+        ]]></script></actions>
+    </service>
+
+    <!-- 菜单健康检查服务 -->
+    <service verb="check" noun="MenuHealth" authenticate="false" allow-remote="true">
+        <description>检查菜单系统健康状态，验证配置完整性</description>
+        <out-parameters>
+            <parameter name="healthy" type="Boolean"/>
+            <parameter name="issues" type="List"/>
+            <parameter name="recommendations" type="List"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+            def issues = []
+            def recommendations = []
+            def healthy = true
+
+            try {
+                // 检查菜单注册表加载
+                Map loadResult = ec.service.sync().name("load", "MenuRegistry").call()
+
+                if (!loadResult.success) {
+                    issues.add("菜单注册表加载失败: ${loadResult.message}")
+                    healthy = false
+                }
+
+                List menuCategories = loadResult.menuCategories ?: []
+
+                if (menuCategories.isEmpty()) {
+                    issues.add("未发现任何菜单类别")
+                    healthy = false
+                } else {
+                    // 检查菜单项完整性
+                    menuCategories.each { category ->
+                        if (!category.title) {
+                            issues.add("菜单类别 '${category.id}' 缺少标题")
+                        }
+
+                        if (category.items.isEmpty()) {
+                            issues.add("菜单类别 '${category.id}' 无菜单项")
+                            recommendations.add("为类别 '${category.id}' 添加至少一个菜单项")
+                        }
+
+                        category.items.each { item ->
+                            if (!item.title) {
+                                issues.add("菜单项 '${item.id}' 缺少标题")
+                            }
+                            if (!item.url) {
+                                issues.add("菜单项 '${item.id}' 缺少URL")
+                            }
+                            if (!item.icon) {
+                                recommendations.add("为菜单项 '${item.id}' 添加图标")
+                            }
+                        }
+                    }
+                }
+
+                // 检查权限配置
+                def permissionItems = []
+                menuCategories.each { category ->
+                    category.items.each { item ->
+                        if (item.permission) {
+                            permissionItems.add(item)
+                        }
+                    }
+                }
+
+                if (permissionItems.isEmpty()) {
+                    recommendations.add("考虑为敏感菜单项添加权限控制")
+                }
+
+                // 检查国际化支持
+                Map enResult = ec.service.sync().name("load", "MenuRegistry")
+                    .parameters([locale: "en_US"]).call()
+
+                if (enResult.success) {
+                    recommendations.add("菜单系统支持国际化")
+                }
+
+            } catch (Exception e) {
+                issues.add("健康检查执行异常: ${e.message}")
+                healthy = false
+            }
+
+            if (issues.isEmpty() && healthy) {
+                issues.add("菜单系统运行正常")
+            }
+        ]]></script></actions>
+    </service>
+
+    <!-- 菜单缓存管理服务 -->
+    <service verb="clear" noun="MenuCache" authenticate="false" allow-remote="true">
+        <description>清理菜单缓存，强制重新加载配置</description>
+        <out-parameters>
+            <parameter name="cleared" type="Boolean"/>
+            <parameter name="message"/>
+        </out-parameters>
+        <actions><script><![CDATA[
+            try {
+                // 清理所有菜单相关缓存
+                def cacheCleared = 0
+
+                // 清理菜单注册表缓存
+                def cacheNames = ["MenuRegistry"]
+                cacheNames.each { cacheName ->
+                    def cache = ec.cache.getCache(cacheName)
+                    if (cache) {
+                        def size = cache.size()
+                        cache.clear()
+                        cacheCleared += size
+                        ec.logger.info("Cleared ${size} entries from cache: ${cacheName}")
+                    }
+                }
+
+                cleared = true
+                message = "成功清理 ${cacheCleared} 个菜单缓存条目"
+
+            } catch (Exception e) {
+                ec.logger.error("Error clearing menu cache: ${e.message}", e)
+                cleared = false
+                message = "缓存清理失败: ${e.message}"
+            }
+        ]]></script></actions>
+    </service>
+
+</services>

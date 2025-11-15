@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 菜单注册表Schema设计 - Phase 1 基础设施 -->
+<menu-registry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/menu-registry-3.xsd"
+               version="1.0">
+
+    <!-- 主应用菜单类别 -->
+    <menu-category id="main-apps" title="主应用菜单" order="1">
+        <menu-item id="app-list"
+                   title="应用列表"
+                   icon="fa fa-th"
+                   url="/qapps/AppList"
+                   order="1"
+                   description="返回主应用列表页面"/>
+
+        <menu-item id="marketplace"
+                   title="智能推荐"
+                   icon="fa fa-chart-line"
+                   url="/qapps/marketplace"
+                   order="2"
+                   component="moqui-marketplace"
+                   description="智能供需匹配和推荐系统"/>
+
+        <menu-item id="tools"
+                   title="工具"
+                   icon="fa fa-tools"
+                   url="/qapps/tools"
+                   order="3"
+                   component="tools"
+                   description="系统工具和管理功能"/>
+
+        <menu-item id="storage"
+                   title="对象存储"
+                   icon="fa fa-database"
+                   url="/qapps/minio"
+                   order="4"
+                   component="moqui-minio"
+                   description="MinIO对象存储管理"/>
+
+        <menu-item id="system"
+                   title="系统管理"
+                   icon="fa fa-cogs"
+                   url="/qapps/system"
+                   order="5"
+                   component="tools"
+                   permission="ADMIN"
+                   description="系统配置和管理"/>
+    </menu-category>
+
+    <!-- 智能推荐子菜单 -->
+    <menu-category id="marketplace-submenu" title="智能推荐子菜单" parent="marketplace" order="1">
+        <menu-item id="dashboard"
+                   title="控制台"
+                   icon="fa fa-tachometer-alt"
+                   url="/qapps/marketplace/Dashboard"
+                   order="1"
+                   description="智能推荐总览和统计"/>
+
+        <menu-item id="ecommerce"
+                   title="电商控制台"
+                   icon="fa fa-shopping-cart"
+                   url="/qapps/marketplace/Ecommerce"
+                   order="2"
+                   visible="false"
+                   description="电商功能管理界面"/>
+
+        <menu-item id="system-config"
+                   title="系统配置"
+                   icon="fa fa-cog"
+                   url="/qapps/marketplace/SystemConfig"
+                   order="3"
+                   visible="false"
+                   permission="ADMIN"
+                   description="系统配置和设置"/>
+    </menu-category>
+
+    <!-- 工具子菜单 -->
+    <menu-category id="tools-submenu" title="工具子菜单" parent="tools" order="1">
+        <menu-item id="entity-management"
+                   title="实体管理"
+                   icon="fa fa-database"
+                   url="/qapps/tools/Entity"
+                   order="1"
+                   permission="ADMIN"
+                   description="数据实体管理和查询"/>
+
+        <menu-item id="service-management"
+                   title="服务管理"
+                   icon="fa fa-cogs"
+                   url="/qapps/tools/Service"
+                   order="2"
+                   permission="ADMIN"
+                   description="系统服务管理和监控"/>
+    </menu-category>
+
+    <!-- 错误边界配置 -->
+    <error-boundaries>
+        <fallback-menu category="main-apps">
+            <menu-item id="home-fallback"
+                       title="返回首页"
+                       icon="fa fa-home"
+                       url="/qapps/AppList"
+                       description="安全返回主页"/>
+            <menu-item id="help-fallback"
+                       title="系统帮助"
+                       icon="fa fa-question-circle"
+                       url="/qapps/help"
+                       description="获取系统帮助"/>
+        </fallback-menu>
+    </error-boundaries>
+
+    <!-- 国际化支持 -->
+    <i18n>
+        <locale code="zh_CN" default="true">
+            <!-- 中文标题已在上面定义 -->
+        </locale>
+        <locale code="en_US">
+            <translation key="智能推荐" value="Smart Recommendations"/>
+            <translation key="控制台" value="Dashboard"/>
+            <translation key="电商控制台" value="E-commerce Console"/>
+            <translation key="系统配置" value="System Configuration"/>
+        </locale>
+    </i18n>
+</menu-registry>

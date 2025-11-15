@@ -115,32 +115,19 @@
     <entity-facade query-stats="true">
         <!-- add datasource elements here to configure databases -->
     </entity-facade>
-    <!-- 主配置：智谱AI GLM-4 (主要AI提供商 - 已验证可用) -->
-    <default-property name="marketplace.ai.provider" value="ZHIPU"/>
-    <default-property name="marketplace.ai.model" value="glm-4-plus"/>
-    <default-property name="marketplace.ai.api.base" value="https://open.bigmodel.cn/api/paas/v4"/>
-    <default-property name="marketplace.ai.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
-    <default-property name="marketplace.ai.timeout.seconds" value="30"/>
-
-    <!-- 备用配置：Claude代理API (当前不可用，留作备用) -->
+    <!-- ================== AI配置迁移说明 ================== -->
     <!--
-    <default-property name="marketplace.ai.provider" value="CLAUDE"/>
-    <default-property name="marketplace.ai.model" value="claude-3-5-sonnet-20241022"/>
-    <default-property name="marketplace.ai.api.base" value="https://q.quuvv.cn"/>
-    <default-property name="marketplace.ai.api.key" value="sk-l7qtU4hsKDd4VibSl36kiYI1PNBIYR3hE7nGLIuEak4cvLEL"/>
-    <default-property name="marketplace.ai.backup.tokens" value="sk-l7qtU4hsKDd4VibSl36kiYI1PNBIYR3hE7nGLIuEak4cvLEL,sk-XJPmxt29Y5YRqF1TaG6rTxsfzVvG6d8iPTVjpcICmgDhPMcN,sk-cisF40yEr1OjrLb1LmqR5yByfvh9k5mVc5wiVGrS11gDaeN9,sk-RP0c00rwf7Jw1zyuGATW6J2Q4p7btUjgps5sOWn6QIAD0rYS,sk-EmGDgO2eLJpiAWEG8ozHGjALxorl4QnECcTvxVH5OnAhwnxw"/>
-    <default-property name="marketplace.ai.timeout.seconds" value="30"/>
+         所有AI配置已迁移到moqui-mcp模块统一管理
+         请查看 /runtime/component/moqui-mcp/MoquiConf.xml
+
+         迁移包括：
+         - 智谱AI、OpenAI、Claude等所有AI提供商配置
+         - Marketplace、HiveMind、PopCommerce等模块AI配置
+         - 语音转文字、图像识别等多模态配置
+         - Telegram Bot集成配置
     -->
 
-    <!-- 语音转文字API配置 - 使用智普清言替代OpenAI -->
-    <default-property name="zhipu.api.key" value="7b547bec7286432186eb77a477e10c33.XtHQWZS5PoGKAkg0"/>
-    <default-property name="speech.primary.provider" value="zhipu"/>
-
-    <!-- 图像识别API配置 - 使用智普清言替代OpenAI -->
-    <default-property name="image.recognition.primary.provider" value="zhipu"/>
-    <default-property name="image.recognition.zhipu.model" value="glm-4v-plus"/>
-
-    <!-- Telegram Bot配置 -->
+    <!-- 仅保留Telegram Bot配置用于向后兼容 -->
     <default-property name="mcp.telegram.bot.token" value="6889801043:AAF5wdoc4tybZEqCXtO5229tOErnK_ZUzMA"/>
 
     <!-- HiveMind API配置 -->
