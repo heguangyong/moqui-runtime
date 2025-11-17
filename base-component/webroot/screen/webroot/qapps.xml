@@ -336,8 +336,10 @@ along with this software (see the LICENSE.md file). If not, see
         <subscreens-item name="tools" menu-title="工具" location="component://tools/screen/Tools.xml"/>
         <subscreens-item name="system" menu-title="系统" location="component://tools/screen/System.xml"/>
         <subscreens-item name="simple" menu-title="Simple Screens" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
-        <subscreens-item name="marketplace" menu-title="智能推荐" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="marketplace" menu-title="供需匹配" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="mcp" menu-title="MCP控制台" menu-image="fa fa-robot" location="component://moqui-mcp/screen/mcp.xml"/>
         <subscreens-item name="minio" menu-title="对象存储" location="component://moqui-minio/screen/MinioApp.xml"/>
+        <subscreens-item name="hivemind" menu-title="智慧蜂巢" menu-image="fa fa-check" location="component://HiveMind/screen/HiveMindRoot.xml"/>
         <subscreens-item name="hmadmin" menu-title="Hive Mind Admin" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
         <subscreens-item name="popc" menu-title="电商ERP" menu-image="fa fa-shopping-cart" location="component://PopCommerce/screen/PopCommerceAdmin.xml"/>
         <subscreens-item name="marble" menu-title="Marble ERP" menu-image="fa fa-cogs" location="component://MarbleERP/screen/marble.xml"/>

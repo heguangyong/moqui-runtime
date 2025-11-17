@@ -24,7 +24,7 @@ along with this software (see the LICENSE.md file). If not, see
         <#-- 检查cookie中的JWT token -->
         <#assign cookies = ec.web.getRequest().getCookies()![]>
         <#list cookies as cookie>
-            <#if cookie.getName() == "jwt_token" && cookie.getValue()?starts_with('eyJ')>
+            <#if cookie.getName() == "jwt_access_token" && cookie.getValue()?starts_with('eyJ')>
                 <#assign jwtToken = "Bearer " + cookie.getValue()>
                 <#break>
             </#if>
@@ -74,7 +74,11 @@ along with this software (see the LICENSE.md file). If not, see
                     <#assign headerLogoList = sri.getThemeValues("STRT_HEADER_LOGO")>
                     <#if headerLogoList?has_content>
                         <m-link href="/qapps/AppList" class="row items-center no-wrap q-ml-sm">
-                            <img src="${sri.buildUrl(headerLogoList?first).getUrl()}" alt="Home" height="32">
+                            <#if headerLogoList?first?has_content>
+                                <img src="${sri.buildUrl(headerLogoList?first).getUrl()}" alt="Home" height="32">
+                            <#else>
+                                <span class="text-h6">Home</span>
+                            </#if>
                         </m-link>
                     </#if>
                     <#assign headerTitleList = sri.getThemeValues("STRT_HEADER_TITLE")>
