@@ -32,8 +32,11 @@ along with this software (see the LICENSE.md file). If not, see
     <subscreens default-item="marketplace">
         <subscreens-item name="tools" location="component://tools/screen/Tools.xml"/>
         <subscreens-item name="simple" location="component://SimpleScreens/screen/SimpleScreens.xml"/>
-        <subscreens-item name="marketplace" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="marketplace" menu-title="供需匹配" menu-image="fa fa-handshake" location="component://moqui-marketplace/screen/marketplace.xml"/>
+        <subscreens-item name="mcp" menu-title="MCP控制台" menu-image="fa fa-robot" location="component://moqui-mcp/screen/mcp.xml"/>
         <subscreens-item name="minio" location="component://moqui-minio/screen/MinioApp.xml"/>
+        <subscreens-item name="hivemind" menu-title="项目执行" menu-image="fa fa-check" location="component://HiveMind/screen/HiveMindRoot.xml"/>
+        <subscreens-item name="hmadmin" menu-title="项目管理" menu-image="fa fa-tasks" location="component://HiveMind/screen/HiveMindAdmin.xml"/>
     </subscreens>
 
     <widgets>
